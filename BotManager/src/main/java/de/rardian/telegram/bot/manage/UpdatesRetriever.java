@@ -10,91 +10,68 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
-import com.google.common.collect.Iterables;
-
+import de.rardian.telegram.bot.rardian.RardianBot;
 import de.rardian.telegram.json.JSONObject;
 
 /**
- * Now: -> getUpdates -> Add Messages to List -> Adjust UpdateID => In case of
- * error messages are lost! <BR>
- * New: -> getUpdates -> process messages -> adjust id on success => only update
- * id on success, in case of error, set id to last success.
+ * new Strategy:<BR>
+ * - We have a single task, that polls messages via longpolling<BR>
+ * - For every received message bot.processMessage() is called<BR>
+ * - After all messages are processed the longpolling starts again<BR>
+ * - Multi-threading for processing the message seems a bad idea since the bot
+ * would need to reorder the messages
+ * 
  */
 public class UpdatesRetriever implements Runnable {
-	// store Bot-Credentials
-	// store last update-id
 
-	private int amount = 10;
-	private TimeUnit timeUnit = TimeUnit.SECONDS;
-	private ConcurrentLinkedQueue<Message> messagesContainer;
-	private String botId;
+	/** Timeout for longpolling */
+	private int timeout = 20;
 	private long offset;
+	private RardianBot bot;
 
-	/** Tells the UpdatesRetriever to look for updates every amount seconds. */
-	public UpdatesRetriever everySeconds(int amount) {
-		this.amount = amount;
-		timeUnit = TimeUnit.SECONDS;
+	public UpdatesRetriever forBot(RardianBot bot) {
+		this.bot = bot;
 		return this;
 	}
 
-	public UpdatesRetriever forBot(String botId) {
-		this.botId = botId;
-		return this;
-	}
-
-	public ConcurrentLinkedQueue<Message> startGettingUpdates() {
-		messagesContainer = new ConcurrentLinkedQueue<Message>();
-		final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-		executorService.scheduleAtFixedRate(this, 0, amount, timeUnit);
-		return messagesContainer;
+	public void startGettingUpdates() {
+		final ExecutorService executorService = Executors.newSingleThreadExecutor();
+		executorService.execute(this);
 	}
 
 	@Override
 	public void run() {
-		// (re)calculate offset from the last retrieved updates
-		// pay attention to instantiating an UpdateService with every call
-		// use globally stored Bot-Credentials and update-id +1 
-		String url = "https://api.telegram.org/bot" + botId + "/getUpdates?offset=" + offset;
-		JSONObject json = readJsonFromUrl(url);
-		//		System.out.println(json);
 
-		if (jsonOkay(json)) {
-			List<Message> newMessages = extractMessages(json);
-			System.out.println("Alle neuen Nachrichten: " + newMessages);
+		while (true) {
+			String url = "https://api.telegram.org/bot" + bot.ID + "/getUpdates?offset=" + offset + "&timeout=" + timeout;
+			JSONObject json = readJsonFromUrl(url);
+			System.out.println(json);
 
-			// remove duplicates
-			Set<Message> set = new LinkedHashSet<Message>(newMessages);
-			newMessages = new ArrayList<Message>(set);
+			if (jsonOkay(json)) {
+				List<Message> newMessages = extractMessages(json);
+				System.out.println("Alle neuen Nachrichten: " + newMessages);
 
-			// order List by update-id
-			Collections.sort(newMessages, new Comparator<Message>() {
+				// remove duplicates
+				Set<Message> set = new LinkedHashSet<Message>(newMessages);
+				newMessages = new ArrayList<Message>(set);
 
-				@Override
-				public int compare(Message o1, Message o2) {
-					return Long.compare(o1.getUpdate_id(), o2.getUpdate_id());
+				Collections.sort(newMessages, new UpdateIdComparator());
+
+				for (Message message : newMessages) {
+					long updateId = message.getUpdate_id();
+					bot.processMessage(message);
+					offset = updateId + 1;
 				}
-			});
-
-			// update update-id
-			if (newMessages.size() > 0) {
-				Message lastMessage = Iterables.getLast(newMessages);
-				offset = lastMessage.getUpdate_id() + 1;
-
-				messagesContainer.addAll(newMessages);
+			} else {
+				System.out.println("Json fehlerhaft:\n" + json);
+				throw new RuntimeException("Ergebnis nicht okay.");
 			}
-			System.out.println("UpdatesRetriever meldet: Nicht verarbeitete Nachrichten: " + messagesContainer);
-		} else {
-			System.out.println("Json fehlerhaft:\n" + json);
-			throw new RuntimeException("Ergebnis nicht okay.");
 		}
 	}
 
