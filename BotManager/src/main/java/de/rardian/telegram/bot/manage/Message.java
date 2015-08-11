@@ -11,9 +11,7 @@ public class Message {
 	private long updateId;
 	private long date;
 	private String text;
-	/**
-	 * Could also be a GroupChat Object if Bot is addressed from a group chat.
-	 */
+	/** GroupChat or User, so far. */
 	private Chat chat;
 	private User from;
 	private long messageId;
@@ -21,6 +19,8 @@ public class Message {
 	//		"message_id":5,
 	//		"from":{"id":8039535,"first_name":"Bjoern","username":"BjoernO"},
 	//		"text":"Hallo, wie gehts?"
+
+	public static final Message TEST_MESSAGE = new Message(40332882, 1437335810, "Hallo Bot", User.TEST_USER, User.TEST_USER, 13);
 
 	public Message() {
 	}
