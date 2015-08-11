@@ -1,4 +1,4 @@
-package de.rardian.telegram.bot.manage;
+package de.rardian.telegram.bot.model;
 
 import java.util.Arrays;
 
@@ -14,11 +14,13 @@ import de.rardian.telegram.json.JSONObject;
  * @author Rardian
  *
  */
-public class User {
+public class User implements Chat {
 	public static final String JSON_ID = "id";
 	public static final String JSON_FIRSTNAME = "first_name";
 	public static final String JSON_LASTNAME = "last_name";
 	public static final String JSON_USERNAME = "username";
+
+	public static final User TEST_USER = new User(8039535, "Vorname", "Nachname", "Username");
 
 	private long id;
 	private String firstName;

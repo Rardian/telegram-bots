@@ -1,4 +1,4 @@
-package de.rardian.telegram.bot.manage;
+package de.rardian.telegram.bot.model;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -6,7 +6,7 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 
-import de.rardian.telegram.bot.manage.User;
+import de.rardian.telegram.bot.model.User;
 import de.rardian.telegram.json.JSONObject;
 
 public class UserTest {
