@@ -3,6 +3,8 @@ package de.rardian.telegram.bot.manage;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 
+import de.rardian.telegram.bot.model.Chat;
+import de.rardian.telegram.bot.model.User;
 import de.rardian.telegram.json.JSONObject;
 
 public class Message {
@@ -12,7 +14,7 @@ public class Message {
 	/**
 	 * Could also be a GroupChat Object if Bot is addressed from a group chat.
 	 */
-	private User chat;
+	private Chat chat;
 	private User from;
 	private long messageId;
 	//		"chat": {"id":8039535,"first_name":"Bjoern","username":"BjoernO"},
@@ -71,11 +73,11 @@ public class Message {
 		this.text = text;
 	}
 
-	public User getChat() {
+	public Chat getChat() {
 		return chat;
 	}
 
-	public void setChat(User chat) {
+	public void setChat(Chat chat) {
 		this.chat = chat;
 	}
 

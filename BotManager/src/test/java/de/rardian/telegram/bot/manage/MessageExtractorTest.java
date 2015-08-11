@@ -10,13 +10,12 @@ import java.util.List;
 
 import org.junit.Test;
 
-import de.rardian.telegram.bot.manage.MessageExtractor;
+import de.rardian.telegram.bot.model.User;
 import de.rardian.telegram.json.JSONObject;
 
 public class MessageExtractorTest {
 
 	private static final String JSON_CHAT_AND_FROM = "{\"id\":8039535,\"first_name\":\"Vorname\",\"last_name\":\"Nachname\",\"username\":\"Username\"}";
-	private static final User SOME_USER = new User(8039535, "Vorname", "Nachname", "Username");
 
 	@Test
 	public void type() throws Exception {
@@ -38,7 +37,7 @@ public class MessageExtractorTest {
 		JSONObject json = new JSONObject(jsonText);
 		MessageExtractor target = new MessageExtractor(json);
 
-		Message expectedMessage = new Message(40332882, 1437335810, "Hallo Bot", SOME_USER, SOME_USER, 13);
+		Message expectedMessage = new Message(40332882, 1437335810, "Hallo Bot", User.TEST_USER, User.TEST_USER, 13);
 
 		// Act
 		List<Message> actual = target.extractMessages();
