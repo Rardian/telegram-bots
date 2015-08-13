@@ -14,12 +14,12 @@ public class RardianBotTest {
 
 	@Test
 	public void type() throws Exception {
-		assertThat(RardianBotTest.class, notNullValue());
+		assertThat(RardianBot.class, notNullValue());
 	}
 
 	@Test
 	public void instantiation() throws Exception {
-		RardianBotTest target = new RardianBotTest();
+		RardianBot target = new RardianBot();
 		assertThat(target, notNullValue());
 	}
 
