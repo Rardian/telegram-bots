@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import de.rardian.telegram.bot.rardian.RardianBot;
+import de.rardian.telegram.bot.model.Bot;
 import de.rardian.telegram.json.JSONObject;
 
 /**
@@ -33,9 +33,9 @@ public class UpdatesRetriever implements Runnable {
 	/** Timeout for longpolling */
 	private int timeout = 20;
 	private long offset;
-	private RardianBot bot;
+	private Bot bot;
 
-	public UpdatesRetriever forBot(RardianBot bot) {
+	public UpdatesRetriever forBot(Bot bot) {
 		this.bot = bot;
 		return this;
 	}
@@ -49,7 +49,7 @@ public class UpdatesRetriever implements Runnable {
 	public void run() {
 
 		while (true) {
-			String url = "https://api.telegram.org/bot" + bot.ID + "/getUpdates?offset=" + offset + "&timeout=" + timeout;
+			String url = "https://api.telegram.org/bot" + bot.getId() + "/getUpdates?offset=" + offset + "&timeout=" + timeout;
 			JSONObject json = readJsonFromUrl(url);
 			System.out.println(json);
 
