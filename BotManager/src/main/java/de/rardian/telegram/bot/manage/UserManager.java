@@ -3,6 +3,8 @@ package de.rardian.telegram.bot.manage;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.commons.lang3.Validate;
+
 import de.rardian.telegram.bot.model.User;
 
 public class UserManager {
@@ -13,6 +15,7 @@ public class UserManager {
 	}
 
 	public void registerUser(User user) {
+		Validate.notNull(user);
 		knownUsers.add(user);
 	}
 
