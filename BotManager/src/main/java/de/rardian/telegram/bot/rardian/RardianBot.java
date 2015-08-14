@@ -27,10 +27,12 @@ public class RardianBot implements Bot {
 	public void processMessage(Message message) {
 		User user = message.getFrom();
 
-		if (userManager.isUserKnown(user)) {
+		if (getUserManager().isUserKnown(user)) {
+			System.out.println("User '" + user.getUserName() + "' is known");
 			getMessageReply(message).answer("Willkommen zurück, " + user.getFirstName() + "!");
 		} else {
-			userManager.registerUser(user);
+			System.out.println("User '" + user.getUserName() + "' is new");
+			getUserManager().registerUser(user);
 			getMessageReply(message).answer("Herzlich Willkommen, " + user.getFirstName() + ", schön dich kennenzulernen!");
 		}
 	}
@@ -40,5 +42,12 @@ public class RardianBot implements Bot {
 			reply = new MessageReply().asBot(this).toMessage(message);
 		}
 		return reply;
+	}
+
+	private UserManager getUserManager() {
+		if (userManager == null) {
+			userManager = new UserManager();
+		}
+		return userManager;
 	}
 }
