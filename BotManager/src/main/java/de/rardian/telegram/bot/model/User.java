@@ -39,6 +39,11 @@ public class User implements Chat {
 		this.userName = userName;
 	}
 
+	@VisibleForTesting
+	public static User newTestUser() {
+		return new User(8039535, "Vorname", "Nachname", "Username");
+	}
+
 	public User fillWithJson(JSONObject json) {
 		setId(json.getLong(JSON_ID));
 		setFirstName(json.getString(JSON_FIRSTNAME));
