@@ -26,14 +26,16 @@ public class RardianBot implements Bot {
 
 	public void processMessage(Message message) {
 		User user = message.getFrom();
+		//		ReplyKeyboardMarkup keyboard = new ReplyKeyboardMarkup();
+		//		keyboard.addButtonRow("A", "B");
 
 		if (getUserManager().isUserKnown(user)) {
 			System.out.println("User '" + user.getUserName() + "' is known");
-			getMessageReply(message).answer("Willkommen zurück, " + user.getFirstName() + "!");
+			getMessageReply(message).answer("Willkommen zurück, " + user.getFirstName() + "!", null);
 		} else {
 			System.out.println("User '" + user.getUserName() + "' is new");
 			getUserManager().registerUser(user);
-			getMessageReply(message).answer("Herzlich Willkommen, " + user.getFirstName() + ", schön dich kennenzulernen!");
+			getMessageReply(message).answer("Herzlich Willkommen, " + user.getFirstName() + ", schön dich kennenzulernen!", null);
 		}
 	}
 
