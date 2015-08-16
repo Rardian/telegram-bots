@@ -1,5 +1,7 @@
 package de.rardian.telegram.bot.rardian;
 
+import java.util.Collection;
+
 import de.rardian.telegram.bot.manage.Message;
 import de.rardian.telegram.bot.manage.UserManager;
 import de.rardian.telegram.bot.model.Bot;
@@ -10,6 +12,7 @@ public class RardianBot implements Bot {
 	private static final String ID = "123030600:AAHn8CC4Q7PMvvdEGOiqmFYCZVcgHam_8uo";
 	private UserManager userManager;
 	private MessageReply reply;
+	private CommandParser commandParser;
 
 	public void setUserManager(UserManager manager) {
 		this.userManager = manager;
@@ -25,9 +28,16 @@ public class RardianBot implements Bot {
 	}
 
 	public void processMessage(Message message) {
+
 		User user = message.getFrom();
+
 		//		ReplyKeyboardMarkup keyboard = new ReplyKeyboardMarkup();
 		//		keyboard.addButtonRow("A", "B");
+
+		Collection<Action> actions = getCommandParser().parse(message);
+		for (Action action : actions) {
+			action.execute();
+		}
 
 		if (getUserManager().isUserKnown(user)) {
 			System.out.println("User '" + user.getUserName() + "' is known");
@@ -51,5 +61,12 @@ public class RardianBot implements Bot {
 			userManager = new UserManager();
 		}
 		return userManager;
+	}
+
+	private CommandParser getCommandParser() {
+		if (commandParser == null) {
+			commandParser = new CommandParser();
+		}
+		return commandParser;
 	}
 }
