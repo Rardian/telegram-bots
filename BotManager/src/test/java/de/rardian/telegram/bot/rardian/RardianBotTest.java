@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
+import de.rardian.telegram.bot.command.MessageReply;
 import de.rardian.telegram.bot.manage.Message;
 import de.rardian.telegram.bot.manage.UserManager;
 import de.rardian.telegram.bot.model.User;

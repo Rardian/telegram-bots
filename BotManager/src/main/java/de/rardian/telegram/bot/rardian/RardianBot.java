@@ -2,6 +2,9 @@ package de.rardian.telegram.bot.rardian;
 
 import java.util.Collection;
 
+import de.rardian.telegram.bot.command.Action;
+import de.rardian.telegram.bot.command.CommandParser;
+import de.rardian.telegram.bot.command.MessageReply;
 import de.rardian.telegram.bot.manage.Message;
 import de.rardian.telegram.bot.manage.UserManager;
 import de.rardian.telegram.bot.model.Bot;

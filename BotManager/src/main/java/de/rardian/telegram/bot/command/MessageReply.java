@@ -1,4 +1,4 @@
-package de.rardian.telegram.bot.rardian;
+package de.rardian.telegram.bot.command;
 
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
