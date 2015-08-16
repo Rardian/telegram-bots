@@ -2,10 +2,9 @@ package de.rardian.telegram.bot.manage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
-import de.rardian.telegram.json.JSONArray;
-import de.rardian.telegram.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class MessageExtractor {
 	private JSONObject json;
@@ -18,23 +17,14 @@ public class MessageExtractor {
 		ArrayList<Message> messages = new ArrayList<Message>();
 		JSONArray results = json.getJSONArray("result");
 
-		results.forEach((result) -> {
-			JSONObject resultAsJson = (JSONObject) result;
+		for (int i = 0; i < results.length(); i++) {
+			JSONObject resultAsJson = (JSONObject) results.get(i);
+			long update_id = resultAsJson.getLong("update_id");
+			Message message = new Message();
+			message.setUpdate_id(update_id);
+			messages.add(message.fillWithJson(resultAsJson.getJSONObject("message")));
+		}
 
-			final long update_id = resultAsJson.getLong("update_id");
-
-			Function<JSONObject, Message> jsonToMessage = new Function<JSONObject, Message>() {
-
-				public Message apply(JSONObject json) {
-					Message message = new Message();
-					message.setUpdate_id(update_id);
-
-					return message.fillWithJson(json);
-				}
-			};
-			JSONObject messageAsJson = resultAsJson.getJSONObject("message");
-			messages.add(jsonToMessage.apply(messageAsJson));
-		});
 		return messages;
 	}
 

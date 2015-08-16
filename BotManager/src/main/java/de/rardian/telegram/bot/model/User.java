@@ -2,10 +2,10 @@ package de.rardian.telegram.bot.model;
 
 import java.util.Arrays;
 
+import org.json.JSONObject;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
-
-import de.rardian.telegram.json.JSONObject;
 
 /**
  * Store User-Objeccts from Json like that:

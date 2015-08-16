@@ -16,8 +16,9 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.json.JSONObject;
+
 import de.rardian.telegram.bot.model.Bot;
-import de.rardian.telegram.json.JSONObject;
 
 /**
  * new Strategy:<BR>

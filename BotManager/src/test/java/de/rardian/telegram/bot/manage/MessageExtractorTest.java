@@ -8,10 +8,10 @@ import static org.junit.Assert.assertThat;
 import java.util.Arrays;
 import java.util.List;
 
+import org.json.JSONObject;
 import org.junit.Test;
 
 import de.rardian.telegram.bot.model.User;
-import de.rardian.telegram.json.JSONObject;
 
 public class MessageExtractorTest {
 

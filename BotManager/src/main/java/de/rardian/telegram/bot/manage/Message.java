@@ -1,11 +1,12 @@
 package de.rardian.telegram.bot.manage;
 
+import org.json.JSONObject;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 
 import de.rardian.telegram.bot.model.Chat;
 import de.rardian.telegram.bot.model.User;
-import de.rardian.telegram.json.JSONObject;
 
 public class Message {
 	private long updateId;
@@ -36,11 +37,15 @@ public class Message {
 	}
 
 	public Message fillWithJson(JSONObject json) {
-		User user = new User();
-		user.fillWithJson(json.getJSONObject("from"));
+		System.out.println(json.toString(2));
 
-		setChat(user);
-		setFrom(user);
+		User from = new User();
+		from.fillWithJson(json.getJSONObject("from"));
+		setFrom(from);
+
+		User chat = new User();
+		chat.fillWithJson(json.getJSONObject("chat"));
+		setChat(chat);
 
 		setDate(json.getLong("date"));
 		setMessage_id(json.getLong("message_id"));

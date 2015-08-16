@@ -5,11 +5,11 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.apache.commons.lang3.StringUtils;
-
-import de.rardian.telegram.json.JSONArray;
+import org.json.JSONArray;
 
 public class ReplyKeyboardMarkup implements ReplyMarkup {
-	public static final String TEST_JSON = "[[\"A\",\"B\",\"C\"],[\"D\",\"E\",\"F\"]]";
+	public static final String TEST_JSON = "{keyboard:[[\"A\",\"B\",\"C\"],[\"D\",\"E\",\"F\"]]}";
+
 	// Array of button rows, each represented by an Array of Strings
 	private Collection<Collection<String>> buttonLayout = new ArrayList<Collection<String>>();
 
@@ -23,6 +23,6 @@ public class ReplyKeyboardMarkup implements ReplyMarkup {
 			JSONArray buttonsAsJson = new JSONArray(buttonRows.toArray());
 			buttonRowStrings.add(buttonsAsJson.toString());
 		}
-		return "[" + StringUtils.join(buttonRowStrings, ",") + "]";
+		return "{keyboard:[" + StringUtils.join(buttonRowStrings, ",") + "]}";
 	}
 }
