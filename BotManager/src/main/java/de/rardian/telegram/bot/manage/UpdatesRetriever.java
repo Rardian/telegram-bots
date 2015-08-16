@@ -1,22 +1,14 @@
 package de.rardian.telegram.bot.manage;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UncheckedIOException;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.json.JSONObject;
+
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mashape.unirest.request.HttpRequest;
 
 import de.rardian.telegram.bot.model.Bot;
 
@@ -30,14 +22,17 @@ import de.rardian.telegram.bot.model.Bot;
  * 
  */
 public class UpdatesRetriever implements Runnable {
+	private static final String BASE_URL = "https://api.telegram.org/bot";
+	private String urlForPolling;
 
 	/** Timeout for longpolling */
-	private int timeout = 20;
-	private long offset;
+	private int timeout = 60;
+	private long offset = 0;
 	private Bot bot;
 
 	public UpdatesRetriever forBot(Bot bot) {
 		this.bot = bot;
+		urlForPolling = BASE_URL + bot.getId() + "/getUpdates";
 		return this;
 	}
 
@@ -48,31 +43,40 @@ public class UpdatesRetriever implements Runnable {
 
 	@Override
 	public void run() {
-
 		while (true) {
-			String url = "https://api.telegram.org/bot" + bot.getId() + "/getUpdates?offset=" + offset + "&timeout=" + timeout;
-			JSONObject json = readJsonFromUrl(url);
-			System.out.println(json);
+			HttpRequest request = Unirest.get(urlForPolling)//
+					.queryString("timeout", timeout)//
+					.queryString("offset", offset);
 
-			if (jsonOkay(json)) {
-				List<Message> newMessages = extractMessages(json);
-				System.out.println("Alle neuen Nachrichten: " + newMessages);
+			try {
+				JSONObject json = request.asJson().getBody().getObject();
+				System.out.println(json);
 
-				// remove duplicates
-				Set<Message> set = new LinkedHashSet<Message>(newMessages);
-				newMessages = new ArrayList<Message>(set);
+				if (jsonOkay(json)) {
+					List<Message> newMessages = extractMessages(json);
+					System.out.println("Alle neuen Nachrichten: " + newMessages);
 
-				Collections.sort(newMessages, new UpdateIdComparator());
+					//					// remove duplicates
+					//					Set<Message> set = new LinkedHashSet<Message>(newMessages);
+					//					newMessages = new ArrayList<Message>(set);
+					//					
+					//					Collections.sort(newMessages, new UpdateIdComparator());
 
-				for (Message message : newMessages) {
-					long updateId = message.getUpdate_id();
-					bot.processMessage(message);
-					offset = updateId + 1;
+					for (Message message : newMessages) {
+						long updateId = message.getUpdate_id();
+						bot.processMessage(message);
+						// only after successful processing may the offset be increased
+						offset = updateId + 1;
+					}
+				} else {
+					System.out.println("Json fehlerhaft:\n" + json.toString(2));
+					throw new RuntimeException("Ergebnis nicht okay.");
 				}
-			} else {
-				System.out.println("Json fehlerhaft:\n" + json);
-				throw new RuntimeException("Ergebnis nicht okay.");
+			} catch (UnirestException e) {
+				e.printStackTrace();
+				throw new RuntimeException("Ergebnis nicht okay.", e);
 			}
+
 		}
 	}
 
@@ -82,41 +86,7 @@ public class UpdatesRetriever implements Runnable {
 	}
 
 	private boolean jsonOkay(JSONObject json) {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	public JSONObject readJsonFromUrl(String url) {
-		InputStream is = null;
-		try {
-			is = new URL(url).openStream();
-			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-			String jsonText = readAll(rd);
-			System.out.println(jsonText);
-			JSONObject json = new JSONObject(jsonText);
-			return json;
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new UncheckedIOException(e);
-		} finally {
-			try {
-				if (is != null) {
-					is.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-				throw new UncheckedIOException(e);
-			}
-		}
-	}
-
-	private String readAll(Reader rd) throws IOException {
-		StringBuilder sb = new StringBuilder();
-		int cp;
-		while ((cp = rd.read()) != -1) {
-			sb.append((char) cp);
-		}
-		return sb.toString();
+		return json.getBoolean("ok");
 	}
 
 }
