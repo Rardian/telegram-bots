@@ -12,5 +12,4 @@ public class BotManager {
 		RardianBot bot = new RardianBot();
 		new UpdatesRetriever().forBot(bot).startGettingUpdates();
 	}
-
 }
