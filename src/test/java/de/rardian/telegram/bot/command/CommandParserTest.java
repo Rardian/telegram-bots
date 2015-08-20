@@ -1,8 +1,11 @@
 package de.rardian.telegram.bot.command;
 
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.junit.Before;
@@ -13,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
 import de.rardian.telegram.bot.manage.Message;
+import de.rardian.telegram.bot.rardian.commands.Test1Command;
 
 @RunWith(org.mockito.runners.MockitoJUnitRunner.class)
 public class CommandParserTest {
@@ -54,12 +58,33 @@ public class CommandParserTest {
 		underTest.parse(message);
 	}
 
-	//	@Test
-	//	public void parse_commandsSet() throws Exception {
-	//		// Init
-	//		underTest
-	//		
-	//		// Run / Assert
-	//		underTest.parse(message);
-	//	}
+	@Test
+	public void parse_commandOnly() throws Exception {
+		// Init
+		final String commandTrigger = "command1";
+
+		when(message.getText()).thenReturn("/" + commandTrigger);
+		when(commands.get(commandTrigger)).thenReturn(new Test1Command());
+
+		// Run
+		Collection<Action> result = underTest.parse(message);
+
+		// Assert
+		assertThat(result, hasItem(Test1Command.TEST_ACTION));
+	}
+
+	@Test
+	public void parse_commandWithParams() throws Exception {
+		// Init
+		final String commandTrigger = "command1";
+
+		when(message.getText()).thenReturn("/" + commandTrigger + " eins zwei");
+		when(commands.get(commandTrigger)).thenReturn(new Test1Command());
+
+		// Run
+		Collection<Action> result = underTest.parse(message);
+
+		// Assert
+		assertThat(result, hasItem(Test1Command.TEST_ACTION));
+	}
 }

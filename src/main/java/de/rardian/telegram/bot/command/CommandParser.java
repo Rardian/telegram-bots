@@ -20,12 +20,13 @@ public class CommandParser {
 		Validate.notNull(commands, "command set must not be null");
 
 		String text = message.getText();
-		Collection<Action> actions = new ArrayList<Action>();
+		Collection<Action> actions = new ArrayList<>();
 
 		if (text.startsWith("/")) {
 
-			String command = text.substring(1, text.indexOf(" "));
-			String params = text.substring(text.indexOf(" "));
+			int indexForParamStart = (text.contains(" ") ? text.indexOf(" ") : text.length());
+			String command = text.substring(1, indexForParamStart);
+			String params = text.substring(indexForParamStart);
 			System.out.println("Kommando='" + command + "', Parameter='" + params + "'");
 
 			Command commandToExecute = commands.get(command);
