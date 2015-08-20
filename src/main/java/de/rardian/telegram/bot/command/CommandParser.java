@@ -17,7 +17,7 @@ public class CommandParser {
 	}
 
 	public Collection<Action> parse(Message message) {
-		Validate.notNull(commands);
+		Validate.notNull(commands, "command set must not be null");
 
 		String text = message.getText();
 		Collection<Action> actions = new ArrayList<Action>();

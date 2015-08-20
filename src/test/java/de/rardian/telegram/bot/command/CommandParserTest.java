@@ -9,10 +9,12 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
 import de.rardian.telegram.bot.manage.Message;
 
+@RunWith(org.mockito.runners.MockitoJUnitRunner.class)
 public class CommandParserTest {
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
@@ -27,8 +29,7 @@ public class CommandParserTest {
 
 	@Before
 	public void setupBot() {
-		underTest = new CommandParser();
-		underTest.withCommands(commands);
+		underTest = new CommandParser().withCommands(commands);
 	}
 
 	@Test
@@ -43,11 +44,22 @@ public class CommandParserTest {
 	}
 
 	@Test
-	public void noCommandsSet() throws Exception {
+	public void parse_noCommandsSet() throws Exception {
 		// Init
 		thrown.expect(NullPointerException.class);
+		thrown.expectMessage("command set must not be null");
+		underTest.withCommands(null);
 
 		// Run / Assert
 		underTest.parse(message);
 	}
+
+	//	@Test
+	//	public void parse_commandsSet() throws Exception {
+	//		// Init
+	//		underTest
+	//		
+	//		// Run / Assert
+	//		underTest.parse(message);
+	//	}
 }
