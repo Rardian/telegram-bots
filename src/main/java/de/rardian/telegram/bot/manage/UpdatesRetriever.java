@@ -57,8 +57,8 @@ public class UpdatesRetriever implements Runnable {
 					System.out.println("Alle neuen Nachrichten: " + newMessages);
 
 					//					// remove duplicates
-					//					Set<Message> set = new LinkedHashSet<Message>(newMessages);
-					//					newMessages = new ArrayList<Message>(set);
+					//					Set<Message> set = new LinkedHashSet<>(newMessages);
+					//					newMessages = new ArrayList<>(set);
 					//					
 					//					Collections.sort(newMessages, new UpdateIdComparator());
 

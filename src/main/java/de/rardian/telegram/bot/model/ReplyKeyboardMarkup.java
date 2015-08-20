@@ -11,14 +11,14 @@ public class ReplyKeyboardMarkup implements ReplyMarkup {
 	public static final String TEST_JSON = "{keyboard:[[\"A\",\"B\",\"C\"],[\"D\",\"E\",\"F\"]]}";
 
 	// Array of button rows, each represented by an Array of Strings
-	private Collection<Collection<String>> buttonLayout = new ArrayList<Collection<String>>();
+	private Collection<Collection<String>> buttonLayout = new ArrayList<>();
 
 	public void addButtonRow(String... buttons) {
 		buttonLayout.add(Arrays.asList(buttons));
 	}
 
 	public String asJson() {
-		Collection<String> buttonRowStrings = new ArrayList<String>();
+		Collection<String> buttonRowStrings = new ArrayList<>();
 		for (Collection<String> buttonRows : buttonLayout) {
 			JSONArray buttonsAsJson = new JSONArray(buttonRows.toArray());
 			buttonRowStrings.add(buttonsAsJson.toString());

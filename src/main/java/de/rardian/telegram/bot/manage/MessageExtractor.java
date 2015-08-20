@@ -14,7 +14,7 @@ public class MessageExtractor {
 	}
 
 	public List<Message> extractMessages() {
-		ArrayList<Message> messages = new ArrayList<Message>();
+		ArrayList<Message> messages = new ArrayList<>();
 		JSONArray results = json.getJSONArray("result");
 
 		for (int i = 0; i < results.length(); i++) {

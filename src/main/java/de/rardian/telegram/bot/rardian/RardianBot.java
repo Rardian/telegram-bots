@@ -72,10 +72,10 @@ public class RardianBot implements Bot {
 
 	private CommandParser getCommandParser() {
 		if (commandParser == null) {
-			HashMap<String, Command> commands = new HashMap<String, Command>();
+			HashMap<String, Command> commands = new HashMap<>();
 
-			commands.put("test1", new Test1Command());
-			commands.put("test2", new Test2Command());
+			commands.put("command1", new Test1Command());
+			commands.put("command2", new Test2Command());
 
 			commandParser = new CommandParser().withCommands(commands);
 		}
