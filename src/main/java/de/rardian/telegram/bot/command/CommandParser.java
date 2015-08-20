@@ -2,21 +2,23 @@ package de.rardian.telegram.bot.command;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.Validate;
+
 import de.rardian.telegram.bot.manage.Message;
-import de.rardian.telegram.bot.rardian.commands.Test1Command;
-import de.rardian.telegram.bot.rardian.commands.Test2Command;
 
 public class CommandParser {
 	private Map<String, Command> commands;
 
-	public CommandParser() {
-		initCommands();
+	public CommandParser withCommands(Map<String, Command> commands) {
+		this.commands = commands;
+		return this;
 	}
 
 	public Collection<Action> parse(Message message) {
+		Validate.notNull(commands);
+
 		String text = message.getText();
 		Collection<Action> actions = new ArrayList<Action>();
 
@@ -32,13 +34,4 @@ public class CommandParser {
 		}
 		return actions;
 	}
-
-	private void initCommands() {
-		commands = new HashMap<String, Command>();
-
-		commands.put("test1", new Test1Command());
-		commands.put("test2", new Test2Command());
-
-	}
-
 }

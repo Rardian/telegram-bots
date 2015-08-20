@@ -1,14 +1,18 @@
 package de.rardian.telegram.bot.rardian;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 import de.rardian.telegram.bot.command.Action;
+import de.rardian.telegram.bot.command.Command;
 import de.rardian.telegram.bot.command.CommandParser;
 import de.rardian.telegram.bot.command.MessageReply;
 import de.rardian.telegram.bot.manage.Message;
 import de.rardian.telegram.bot.manage.UserManager;
 import de.rardian.telegram.bot.model.Bot;
 import de.rardian.telegram.bot.model.User;
+import de.rardian.telegram.bot.rardian.commands.Test1Command;
+import de.rardian.telegram.bot.rardian.commands.Test2Command;
 
 public class RardianBot implements Bot {
 
@@ -68,7 +72,12 @@ public class RardianBot implements Bot {
 
 	private CommandParser getCommandParser() {
 		if (commandParser == null) {
-			commandParser = new CommandParser();
+			HashMap<String, Command> commands = new HashMap<String, Command>();
+
+			commands.put("test1", new Test1Command());
+			commands.put("test2", new Test2Command());
+
+			commandParser = new CommandParser().withCommands(commands);
 		}
 		return commandParser;
 	}
