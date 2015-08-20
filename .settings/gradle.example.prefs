@@ -1,0 +1,12 @@
+{ edit and rename to gradle.prefs, then remove this comment
+  "1.0": {
+    "project_path": ":",
+    "project_dir": "D:\\Daten\\git\\telegram-bots",
+    "connection_project_dir": "D:\\Daten\\git\\telegram-bots",
+    "connection_gradle_user_home": null,
+    "connection_gradle_distribution": "GRADLE_DISTRIBUTION(WRAPPER)",
+    "connection_java_home": null,
+    "connection_jvm_arguments": "",
+    "connection_arguments": ""
+  }
+}
