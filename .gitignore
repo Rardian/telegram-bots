@@ -3,4 +3,3 @@ build/**
 .gradle/**
 RemoteSystemsTempFiles
 /bin/
-.settings/gradle.prefs
