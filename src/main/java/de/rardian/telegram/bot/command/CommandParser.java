@@ -30,8 +30,14 @@ public class CommandParser {
 			System.out.println("Kommando='" + command + "', Parameter='" + params + "'");
 
 			Command commandToExecute = commands.get(command);
-			Collection<Action> resultActions = commandToExecute.executeWithParams(params);
-			actions.addAll(resultActions);
+			if (commandToExecute == null) {
+				actions.add(new CommandUnknownAction());
+			} else {
+				Collection<Action> resultActions = commandToExecute.executeWithParams(params);
+				actions.addAll(resultActions);
+			}
+		} else {
+			actions.add(new CommandUnknownAction());
 		}
 		return actions;
 	}
