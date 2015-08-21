@@ -33,6 +33,10 @@ public class RardianBot implements Bot {
 		reply = mr;
 	}
 
+	public void setCommandParser(CommandParser parser) {
+		commandParser = parser;
+	}
+
 	@Override
 	public String getId() {
 		return ID;

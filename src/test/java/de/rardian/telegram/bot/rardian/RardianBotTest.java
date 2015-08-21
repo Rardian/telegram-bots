@@ -3,12 +3,18 @@ package de.rardian.telegram.bot.rardian;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
+import java.util.Arrays;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 
+import de.rardian.telegram.bot.command.Action;
+import de.rardian.telegram.bot.command.CommandParser;
 import de.rardian.telegram.bot.command.MessageReply;
+import de.rardian.telegram.bot.manage.Message;
 import de.rardian.telegram.bot.manage.UserManager;
 
 @RunWith(org.mockito.runners.MockitoJUnitRunner.class)
@@ -17,6 +23,12 @@ public class RardianBotTest {
 	private MessageReply reply;
 	@Mock
 	private UserManager userManager;
+	@Mock
+	private CommandParser commandParser;
+	@Mock
+	private Message message;
+	@Mock
+	private Action action;
 
 	private RardianBot underTest;
 
@@ -34,8 +46,20 @@ public class RardianBotTest {
 
 	@Test
 	public void instantiation() throws Exception {
-		RardianBot target = new RardianBot();
-		assertThat(target, notNullValue());
+		assertThat(underTest, notNullValue());
+	}
+
+	@Test
+	public void processMessage_actionExecuted() {
+		// Init
+		underTest.setCommandParser(commandParser);
+		Mockito.when(commandParser.parse(message)).thenReturn(Arrays.asList(action));
+
+		// Run
+		underTest.processMessage(message);
+
+		// Assert
+		Mockito.verify(action).execute();
 	}
 
 	// @Test
