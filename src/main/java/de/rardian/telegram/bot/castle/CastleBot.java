@@ -4,10 +4,12 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import de.rardian.telegram.bot.castle.commands.CastleStatusCommand;
+import de.rardian.telegram.bot.castle.commands.HelpCommand;
 import de.rardian.telegram.bot.castle.commands.InhabitantProduceCommand;
 import de.rardian.telegram.bot.castle.commands.actions.CastleAware;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.command.Action;
+import de.rardian.telegram.bot.command.BotAware;
 import de.rardian.telegram.bot.command.Command;
 import de.rardian.telegram.bot.command.CommandParser;
 import de.rardian.telegram.bot.command.MessageReply;
@@ -42,18 +44,24 @@ public class CastleBot implements Bot {
 		return ID;
 	}
 
+	@Override
+	public String getCommandOverview() {
+		String helpText = "Willkommen bei CastleBot. Werde Teil einer wachsenden und florierenden Burggemeinschaft. Folgende Kommandos stehen dir zur Verfügung:\n";
+		return helpText;
+	}
+
 	public void processMessage(Message message) {
+		Collection<Action> actions = getCommandParser().parse(message);
+
+		for (Action action : actions) {
+			injectDependencies(action, message);
+			action.execute();
+		}
 
 		// User user = message.getFrom();
 
 		// ReplyKeyboardMarkup keyboard = new ReplyKeyboardMarkup();
 		// keyboard.addButtonRow("A", "B");
-
-		Collection<Action> actions = getCommandParser().parse(message);
-		for (Action action : actions) {
-			injectDependencies(action, message);
-			action.execute();
-		}
 
 		// if (getUserManager().isUserKnown(user)) {
 		// System.out.println("User '" + user.getUserName() + "' is known");
@@ -76,6 +84,9 @@ public class CastleBot implements Bot {
 		}
 		if (action instanceof UserAware) {
 			((UserAware) action).setUser(message.getFrom());
+		}
+		if (action instanceof BotAware) {
+			((BotAware) action).setBot(this);
 		}
 	}
 
@@ -102,6 +113,7 @@ public class CastleBot implements Bot {
 
 		commands.put("stat", new CastleStatusCommand());
 		commands.put("prod", new InhabitantProduceCommand());
+		commands.put("help", new HelpCommand());
 
 		return commands;
 	}
