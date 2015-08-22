@@ -1,4 +1,4 @@
-package de.rardian.telegram.bot.rardian.commands;
+package de.rardian.telegram.bot.castle.commands;
 
 import java.util.Collection;
 

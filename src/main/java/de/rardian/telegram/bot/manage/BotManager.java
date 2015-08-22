@@ -1,6 +1,6 @@
 package de.rardian.telegram.bot.manage;
 
-import de.rardian.telegram.bot.rardian.RardianBot;
+import de.rardian.telegram.bot.castle.CastleBot;
 
 public class BotManager {
 
@@ -9,7 +9,7 @@ public class BotManager {
 	}
 
 	private void start() {
-		RardianBot bot = new RardianBot();
+		CastleBot bot = new CastleBot();
 		new UpdatesRetriever().forBot(bot).startGettingUpdates();
 	}
 }

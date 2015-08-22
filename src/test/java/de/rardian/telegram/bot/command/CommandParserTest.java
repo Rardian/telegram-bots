@@ -15,8 +15,8 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
+import de.rardian.telegram.bot.castle.commands.Test1Command;
 import de.rardian.telegram.bot.manage.Message;
-import de.rardian.telegram.bot.rardian.commands.Test1Command;
 
 @RunWith(org.mockito.runners.MockitoJUnitRunner.class)
 public class CommandParserTest {

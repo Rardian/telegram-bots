@@ -1,4 +1,4 @@
-package de.rardian.telegram.bot.rardian;
+package de.rardian.telegram.bot.castle;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import de.rardian.telegram.bot.castle.CastleBot;
 import de.rardian.telegram.bot.command.Action;
 import de.rardian.telegram.bot.command.CommandParser;
 import de.rardian.telegram.bot.command.MessageReply;
@@ -18,7 +19,7 @@ import de.rardian.telegram.bot.manage.Message;
 import de.rardian.telegram.bot.manage.UserManager;
 
 @RunWith(org.mockito.runners.MockitoJUnitRunner.class)
-public class RardianBotTest {
+public class CastleBotTest {
 	@Mock
 	private MessageReply reply;
 	@Mock
@@ -30,18 +31,18 @@ public class RardianBotTest {
 	@Mock
 	private Action action;
 
-	private RardianBot underTest;
+	private CastleBot underTest;
 
 	@Before
 	public void setupBot() {
-		underTest = new RardianBot();
+		underTest = new CastleBot();
 		underTest.setMessageReply(reply);
 		underTest.setUserManager(userManager);
 	}
 
 	@Test
 	public void type() throws Exception {
-		assertThat(RardianBot.class, notNullValue());
+		assertThat(CastleBot.class, notNullValue());
 	}
 
 	@Test

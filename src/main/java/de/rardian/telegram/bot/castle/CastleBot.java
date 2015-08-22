@@ -1,8 +1,12 @@
-package de.rardian.telegram.bot.rardian;
+package de.rardian.telegram.bot.castle;
 
 import java.util.Collection;
 import java.util.HashMap;
 
+import de.rardian.telegram.bot.castle.commands.CastleStatusCommand;
+import de.rardian.telegram.bot.castle.commands.InhabitantProduceCommand;
+import de.rardian.telegram.bot.castle.commands.actions.CastleAware;
+import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.command.Action;
 import de.rardian.telegram.bot.command.Command;
 import de.rardian.telegram.bot.command.CommandParser;
@@ -12,12 +16,8 @@ import de.rardian.telegram.bot.command.UserAware;
 import de.rardian.telegram.bot.manage.Message;
 import de.rardian.telegram.bot.manage.UserManager;
 import de.rardian.telegram.bot.model.Bot;
-import de.rardian.telegram.bot.model.Castle;
-import de.rardian.telegram.bot.rardian.commands.CastleStatusCommand;
-import de.rardian.telegram.bot.rardian.commands.InhabitantProduceCommand;
-import de.rardian.telegram.bot.rardian.commands.actions.CastleAware;
 
-public class RardianBot implements Bot {
+public class CastleBot implements Bot {
 
 	private static final String ID = "123030600:AAHn8CC4Q7PMvvdEGOiqmFYCZVcgHam_8uo";
 	private UserManager userManager;

@@ -1,4 +1,4 @@
-package de.rardian.telegram.bot.rardian.commands;
+package de.rardian.telegram.bot.castle.commands;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
@@ -8,8 +8,9 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import de.rardian.telegram.bot.castle.commands.InhabitantProduceCommand;
+import de.rardian.telegram.bot.castle.commands.actions.MoveInhabitantToProductionAction;
 import de.rardian.telegram.bot.command.Action;
-import de.rardian.telegram.bot.rardian.commands.actions.MoveInhabitantToProductionAction;
 
 public class InhabitantProduceCommandTest {
 

@@ -1,9 +1,11 @@
-package de.rardian.telegram.bot.model;
+package de.rardian.telegram.bot.castle.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.lang3.StringUtils;
+
+import de.rardian.telegram.bot.model.User;
 
 public class Castle {
 	private Collection<User> inhabitants = new ArrayList<>();
