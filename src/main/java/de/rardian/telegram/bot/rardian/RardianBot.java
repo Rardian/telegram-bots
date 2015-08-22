@@ -8,14 +8,14 @@ import de.rardian.telegram.bot.command.Command;
 import de.rardian.telegram.bot.command.CommandParser;
 import de.rardian.telegram.bot.command.MessageReply;
 import de.rardian.telegram.bot.command.SendsAnswer;
+import de.rardian.telegram.bot.command.UserAware;
 import de.rardian.telegram.bot.manage.Message;
 import de.rardian.telegram.bot.manage.UserManager;
 import de.rardian.telegram.bot.model.Bot;
 import de.rardian.telegram.bot.model.Castle;
-import de.rardian.telegram.bot.rardian.commands.CastleAware;
 import de.rardian.telegram.bot.rardian.commands.CastleStatusCommand;
-import de.rardian.telegram.bot.rardian.commands.Test1Command;
-import de.rardian.telegram.bot.rardian.commands.Test2Command;
+import de.rardian.telegram.bot.rardian.commands.InhabitantProduceCommand;
+import de.rardian.telegram.bot.rardian.commands.actions.CastleAware;
 
 public class RardianBot implements Bot {
 
@@ -74,7 +74,9 @@ public class RardianBot implements Bot {
 		if (action instanceof SendsAnswer) {
 			((SendsAnswer) action).setMessageReply(getMessageReply(message));
 		}
-
+		if (action instanceof UserAware) {
+			((UserAware) action).setUser(message.getFrom());
+		}
 	}
 
 	private MessageReply getMessageReply(Message message) {
@@ -98,9 +100,8 @@ public class RardianBot implements Bot {
 	private HashMap<String, Command> initCommands() {
 		HashMap<String, Command> commands = new HashMap<>();
 
-		commands.put("command1", new Test1Command());
-		commands.put("command2", new Test2Command());
 		commands.put("stat", new CastleStatusCommand());
+		commands.put("prod", new InhabitantProduceCommand());
 
 		return commands;
 	}

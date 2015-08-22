@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import de.rardian.telegram.bot.command.Action;
 import de.rardian.telegram.bot.command.Command;
+import de.rardian.telegram.bot.rardian.commands.actions.CastleStatusAction;
 
 public class CastleStatusCommand implements Command {
 

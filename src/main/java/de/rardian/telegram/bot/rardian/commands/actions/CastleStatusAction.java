@@ -1,4 +1,4 @@
-package de.rardian.telegram.bot.rardian.commands;
+package de.rardian.telegram.bot.rardian.commands.actions;
 
 import de.rardian.telegram.bot.command.Action;
 import de.rardian.telegram.bot.command.MessageReply;
