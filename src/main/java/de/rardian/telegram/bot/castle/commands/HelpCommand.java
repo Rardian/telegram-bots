@@ -14,4 +14,14 @@ public class HelpCommand implements Command {
 		return Arrays.asList(new PrintHelpAction());
 	}
 
+	@Override
+	public Collection<String> getCommandStrings() {
+		return Arrays.asList("help", "hilfe");
+	}
+
+	@Override
+	public String getDescription() {
+		return "Diese Übersicht";
+	}
+
 }

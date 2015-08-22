@@ -10,6 +10,16 @@ import de.rardian.telegram.bot.command.Command;
 public class CastleStatusCommand implements Command {
 
 	@Override
+	public Collection<String> getCommandStrings() {
+		return Arrays.asList("stat", "stats", "status");
+	}
+
+	@Override
+	public String getDescription() {
+		return "Zeigt den Status der Burg";
+	}
+
+	@Override
 	public Collection<Action> executeWithParams(String params) {
 		return Arrays.asList(new CastleStatusAction());
 	}
