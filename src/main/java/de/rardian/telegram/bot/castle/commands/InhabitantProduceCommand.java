@@ -17,7 +17,7 @@ public class InhabitantProduceCommand implements Command {
 
 	@Override
 	public String getDescription() {
-		return "Produziere Güter für die Burg";
+		return "Produziere GÃ¼ter fÃ¼r die Burg";
 	}
 
 	@Override

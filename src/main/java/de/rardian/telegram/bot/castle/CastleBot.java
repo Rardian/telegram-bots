@@ -40,7 +40,7 @@ public class CastleBot implements Bot {
 	@Override
 	public String getCommandOverview() {
 		StringBuffer helpText = new StringBuffer(
-				"Willkommen bei CastleBot. Werde Teil einer wachsenden und florierenden Burggemeinschaft. Folgende Kommandos stehen dir zur Verfügung.\n");
+				"Willkommen bei CastleBot. Werde Teil einer wachsenden und florierenden Burggemeinschaft. Folgende Kommandos stehen dir zur VerfÃ¼gung.\n");
 		Collection<Command> commandList = getCommandInitializer().getCommandSet().values();
 
 		Set<Command> commandSet = new TreeSet<>(new Comparator<Command>() {
@@ -77,13 +77,13 @@ public class CastleBot implements Bot {
 
 		// if (getUserManager().isUserKnown(user)) {
 		// System.out.println("User '" + user.getUserName() + "' is known");
-		// getMessageReply(message).answer("Willkommen zurück, " +
+		// getMessageReply(message).answer("Willkommen zurï¿½ck, " +
 		// user.getFirstName() + "!", null);
 		// } else {
 		// System.out.println("User '" + user.getUserName() + "' is new");
 		// getUserManager().registerUser(user);
 		// getMessageReply(message).answer("Herzlich Willkommen, " +
-		// user.getFirstName() + ", schön dich kennenzulernen!", null);
+		// user.getFirstName() + ", schï¿½n dich kennenzulernen!", null);
 		// }
 	}
 

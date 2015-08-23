@@ -67,9 +67,9 @@ public class CastleBotTest {
 		String result = underTest.getCommandOverview();
 		System.out.println(result);
 
-		String expected = "Willkommen bei CastleBot. Werde Teil einer wachsenden und florierenden Burggemeinschaft. Folgende Kommandos stehen dir zur Verfügung.\n" //
-				+ "help, hilfe: Diese Übersicht\n" //
-				+ "prod, produzieren, produce: Produziere Güter für die Burg\n" //
+		String expected = "Willkommen bei CastleBot. Werde Teil einer wachsenden und florierenden Burggemeinschaft. Folgende Kommandos stehen dir zur VerfÃ¼gung.\n" //
+				+ "help, hilfe: Diese Ãœbersicht\n" //
+				+ "prod, produzieren, produce: Produziere GÃ¼ter fÃ¼r die Burg\n" //
 				+ "stat, stats, status: Zeigt den Status der Burg\n";
 		// Assert
 		assertThat(result, is(expected));
