@@ -18,4 +18,4 @@ addons:
     notification_email: rardian@gmx.net
     build_command_prepend: ""
     build_command:   "./gradlew assemble"
-    branch_pattern: master
+    branch_pattern: coverity_scan
