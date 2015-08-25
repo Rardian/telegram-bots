@@ -77,13 +77,13 @@ public class CastleBot implements Bot {
 
 		// if (getUserManager().isUserKnown(user)) {
 		// System.out.println("User '" + user.getUserName() + "' is known");
-		// getMessageReply(message).answer("Willkommen zur�ck, " +
+		// getMessageReply(message).answer("Willkommen zurück, " +
 		// user.getFirstName() + "!", null);
 		// } else {
 		// System.out.println("User '" + user.getUserName() + "' is new");
 		// getUserManager().registerUser(user);
 		// getMessageReply(message).answer("Herzlich Willkommen, " +
-		// user.getFirstName() + ", sch�n dich kennenzulernen!", null);
+		// user.getFirstName() + ", schön dich kennenzulernen!", null);
 		// }
 	}
 
