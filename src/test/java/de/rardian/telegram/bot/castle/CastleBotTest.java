@@ -3,6 +3,7 @@ package de.rardian.telegram.bot.castle;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -17,6 +18,7 @@ import de.rardian.telegram.bot.command.Action;
 import de.rardian.telegram.bot.command.CommandParser;
 import de.rardian.telegram.bot.manage.Message;
 import de.rardian.telegram.bot.manage.UserManager;
+import de.rardian.telegram.bot.model.User;
 
 @RunWith(org.mockito.runners.MockitoJUnitRunner.class)
 public class CastleBotTest {
@@ -24,8 +26,6 @@ public class CastleBotTest {
 	private UserManager userManager;
 	@Mock
 	private CommandParser commandParser;
-	@Mock
-	private Message message;
 	@Mock
 	private Action action;
 
@@ -50,11 +50,13 @@ public class CastleBotTest {
 	@Test
 	public void processMessage_actionExecuted() {
 		// Init
+		when(userManager.isUserKnown(User.TEST_USER)).thenReturn(Boolean.TRUE);
+		underTest.setUserManager(userManager);
+		when(commandParser.parse(Message.TEST_MESSAGE)).thenReturn(Arrays.asList(action));
 		underTest.setCommandParser(commandParser);
-		when(commandParser.parse(message)).thenReturn(Arrays.asList(action));
 
 		// Run
-		underTest.processMessage(message);
+		underTest.processMessage(Message.TEST_MESSAGE);
 
 		// Assert
 		verify(action).execute();
@@ -62,39 +64,47 @@ public class CastleBotTest {
 
 	@Test
 	public void getCommandOverview() throws Exception {
-
-		// Run
+		// Init / Run
 		String result = underTest.getCommandOverview();
-		System.out.println(result);
 
+		// Assert
 		String expected = "Willkommen bei CastleBot. Werde Teil einer wachsenden und florierenden Burggemeinschaft. Folgende Kommandos stehen dir zur Verfügung.\n" //
 				+ "help, hilfe: Diese Übersicht\n" //
 				+ "prod, produzieren, produce: Produziere Güter für die Burg\n" //
 				+ "stat, stats, status: Zeigt den Status der Burg\n";
-		// Assert
 		assertThat(result, is(expected));
 	}
-	// @Test
-	// public void testProcessMessage_newUser() {
-	// // Run
-	// underTest.processMessage(Message.TEST_MESSAGE);
-	//
-	// // Assert
-	// verify(userManager).registerUser(User.TEST_USER);
-	// }
 
-	// @Test
-	// public void testProcessMessage_registeredUser() {
-	// // Init
-	// when(userManager.isUserKnown(User.TEST_USER)).thenReturn(Boolean.TRUE);
+	// Need to mock action.execute() in CastleBot in cases like this
+	//	@Test
+	//	public void processMessage_newUser() {
+	//		// Init
+	//		when(userManager.isUserKnown(User.TEST_USER)).thenReturn(Boolean.FALSE);
+	//		underTest.setUserManager(userManager);
+	//		// Init
+	//		when(commandParser.parse(Message.TEST_MESSAGE)).thenReturn(CollectionUtils.emptyCollection());
+	//		underTest.setCommandParser(commandParser);
 	//
-	// underTest.setUserManager(userManager);
+	//		// Run
+	//		underTest.processMessage(Message.TEST_MESSAGE);
 	//
-	// // Run
-	// underTest.processMessage(Message.TEST_MESSAGE);
-	//
-	// // Assert
-	// verify(userManager, times(0)).registerUser(User.TEST_USER);
-	// }
+	//		// Assert
+	//		verify(userManager).registerUser(User.TEST_USER);
+	//	}
+
+	@Test
+	public void processMessage_registeredUser() {
+		// Init
+		when(userManager.isUserKnown(User.TEST_USER)).thenReturn(Boolean.TRUE);
+		underTest.setUserManager(userManager);
+		when(commandParser.parse(Message.TEST_MESSAGE)).thenReturn(Arrays.asList(action));
+		underTest.setCommandParser(commandParser);
+
+		// Run
+		underTest.processMessage(Message.TEST_MESSAGE);
+
+		// Assert
+		verify(userManager, times(0)).registerUser(User.TEST_USER);
+	}
 
 }

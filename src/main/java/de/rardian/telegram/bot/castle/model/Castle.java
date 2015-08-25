@@ -34,4 +34,10 @@ public class Castle {
 		// remove from other assemblies
 	}
 
+	public void addInhabitant(User user) {
+		inhabitants.add(user);
+		// don't add users twice (actually ensured by UserManager)
+		// use Inhabitant instead of User
+	}
+
 }
