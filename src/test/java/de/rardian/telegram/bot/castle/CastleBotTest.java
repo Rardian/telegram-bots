@@ -9,12 +9,14 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
 import de.rardian.telegram.bot.command.Action;
+import de.rardian.telegram.bot.command.ActionExecuter;
 import de.rardian.telegram.bot.command.CommandParser;
 import de.rardian.telegram.bot.manage.Message;
 import de.rardian.telegram.bot.manage.UserManager;
@@ -28,6 +30,8 @@ public class CastleBotTest {
 	private CommandParser commandParser;
 	@Mock
 	private Action action;
+	@Mock
+	private ActionExecuter actionExecuter;
 
 	private CastleBot underTest;
 
@@ -76,21 +80,23 @@ public class CastleBotTest {
 	}
 
 	// Need to mock action.execute() in CastleBot in cases like this
-	//	@Test
-	//	public void processMessage_newUser() {
-	//		// Init
-	//		when(userManager.isUserKnown(User.TEST_USER)).thenReturn(Boolean.FALSE);
-	//		underTest.setUserManager(userManager);
-	//		// Init
-	//		when(commandParser.parse(Message.TEST_MESSAGE)).thenReturn(CollectionUtils.emptyCollection());
-	//		underTest.setCommandParser(commandParser);
-	//
-	//		// Run
-	//		underTest.processMessage(Message.TEST_MESSAGE);
-	//
-	//		// Assert
-	//		verify(userManager).registerUser(User.TEST_USER);
-	//	}
+	@Test
+	public void processMessage_newUser() {
+		// Init
+		when(userManager.isUserKnown(User.TEST_USER)).thenReturn(Boolean.FALSE);
+		underTest.setUserManager(userManager);
+		underTest.setActionExecuter(actionExecuter);
+
+		// Init
+		when(commandParser.parse(Message.TEST_MESSAGE)).thenReturn(CollectionUtils.emptyCollection());
+		underTest.setCommandParser(commandParser);
+
+		// Run
+		underTest.processMessage(Message.TEST_MESSAGE);
+
+		// Assert
+		verify(userManager).registerUser(User.TEST_USER);
+	}
 
 	@Test
 	public void processMessage_registeredUser() {

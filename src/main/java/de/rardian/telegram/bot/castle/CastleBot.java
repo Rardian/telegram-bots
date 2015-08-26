@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import de.rardian.telegram.bot.castle.commands.CommandInitializer;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.command.Action;
+import de.rardian.telegram.bot.command.ActionExecuter;
+import de.rardian.telegram.bot.command.ActionInitializer;
 import de.rardian.telegram.bot.command.Command;
 import de.rardian.telegram.bot.command.CommandParser;
 import de.rardian.telegram.bot.command.UserMovesInAction;
@@ -26,6 +28,7 @@ public class CastleBot implements Bot {
 	private CommandParser commandParser;
 	private CommandInitializer commandInitializer;
 	private Castle castle = new Castle();
+	private ActionExecuter actionExecuter;
 
 	public void setUserManager(UserManager manager) {
 		this.userManager = manager;
@@ -33,6 +36,10 @@ public class CastleBot implements Bot {
 
 	public void setCommandParser(CommandParser parser) {
 		commandParser = parser;
+	}
+
+	public void setActionExecuter(ActionExecuter actionExecuter) {
+		this.actionExecuter = actionExecuter;
 	}
 
 	@Override
@@ -77,19 +84,23 @@ public class CastleBot implements Bot {
 		actions.addAll(getCommandParser().parse(message));
 
 		for (Action action : actions) {
-			getCommandInitializer().injectActionDependencies(action, message);
-			action.execute();
+			getActionExecuter().execute(action, message);
 		}
+	}
 
-		// ReplyKeyboardMarkup keyboard = new ReplyKeyboardMarkup();
-		// keyboard.addButtonRow("A", "B");
+	private ActionExecuter getActionExecuter() {
+		if (actionExecuter == null) {
+			ActionInitializer initializer = new ActionInitializer();
+			initializer.setBot(this);
+			initializer.setCastle(castle);
+			actionExecuter = new ActionExecuter().withInitializer(initializer);
+		}
+		return actionExecuter;
 	}
 
 	private CommandInitializer getCommandInitializer() {
 		if (commandInitializer == null) {
 			commandInitializer = new CommandInitializer();
-			commandInitializer.setBot(this);
-			commandInitializer.setCastle(castle);
 		}
 		return commandInitializer;
 	}
