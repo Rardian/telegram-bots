@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import de.rardian.telegram.bot.castle.model.Castle;
+import de.rardian.telegram.bot.command.MessageReply;
 import de.rardian.telegram.bot.model.User;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -20,6 +21,8 @@ public class MoveInhabitantToProductionActionTest {
 	private Castle castle;
 	@Mock
 	private User user;
+	@Mock
+	private MessageReply reply;
 	@InjectMocks
 	private MoveInhabitantToProductionAction underTest;
 

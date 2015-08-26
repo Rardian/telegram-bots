@@ -12,8 +12,8 @@ import de.rardian.telegram.bot.model.User;
 public class UserManager {
 	private Collection<User> knownUsers = new ArrayList<>();
 
-	public boolean isUserKnown(final User user) {
-		return CollectionUtils.exists(knownUsers, new Predicate<User>() {
+	public static boolean collectionContainsUser(Collection<User> collection, User user) {
+		return CollectionUtils.exists(collection, new Predicate<User>() {
 			@Override
 			public boolean evaluate(User object) {
 				return user.getId() == object.getId();
@@ -21,10 +21,13 @@ public class UserManager {
 		});
 	}
 
+	public boolean isUserKnown(final User user) {
+		return collectionContainsUser(knownUsers, user);
+	}
+
 	public void registerUser(User user) {
 		Validate.notNull(user);
 		knownUsers.add(user);
 		System.out.println("User '" + user.getUserName() + "' registered");
 	}
-
 }
