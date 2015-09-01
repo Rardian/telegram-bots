@@ -42,6 +42,10 @@ public class CastleBot implements Bot {
 		this.actionExecuter = actionExecuter;
 	}
 
+	public void setCastle(Castle castle) {
+		this.castle = castle;
+	}
+
 	@Override
 	public String getId() {
 		return ID;
@@ -92,7 +96,7 @@ public class CastleBot implements Bot {
 		if (actionExecuter == null) {
 			ActionInitializer initializer = new ActionInitializer();
 			initializer.setBot(this);
-			initializer.setCastle(castle);
+			initializer.setCastle(getCastle());
 			actionExecuter = new ActionExecuter().withInitializer(initializer);
 		}
 		return actionExecuter;
@@ -119,4 +123,11 @@ public class CastleBot implements Bot {
 		return commandParser;
 	}
 
+	private Castle getCastle() {
+		if (castle == null) {
+			castle = new Castle();
+			//			castle.setProductionListener();
+		}
+		return castle;
+	}
 }
