@@ -9,13 +9,13 @@ import java.util.TreeSet;
 import org.apache.commons.lang3.StringUtils;
 
 import de.rardian.telegram.bot.castle.commands.CommandInitializer;
+import de.rardian.telegram.bot.castle.commands.actions.UserMovesInAction;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.command.Action;
 import de.rardian.telegram.bot.command.ActionExecuter;
 import de.rardian.telegram.bot.command.ActionInitializer;
 import de.rardian.telegram.bot.command.Command;
 import de.rardian.telegram.bot.command.CommandParser;
-import de.rardian.telegram.bot.command.UserMovesInAction;
 import de.rardian.telegram.bot.manage.Message;
 import de.rardian.telegram.bot.manage.UserManager;
 import de.rardian.telegram.bot.model.Bot;

@@ -1,7 +1,10 @@
-package de.rardian.telegram.bot.command;
+package de.rardian.telegram.bot.castle.commands.actions;
 
-import de.rardian.telegram.bot.castle.commands.actions.CastleAware;
 import de.rardian.telegram.bot.castle.model.Castle;
+import de.rardian.telegram.bot.command.Action;
+import de.rardian.telegram.bot.command.MessageReply;
+import de.rardian.telegram.bot.command.SendsAnswer;
+import de.rardian.telegram.bot.command.UserAware;
 import de.rardian.telegram.bot.model.User;
 
 public class UserMovesInAction implements Action, SendsAnswer, CastleAware, UserAware {
