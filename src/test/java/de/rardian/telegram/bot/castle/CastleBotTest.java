@@ -54,7 +54,7 @@ public class CastleBotTest {
 	@Test
 	public void processMessage_actionExecuted() {
 		// Init
-		when(userManager.isUserKnown(User.TEST_USER)).thenReturn(Boolean.TRUE);
+		when(userManager.isUserKnown(User.newIdentTestUser())).thenReturn(Boolean.TRUE);
 		underTest.setUserManager(userManager);
 		when(commandParser.parse(Message.TEST_MESSAGE)).thenReturn(Arrays.asList(action));
 		underTest.setCommandParser(commandParser);
@@ -83,11 +83,13 @@ public class CastleBotTest {
 	@Test
 	public void processMessage_newUser() {
 		// Init
-		when(userManager.isUserKnown(User.TEST_USER)).thenReturn(Boolean.FALSE);
+		User fromUser = Message.TEST_MESSAGE.getFrom();
+
+		when(userManager.isUserKnown(fromUser)).thenReturn(Boolean.FALSE);
 		underTest.setUserManager(userManager);
+
 		underTest.setActionExecuter(actionExecuter);
 
-		// Init
 		when(commandParser.parse(Message.TEST_MESSAGE)).thenReturn(CollectionUtils.emptyCollection());
 		underTest.setCommandParser(commandParser);
 
@@ -95,13 +97,14 @@ public class CastleBotTest {
 		underTest.processMessage(Message.TEST_MESSAGE);
 
 		// Assert
-		verify(userManager).registerUser(User.TEST_USER);
+		verify(userManager).registerUser(fromUser);
 	}
 
 	@Test
 	public void processMessage_registeredUser() {
 		// Init
-		when(userManager.isUserKnown(User.TEST_USER)).thenReturn(Boolean.TRUE);
+		User sameUser = User.newIdentTestUser();
+		when(userManager.isUserKnown(sameUser)).thenReturn(Boolean.TRUE);
 		underTest.setUserManager(userManager);
 		when(commandParser.parse(Message.TEST_MESSAGE)).thenReturn(Arrays.asList(action));
 		underTest.setCommandParser(commandParser);
@@ -110,7 +113,7 @@ public class CastleBotTest {
 		underTest.processMessage(Message.TEST_MESSAGE);
 
 		// Assert
-		verify(userManager, times(0)).registerUser(User.TEST_USER);
+		verify(userManager, times(0)).registerUser(sameUser);
 	}
 
 }
