@@ -33,16 +33,49 @@ public class CastleTest {
 		underTest.setProduction(productionController);
 	}
 
-	//	@Test
-	//	public void getStatusAsString() throws Exception {
-	//		throw new RuntimeException("not yet implemented");
-	//		// Init
-	//
-	//		// Run
-	//
-	//		// Assert
-	//
-	//	}
+	@Test
+	public void getStatusAsStringWithTwoInhabitants() throws Exception {
+		// Init
+		underTest.addInhabitant(User.newUniqueTestUser(1));
+		underTest.addInhabitant(User.newUniqueTestUser(2));
+
+		// Run
+		String actual = underTest.getStatusAsString();
+
+		// Assert
+		String expected = "Die Burg ist in gutem Zustand.\n"//
+				+ "Bewohner: "//
+				+ 2//
+				+ " (Vorname1, Vorname2)\n"//
+				+ "Produzenten: "//
+				+ 0//
+				+ " ()\n"//
+				+ "Ressourcen: "//
+				+ 0;
+		assertThat(actual, is(expected));
+	}
+
+	@Test
+	public void getStatusAsStringWithTwoProducers() throws Exception {
+		// Init
+		underTest.addProducer(User.newUniqueTestUser(1));
+		underTest.addProducer(User.newUniqueTestUser(2));
+
+		// Run
+		String actual = underTest.getStatusAsString();
+
+		// Assert
+		String expected = "Die Burg ist in gutem Zustand.\n"//
+				+ "Bewohner: "//
+				+ 0//
+				+ " ()\n"//
+				+ "Produzenten: "//
+				+ 2//
+				+ " (Vorname1, Vorname2)\n"//
+				+ "Ressourcen: "//
+				+ 0;
+		assertThat(actual, is(expected));
+	}
 
 	@Test
 	public void addProducer() throws Exception {
@@ -65,12 +98,12 @@ public class CastleTest {
 	@Test
 	public void shouldntAddProducerTwice() throws Exception {
 		// Init
-		underTest.addProducer(User.newTestUser());
+		underTest.addProducer(User.newIdentTestUser());
 		thrown.expect(AlreadyAddedException.class);
 		thrown.expectMessage("user is already producing");
 
 		// Run / Assert
-		underTest.addProducer(User.newTestUser());
+		underTest.addProducer(User.newIdentTestUser());
 	}
 
 	//	@Test

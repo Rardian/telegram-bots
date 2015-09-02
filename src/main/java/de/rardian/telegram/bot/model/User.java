@@ -37,9 +37,19 @@ public class User implements Chat {
 		this.userName = userName;
 	}
 
+	/** Returns a new User object referring to the default User. */
 	@VisibleForTesting
 	public static User newIdentTestUser() {
 		return new User(8039535, "Vorname", "Nachname", "Username");
+	}
+
+	/**
+	 * Returns a new User object that differs (i.e. not equal) from previously
+	 * delivered User objects.
+	 */
+	@VisibleForTesting
+	public static User newUniqueTestUser(long uniqueId) {
+		return new User(uniqueId, "Vorname" + uniqueId, "Nachname" + uniqueId, "Username" + uniqueId);
 	}
 
 	public User fillWithJson(JSONObject json) {

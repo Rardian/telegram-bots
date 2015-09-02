@@ -27,16 +27,24 @@ public class Castle {
 				+ "Bewohner: "//
 				+ inhabitants.size()//
 				+ " ("//
-				+ StringUtils.join(inhabitants.toArray(), ", ")//
+				+ getUserListByFirstname(inhabitants)//
 				+ ")\n"//
 				+ "Produzenten: "//
 				+ producers.size()//
 				+ " ("//
-				+ StringUtils.join(producers.toArray(), ", ")//
+				+ getUserListByFirstname(producers)//
 				+ ")\n"//
 				+ "Ressourcen: "//
 				+ resources;
 		return status;
+	}
+
+	private String getUserListByFirstname(Collection<User> users) {
+		ArrayList<String> usersByFirstname = new ArrayList<>(users.size());
+		for (User user : users) {
+			usersByFirstname.add(user.getFirstName());
+		}
+		return StringUtils.join(usersByFirstname, ", ");
 	}
 
 	public void addProducer(User user) throws AlreadyAddedException {
