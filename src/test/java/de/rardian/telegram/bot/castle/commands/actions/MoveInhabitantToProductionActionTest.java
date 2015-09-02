@@ -9,8 +9,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.command.MessageReply;
 import de.rardian.telegram.bot.model.User;
@@ -27,12 +29,33 @@ public class MoveInhabitantToProductionActionTest {
 	private MoveInhabitantToProductionAction underTest;
 
 	@Test
-	public void execute() throws Exception {
+	public void executeAddsProducer() throws Exception {
 		// Run
 		underTest.execute();
 
 		// Assert
 		verify(castle).addProducer(user);
+	}
+
+	@Test
+	public void executeSendsFeedbackToUser() throws Exception {
+		// Run
+		underTest.execute();
+
+		// Assert
+		verify(reply).answer("Du bist jetzt Teil der Produktionsmannschaft.", null);
+	}
+
+	@Test
+	public void executeCannotAddProducerTwice() throws Exception {
+		// Init
+		Mockito.doThrow(AlreadyAddedException.class).when(castle).addProducer(user);
+
+		// Run
+		underTest.execute();
+
+		// Assert
+		verify(reply).answer("Du bist bereits Teil der Produktionsmannschaft.", null);
 	}
 
 }

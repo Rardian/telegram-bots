@@ -34,7 +34,6 @@ public class MoveInhabitantToProductionAction implements Action, CastleAware, Us
 			castle.addProducer(user);
 			reply.answer("Du bist jetzt Teil der Produktionsmannschaft.", null);
 		} catch (AlreadyAddedException e) {
-			e.printStackTrace();
 			reply.answer("Du bist bereits Teil der Produktionsmannschaft.", null);
 		}
 	}
