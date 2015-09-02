@@ -39,6 +39,7 @@ public class CastleBotTest {
 	public void setupBot() {
 		underTest = new CastleBot();
 		underTest.setUserManager(userManager);
+		underTest.setActionExecuter(actionExecuter);
 	}
 
 	@Test
@@ -56,6 +57,7 @@ public class CastleBotTest {
 		// Init
 		when(userManager.isUserKnown(User.newIdentTestUser())).thenReturn(Boolean.TRUE);
 		underTest.setUserManager(userManager);
+
 		when(commandParser.parse(Message.TEST_MESSAGE)).thenReturn(Arrays.asList(action));
 		underTest.setCommandParser(commandParser);
 
@@ -63,7 +65,7 @@ public class CastleBotTest {
 		underTest.processMessage(Message.TEST_MESSAGE);
 
 		// Assert
-		verify(action).execute();
+		verify(actionExecuter).execute(action, Message.TEST_MESSAGE);
 	}
 
 	@Test
@@ -88,8 +90,6 @@ public class CastleBotTest {
 		when(userManager.isUserKnown(fromUser)).thenReturn(Boolean.FALSE);
 		underTest.setUserManager(userManager);
 
-		underTest.setActionExecuter(actionExecuter);
-
 		when(commandParser.parse(Message.TEST_MESSAGE)).thenReturn(CollectionUtils.emptyCollection());
 		underTest.setCommandParser(commandParser);
 
@@ -104,8 +104,10 @@ public class CastleBotTest {
 	public void processMessage_registeredUser() {
 		// Init
 		User sameUser = User.newIdentTestUser();
+
 		when(userManager.isUserKnown(sameUser)).thenReturn(Boolean.TRUE);
 		underTest.setUserManager(userManager);
+
 		when(commandParser.parse(Message.TEST_MESSAGE)).thenReturn(Arrays.asList(action));
 		underTest.setCommandParser(commandParser);
 
