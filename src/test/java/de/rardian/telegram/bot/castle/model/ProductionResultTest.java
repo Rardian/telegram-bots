@@ -12,12 +12,12 @@ public class ProductionResultTest {
 	private static final int TEST_INCREASE = 23;
 
 	@Test
-	public void getProductionUnits() throws Exception {
+	public void getProductionIncrease() throws Exception {
 		// Init
-		ProductionResult productionResult = new ProductionResult(TEST_INCREASE);
+		ProductionResult productionResult = new ProductionResult(TEST_INCREASE, TEST_INCREASE);
 
 		// Run
-		int result = productionResult.getProductionUnits();
+		int result = productionResult.getProductionIncrease();
 
 		// Assert
 		assertThat(result, is(TEST_INCREASE));
@@ -26,7 +26,7 @@ public class ProductionResultTest {
 	@Test
 	public void testString() throws Exception {
 		// Init
-		ProductionResult productionResult = new ProductionResult(TEST_INCREASE);
+		ProductionResult productionResult = new ProductionResult(TEST_INCREASE, TEST_INCREASE);
 
 		// Run
 		String result = productionResult.toString();

@@ -51,7 +51,7 @@ public class CastleTest {
 				+ 0//
 				+ " ()\n"//
 				+ "Ressourcen: "//
-				+ 0;
+				+ 0 + " (von 5)";
 		assertThat(actual, is(expected));
 	}
 
@@ -73,7 +73,7 @@ public class CastleTest {
 				+ 2//
 				+ " (Vorname1, Vorname2)\n"//
 				+ "Ressourcen: "//
-				+ 0;
+				+ 0 + " (von 5)";
 		assertThat(actual, is(expected));
 	}
 
@@ -104,6 +104,49 @@ public class CastleTest {
 
 		// Run / Assert
 		underTest.addProducer(User.newIdentTestUser());
+	}
+
+	@Test
+	public void produceShouldntIncreaseResourcesOverMax() throws Exception {
+		// Init
+		for (int i = 0; i < 6; i++) {
+			underTest.addProducer(User.newUniqueTestUser(i));
+		}
+
+		// Run
+		ProductionResult result = underTest.produce();
+
+		// Assert
+		assertThat(result.getResources(), is(5));
+	}
+
+	@Test
+	public void produceShouldIncreaseResourcesIfCapacityIsLeft() throws Exception {
+		// Init
+		for (int i = 0; i < 3; i++) {
+			underTest.addProducer(User.newUniqueTestUser(i));
+		}
+
+		// Run
+		ProductionResult result = underTest.produce();
+
+		// Assert
+		assertThat(result.getResources(), is(3));
+	}
+
+	@Test
+	public void produceShouldntIncreaseResourcesOverMaxIfThereAlreadyAreResources() throws Exception {
+		// Init
+		for (int i = 0; i < 3; i++) {
+			underTest.addProducer(User.newUniqueTestUser(i));
+		}
+		underTest.produce();
+
+		// Run
+		ProductionResult result = underTest.produce();
+
+		// Assert
+		assertThat(result.getResources(), is(5));
 	}
 
 	//	@Test

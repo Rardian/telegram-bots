@@ -17,6 +17,7 @@ public class Castle {
 	private Collection<User> producers = Collections.synchronizedList(new ArrayList<>());
 	private ProductionController production;
 	private int resources = 0;
+	private int resourceCapacity = 5;
 
 	public void setProduction(ProductionController production) {
 		this.production = production;
@@ -35,7 +36,7 @@ public class Castle {
 				+ getUserListByFirstname(producers)//
 				+ ")\n"//
 				+ "Ressourcen: "//
-				+ resources;
+				+ resources + " (von " + resourceCapacity + ")";
 		return status;
 	}
 
@@ -52,9 +53,9 @@ public class Castle {
 			throw new AlreadyAddedException("user is already producing");
 		}
 		producers.add(user);
-		// use Inhabitant instead of User
-		// set status in Inhabitant object
-		// remove from other assemblies
+		// TODO use Inhabitant instead of User
+		// TODO set status in Inhabitant object
+		// TODO remove from other assemblies
 		getProduction().start();
 	}
 
@@ -66,7 +67,7 @@ public class Castle {
 	public void addInhabitant(User user) {
 		inhabitants.add(user);
 		// TODO don't add users twice (actually ensured by UserManager)
-		// use Inhabitant instead of User
+		// TODO use Inhabitant instead of User
 	}
 
 	private ProductionController getProduction() {
@@ -77,11 +78,20 @@ public class Castle {
 	}
 
 	public ProductionResult produce() {
-		int resourceIncrease = getProducerCount();
+		// act + inc <= max => inc
+		// act + inc > max => max - act
+		int potentialResourceIncrease = getProducerCount();
+		int actualResourceIncrease = 0;
 
-		resources += resourceIncrease;
+		if (resources + potentialResourceIncrease <= resourceCapacity) {
+			actualResourceIncrease = potentialResourceIncrease;
+		} else {
+			actualResourceIncrease = resourceCapacity - resources;
+		}
 
-		return new ProductionResult(resourceIncrease);
+		resources += actualResourceIncrease;
+
+		return new ProductionResult(actualResourceIncrease, resources);
 	}
 
 }
