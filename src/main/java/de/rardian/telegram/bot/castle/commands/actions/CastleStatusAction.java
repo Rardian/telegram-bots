@@ -13,7 +13,6 @@ public class CastleStatusAction implements Action, CastleAware, SendsAnswer {
 	@Override
 	public void setCastle(Castle castle) {
 		this.castle = castle;
-
 	}
 
 	@Override
