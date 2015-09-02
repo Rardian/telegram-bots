@@ -21,7 +21,7 @@ public class Message {
 	//		"from":{"id":8039535,"first_name":"Bjoern","username":"BjoernO"},
 	//		"text":"Hallo, wie gehts?"
 
-	public static final Message TEST_MESSAGE = new Message(40332882, 1437335810, "Hallo Bot", User.TEST_USER, User.TEST_USER, 13);
+	public static final Message TEST_MESSAGE = new Message(40332882, 1437335810, "Hallo Bot", User.newIdentTestUser(), User.newIdentTestUser(), 13);
 
 	public Message() {
 	}

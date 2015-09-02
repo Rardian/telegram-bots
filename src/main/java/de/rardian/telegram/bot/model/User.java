@@ -20,8 +20,6 @@ public class User implements Chat {
 	public static final String JSON_LASTNAME = "last_name";
 	public static final String JSON_USERNAME = "username";
 
-	public static final User TEST_USER = new User(8039535, "Vorname", "Nachname", "Username");
-
 	private long id;
 	private String firstName;
 	private String lastName;
@@ -40,7 +38,7 @@ public class User implements Chat {
 	}
 
 	@VisibleForTesting
-	public static User newTestUser() {
+	public static User newIdentTestUser() {
 		return new User(8039535, "Vorname", "Nachname", "Username");
 	}
 

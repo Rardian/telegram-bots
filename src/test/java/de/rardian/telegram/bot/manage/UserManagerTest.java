@@ -31,7 +31,7 @@ public class UserManagerTest {
 		UserManager underTest = new UserManager();
 
 		// Run
-		boolean result = underTest.isUserKnown(User.newTestUser());
+		boolean result = underTest.isUserKnown(User.newIdentTestUser());
 
 		// Assert
 		assertThat(result, is(false));
@@ -41,10 +41,10 @@ public class UserManagerTest {
 	public void isUserKnown_userKnown() throws Exception {
 		// Init
 		UserManager underTest = new UserManager();
-		underTest.registerUser(User.newTestUser());
+		underTest.registerUser(User.newIdentTestUser());
 
 		// Run
-		boolean result = underTest.isUserKnown(User.newTestUser());
+		boolean result = underTest.isUserKnown(User.newIdentTestUser());
 
 		// Assert
 		assertThat(result, is(true));
@@ -68,10 +68,10 @@ public class UserManagerTest {
 		UserManager underTest = new UserManager();
 
 		// Run
-		underTest.registerUser(User.TEST_USER);
+		underTest.registerUser(User.newIdentTestUser());
 
 		// Assert
-		assertThat(underTest.isUserKnown(User.TEST_USER), is(true));
+		assertThat(underTest.isUserKnown(User.newIdentTestUser()), is(true));
 	}
 
 	@Test

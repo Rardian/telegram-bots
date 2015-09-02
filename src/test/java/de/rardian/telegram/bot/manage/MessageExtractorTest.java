@@ -37,7 +37,7 @@ public class MessageExtractorTest {
 		JSONObject json = new JSONObject(jsonText);
 		MessageExtractor target = new MessageExtractor(json);
 
-		Message expectedMessage = new Message(40332882, 1437335810, "Hallo Bot", User.TEST_USER, User.TEST_USER, 13);
+		Message expectedMessage = new Message(40332882, 1437335810, "Hallo Bot", User.newIdentTestUser(), User.newIdentTestUser(), 13);
 
 		// Act
 		List<Message> actual = target.extractMessages();
