@@ -17,7 +17,6 @@ import de.rardian.telegram.bot.model.User;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserMovesInActionTest {
-	private static final String OVERVIEW_TEST = "TESTOVERVIEW";
 	@Mock
 	private Castle castle;
 	@Mock
