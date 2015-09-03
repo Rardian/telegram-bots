@@ -1,7 +1,9 @@
 package de.rardian.telegram.bot.command;
 
 import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -14,18 +16,18 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import de.rardian.telegram.bot.castle.commands.Test1Command;
 import de.rardian.telegram.bot.manage.Message;
 
-@RunWith(org.mockito.runners.MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class CommandParserTest {
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 
 	@Mock
 	private Map<String, Command> commands;
-
 	@Mock
 	private Message message;
 
@@ -86,5 +88,34 @@ public class CommandParserTest {
 
 		// Assert
 		assertThat(result, hasItem(Test1Command.TEST_ACTION));
+	}
+
+	@Test
+	public void parse_noCommandSent() throws Exception {
+		// Init
+		final String noCommandTrigger = "nothing";
+
+		when(message.getText()).thenReturn(noCommandTrigger);
+
+		// Run
+		Collection<Action> result = underTest.parse(message);
+
+		// Assert
+		assertThat(result.iterator().next().getClass(), is(sameInstance(CommandUnknownAction.class)));
+	}
+
+	@Test
+	public void parse_wrongCommandSent() throws Exception {
+		// Init
+		final String wrongCommandTrigger = "/wrong";
+
+		when(message.getText()).thenReturn(wrongCommandTrigger);
+		when(commands.get(wrongCommandTrigger)).thenReturn(null);
+
+		// Run
+		Collection<Action> result = underTest.parse(message);
+
+		// Assert
+		assertThat(result.iterator().next().getClass(), is(sameInstance(CommandUnknownAction.class)));
 	}
 }
