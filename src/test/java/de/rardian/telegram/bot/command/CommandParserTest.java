@@ -93,7 +93,7 @@ public class CommandParserTest {
 	@Test
 	public void parse_noCommandSent() throws Exception {
 		// Init
-		final String noCommandTrigger = "nothing";
+		final String noCommandTrigger = "noCommand";
 
 		when(message.getText()).thenReturn(noCommandTrigger);
 
@@ -107,10 +107,10 @@ public class CommandParserTest {
 	@Test
 	public void parse_wrongCommandSent() throws Exception {
 		// Init
-		final String wrongCommandTrigger = "/wrong";
+		final String unknownCommandTrigger = "unknown";
 
-		when(message.getText()).thenReturn(wrongCommandTrigger);
-		when(commands.get(wrongCommandTrigger)).thenReturn(null);
+		when(message.getText()).thenReturn("/" + unknownCommandTrigger);
+		when(commands.get(unknownCommandTrigger)).thenReturn(null);
 
 		// Run
 		Collection<Action> result = underTest.parse(message);
