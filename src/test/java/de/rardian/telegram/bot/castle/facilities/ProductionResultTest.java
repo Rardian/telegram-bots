@@ -1,4 +1,4 @@
-package de.rardian.telegram.bot.castle.model;
+package de.rardian.telegram.bot.castle.facilities;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -6,6 +6,8 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import de.rardian.telegram.bot.castle.facilities.ProductionResult;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProductionResultTest {

@@ -1,6 +1,6 @@
-package de.rardian.telegram.bot.castle.model;
+package de.rardian.telegram.bot.castle.facilities;
 
-public class ProductionResult {
+public class ProductionResult implements ProcessResult {
 
 	private int productionIncrease;
 	private int resources;

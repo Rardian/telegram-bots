@@ -6,22 +6,19 @@ import java.util.Collections;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.common.annotations.VisibleForTesting;
-
 import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
-import de.rardian.telegram.bot.manage.UserManager;
+import de.rardian.telegram.bot.castle.facilities.BuildingFacility;
+import de.rardian.telegram.bot.castle.facilities.CastleFacility;
+import de.rardian.telegram.bot.castle.facilities.ProductionFacility;
 import de.rardian.telegram.bot.model.User;
 
 public class Castle {
 	private Collection<User> inhabitants = Collections.synchronizedList(new ArrayList<>());
-	private Collection<User> producers = Collections.synchronizedList(new ArrayList<>());
-	private ProductionController production;
-	private int resources = 0;
-	private int resourceCapacity = 5;
 
-	public void setProduction(ProductionController production) {
-		this.production = production;
-	}
+	private Resources resources = new Resources(0, 5);
+	private CastleFacility buildingFacility;
+	private CastleFacility produceFacility;
+	private ArrayList<CastleFacility> facilities;
 
 	public String getStatusAsString() {
 		String status = "Die Burg ist in gutem Zustand.\n"//
@@ -31,16 +28,23 @@ public class Castle {
 				+ getUserListByFirstname(inhabitants)//
 				+ ")\n"//
 				+ "Produzenten: "//
-				+ producers.size()//
+				+ getProductionFacility().getMemberCount()//
 				+ " ("//
-				+ getUserListByFirstname(producers)//
+				+ getProductionFacility().getMemberListByFirstname()//
+				+ ")\n"//
+				+ "Baumeister: "//
+				+ getBuildingFacility().getMemberCount()//
+				+ " ("//
+				+ getBuildingFacility().getMemberListByFirstname()//
 				+ ")\n"//
 				+ "Ressourcen: "//
-				+ resources + " (von " + resourceCapacity + ")";
+				+ resources.getActual() + " (von " + resources.getCapacity() + ")\n"//
+				+ "Bauvorhaben: "//
+				+ ((BuildingFacility) getBuildingFacility()).getProgress() + " (von " + (resources.getCapacity() + 1) * 2 + ")";
 		return status;
 	}
 
-	private String getUserListByFirstname(Collection<User> users) {
+	public String getUserListByFirstname(Collection<User> users) {
 		ArrayList<String> usersByFirstname = new ArrayList<>(users.size());
 		for (User user : users) {
 			usersByFirstname.add(user.getFirstName());
@@ -49,19 +53,11 @@ public class Castle {
 	}
 
 	public void addProducer(User user) throws AlreadyAddedException {
-		if (UserManager.collectionContainsUser(producers, user)) {
-			throw new AlreadyAddedException("user is already producing");
-		}
-		producers.add(user);
-		// TODO use Inhabitant instead of User
-		// TODO set status in Inhabitant object
-		// TODO remove from other assemblies
-		getProduction().start();
+		getProductionFacility().addMember(user);
 	}
 
-	@VisibleForTesting
-	int getProducerCount() {
-		return producers.size();
+	public void addBuilder(User user) throws AlreadyAddedException {
+		getBuildingFacility().addMember(user);
 	}
 
 	public void addInhabitant(User user) {
@@ -70,28 +66,37 @@ public class Castle {
 		// TODO use Inhabitant instead of User
 	}
 
-	private ProductionController getProduction() {
-		if (production == null) {
-			production = new ProductionController().forCastle(this);
+	public void setInhabitantIdle(User user) {
+		for (CastleFacility facility : getFacilities()) {
+			facility.removeMember(user);
 		}
-		return production;
 	}
 
-	public ProductionResult produce() {
-		// act + inc <= max => inc
-		// act + inc > max => max - act
-		int potentialResourceIncrease = getProducerCount();
-		int actualResourceIncrease = 0;
-
-		if (resources + potentialResourceIncrease <= resourceCapacity) {
-			actualResourceIncrease = potentialResourceIncrease;
-		} else {
-			actualResourceIncrease = resourceCapacity - resources;
+	private CastleFacility getBuildingFacility() {
+		if (buildingFacility == null) {
+			buildingFacility = new BuildingFacility()//
+					.forCastle(this)//
+					.withResources(resources);
 		}
+		return buildingFacility;
+	}
 
-		resources += actualResourceIncrease;
+	private CastleFacility getProductionFacility() {
+		if (produceFacility == null) {
+			produceFacility = new ProductionFacility()//
+					.forCastle(this)//
+					.withResources(resources);
+		}
+		return produceFacility;
+	}
 
-		return new ProductionResult(actualResourceIncrease, resources);
+	private Collection<CastleFacility> getFacilities() {
+		if (facilities == null) {
+			facilities = new ArrayList<>(2);
+			facilities.add(getBuildingFacility());
+			facilities.add(getProductionFacility());
+		}
+		return facilities;
 	}
 
 }

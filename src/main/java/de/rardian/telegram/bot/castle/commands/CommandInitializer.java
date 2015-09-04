@@ -23,7 +23,8 @@ public class CommandInitializer {
 		Collection<Command> commandsToInitialize = Arrays.asList(//
 				new CastleStatusCommand(), //
 				new InhabitantProduceCommand(), //
-				new HelpCommand());
+				new HelpCommand(), //
+				new BuildCommand());
 
 		for (Command command : commandsToInitialize) {
 			for (String commandString : command.getCommandStrings()) {
