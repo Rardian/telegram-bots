@@ -1,31 +1,21 @@
 package de.rardian.telegram.bot.castle.facilities;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
-import com.google.common.collect.Iterables;
-
-import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Resources;
-import de.rardian.telegram.bot.manage.UserByIdPredicate;
-import de.rardian.telegram.bot.manage.UserManager;
-import de.rardian.telegram.bot.model.User;
 
-public class BuildingFacility implements Runnable, CastleFacility {
-	private Collection<User> builders = Collections.synchronizedList(new ArrayList<>());
-	private Castle castle;
-	private Resources resources;
-
+public class BuildingFacility extends BasicFacility implements Runnable {
 	private int overallBuildingProgress = 0;
 	private ScheduledExecutorService executorService;
+
+	public BuildingFacility(Castle castle, Resources resources) {
+		super(castle, resources);
+	}
 
 	/** Start the building queue, if needed. */
 	public void start() {
@@ -46,29 +36,6 @@ public class BuildingFacility implements Runnable, CastleFacility {
 	}
 
 	@Override
-	public void addMember(User newMember) throws AlreadyAddedException {
-		if (UserManager.collectionContainsUser(builders, newMember)) {
-			throw new AlreadyAddedException("user is already building");
-		}
-		castle.setInhabitantIdle(newMember);
-		builders.add(newMember);
-		// TODO use Inhabitant instead of User
-		// TODO set status in Inhabitant object
-
-		start();
-	}
-
-	@Override
-	public void removeMember(User user) {
-		Iterables.removeIf(builders, new UserByIdPredicate(user));
-	}
-
-	@Override
-	public int getMemberCount() {
-		return builders.size();
-	}
-
-	@Override
 	public ProcessResult process() {
 		int potentialBuildingProgress = getMemberCount();
 		int actualBuildingProgress = 0;
@@ -85,24 +52,6 @@ public class BuildingFacility implements Runnable, CastleFacility {
 		}
 
 		return new BuildingResult(actualBuildingProgress);
-	}
-
-	public BuildingFacility forCastle(Castle castle) {
-		this.castle = castle;
-		return this;
-	}
-
-	public BuildingFacility withResources(Resources resources) {
-		this.resources = resources;
-		return this;
-	}
-
-	public String getMemberListByFirstname() {
-		ArrayList<String> usersByFirstname = new ArrayList<>(builders.size());
-		for (User user : builders) {
-			usersByFirstname.add(user.getFirstName());
-		}
-		return StringUtils.join(usersByFirstname, ", ");
 	}
 
 	public int getProgress() {

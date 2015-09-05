@@ -1,7 +1,6 @@
 package de.rardian.telegram.bot.castle.facilities;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
@@ -12,10 +11,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Resources;
-import de.rardian.telegram.bot.castle.facilities.ProductionFacility;
 import de.rardian.telegram.bot.model.User;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -34,29 +31,7 @@ public class ProductionFacilityTest {
 
 	@Before
 	public void initCastle() {
-		underTest = new ProductionFacility();
-		underTest.forCastle(castle);
-		underTest.withResources(new Resources(0, RESOURCES_CAPACITY));
-	}
-
-	@Test
-	public void addProducerShouldStartProduction() throws Exception {
-		// Run
-		underTest.addMember(user);
-
-		// Assert
-		assertNotNull(underTest.getExecutorService());
-	}
-
-	@Test
-	public void shouldntAddProducerTwice() throws Exception {
-		// Init
-		underTest.addMember(User.newIdentTestUser());
-		thrown.expect(AlreadyAddedException.class);
-		thrown.expectMessage("user is already producing");
-
-		// Run / Assert
-		underTest.addMember(User.newIdentTestUser());
+		underTest = new ProductionFacility(castle, new Resources(0, RESOURCES_CAPACITY));
 	}
 
 	@Test

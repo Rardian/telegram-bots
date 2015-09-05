@@ -74,18 +74,14 @@ public class Castle {
 
 	private CastleFacility getBuildingFacility() {
 		if (buildingFacility == null) {
-			buildingFacility = new BuildingFacility()//
-					.forCastle(this)//
-					.withResources(resources);
+			buildingFacility = new BuildingFacility(this, resources);
 		}
 		return buildingFacility;
 	}
 
 	private CastleFacility getProductionFacility() {
 		if (produceFacility == null) {
-			produceFacility = new ProductionFacility()//
-					.forCastle(this)//
-					.withResources(resources);
+			produceFacility = new ProductionFacility(this, resources);
 		}
 		return produceFacility;
 	}

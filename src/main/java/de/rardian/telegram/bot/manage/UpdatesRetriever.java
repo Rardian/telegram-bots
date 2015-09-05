@@ -26,7 +26,7 @@ public class UpdatesRetriever implements Runnable {
 	private String urlForPolling;
 
 	/** Timeout for longpolling */
-	private int timeout = 60;
+	private final int timeout = 60;
 	private long offset = 0;
 	private Bot bot;
 
