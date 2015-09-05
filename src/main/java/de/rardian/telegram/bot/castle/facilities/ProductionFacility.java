@@ -38,18 +38,9 @@ public class ProductionFacility extends BasicFacility implements Runnable {
 
 	@Override
 	public ProcessResult process() {
-		// act + inc <= max => inc
-		// act + inc > max => max - act
 		int potentialResourceIncrease = getMemberCount();
-		int actualResourceIncrease = 0;
 
-		if (resources.getActual() + potentialResourceIncrease <= resources.getCapacity()) {
-			actualResourceIncrease = potentialResourceIncrease;
-		} else {
-			actualResourceIncrease = resources.getCapacity() - resources.getActual();
-		}
-
-		resources.increase(actualResourceIncrease);
+		int actualResourceIncrease = resources.increaseIfPossible(potentialResourceIncrease);
 
 		return new ProductionResult(actualResourceIncrease, resources.getActual());
 	}

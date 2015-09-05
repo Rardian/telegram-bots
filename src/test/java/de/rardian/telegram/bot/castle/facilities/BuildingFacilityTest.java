@@ -73,10 +73,10 @@ public class BuildingFacilityTest {
 		// We need a building progress of (RESOURCES_CAPACITY + 1 )* 2
 		underTest.process();
 		// refill
-		testResources.increase(RESOURCES_CAPACITY);
+		testResources.increaseIfPossible(RESOURCES_CAPACITY);
 		underTest.process();
 		// refill
-		testResources.increase(RESOURCES_CAPACITY);
+		testResources.increaseIfPossible(RESOURCES_CAPACITY);
 
 		// Run
 		underTest.process();

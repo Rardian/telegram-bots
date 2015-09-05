@@ -26,7 +26,22 @@ public class Resources {
 		capacity++;
 	}
 
-	public void increase(int actualResourceIncrease) {
+	public int increaseIfPossible(int potentialResourceIncrease) {
+		// act + inc <= max => inc
+		// act + inc > max => max - act
+		int actualResourceIncrease = 0;
+
+		if (getActual() + potentialResourceIncrease <= getCapacity()) {
+			actualResourceIncrease = potentialResourceIncrease;
+		} else {
+			actualResourceIncrease = getCapacity() - getActual();
+		}
+		increase(actualResourceIncrease);
+
+		return actualResourceIncrease;
+	}
+
+	private void increase(int actualResourceIncrease) {
 		resources += actualResourceIncrease;
 	}
 
