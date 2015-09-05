@@ -75,10 +75,10 @@ public class CastleBotTest {
 
 		// Assert
 		String expected = "Willkommen bei CastleBot. Werde Teil einer wachsenden und florierenden Burggemeinschaft. Folgende Kommandos stehen dir zur Verfügung.\n" //
-				+ "bau: Erweitert das Lager der Burg\n"//
-				+ "help, hilfe: Diese Übersicht\n" //
-				+ "prod, produzieren, produce: Produziere Güter für die Burg\n" //
-				+ "stat, stats, status: Zeigt den Status der Burg\n";
+				+ "/bau - Erweitert das Lager der Burg\n"//
+				+ "/help - Diese Übersicht\n" //
+				+ "/prod - Produziere Güter für die Burg\n" //
+				+ "/stat - Zeigt den Status der Burg\n";
 		assertThat(result, is(expected));
 	}
 

@@ -25,7 +25,7 @@ public class CommandParser {
 		if (text.startsWith("/")) {
 
 			int indexForParamStart = (text.contains(" ") ? text.indexOf(" ") : text.length());
-			String command = text.substring(1, indexForParamStart);
+			String command = text.substring(0, indexForParamStart);
 			String params = text.substring(indexForParamStart);
 			System.out.println("Kommando='" + command + "', Parameter='" + params + "'");
 

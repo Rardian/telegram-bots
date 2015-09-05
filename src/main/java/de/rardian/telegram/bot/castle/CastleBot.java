@@ -68,7 +68,7 @@ public class CastleBot implements Bot {
 
 		for (Command command : commandSet) {
 			helpText.append(StringUtils.join(command.getCommandStrings(), ", "));
-			helpText.append(": ");
+			helpText.append(" - ");
 			helpText.append(command.getDescription());
 			helpText.append("\n");
 		}

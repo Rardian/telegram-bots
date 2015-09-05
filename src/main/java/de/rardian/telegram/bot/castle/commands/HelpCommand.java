@@ -16,7 +16,7 @@ public class HelpCommand implements Command {
 
 	@Override
 	public Collection<String> getCommandStrings() {
-		return Arrays.asList("help", "hilfe");
+		return Arrays.asList("/help");
 	}
 
 	@Override

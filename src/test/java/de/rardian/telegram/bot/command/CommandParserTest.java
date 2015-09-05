@@ -63,9 +63,9 @@ public class CommandParserTest {
 	@Test
 	public void parse_commandOnly() throws Exception {
 		// Init
-		final String commandTrigger = "command1";
+		final String commandTrigger = "/command1";
 
-		when(message.getText()).thenReturn("/" + commandTrigger);
+		when(message.getText()).thenReturn(commandTrigger);
 		when(commands.get(commandTrigger)).thenReturn(new Test1Command());
 
 		// Run
@@ -78,9 +78,9 @@ public class CommandParserTest {
 	@Test
 	public void parse_commandWithParams() throws Exception {
 		// Init
-		final String commandTrigger = "command1";
+		final String commandTrigger = "/command1";
 
-		when(message.getText()).thenReturn("/" + commandTrigger + " eins zwei");
+		when(message.getText()).thenReturn(commandTrigger + " eins zwei");
 		when(commands.get(commandTrigger)).thenReturn(new Test1Command());
 
 		// Run
@@ -107,9 +107,9 @@ public class CommandParserTest {
 	@Test
 	public void parse_wrongCommandSent() throws Exception {
 		// Init
-		final String unknownCommandTrigger = "unknown";
+		final String unknownCommandTrigger = "/unknown";
 
-		when(message.getText()).thenReturn("/" + unknownCommandTrigger);
+		when(message.getText()).thenReturn(unknownCommandTrigger);
 		when(commands.get(unknownCommandTrigger)).thenReturn(null);
 
 		// Run

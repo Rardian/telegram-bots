@@ -12,7 +12,7 @@ public class InhabitantProduceCommand implements Command {
 
 	@Override
 	public Collection<String> getCommandStrings() {
-		return Arrays.asList("prod", "produzieren", "produce");
+		return Arrays.asList("/prod");
 	}
 
 	@Override

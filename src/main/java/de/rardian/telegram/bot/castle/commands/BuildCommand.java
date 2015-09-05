@@ -16,7 +16,7 @@ public class BuildCommand implements Command {
 
 	@Override
 	public Collection<String> getCommandStrings() {
-		return Arrays.asList("bau");
+		return Arrays.asList("/bau");
 	}
 
 	@Override

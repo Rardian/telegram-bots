@@ -11,7 +11,7 @@ public class CastleStatusCommand implements Command {
 
 	@Override
 	public Collection<String> getCommandStrings() {
-		return Arrays.asList("stat", "stats", "status");
+		return Arrays.asList("/stat");
 	}
 
 	@Override
