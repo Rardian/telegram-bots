@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import de.rardian.telegram.bot.castle.model.Castle;
@@ -28,11 +29,14 @@ public class UserMovesInActionTest {
 
 	@Test
 	public void executeSendsCommandOverview() throws Exception {
+		// Init
+		Mockito.when(user.getFirstName()).thenReturn("Vorname");
+
 		// Run
 		underTest.execute();
 
 		// Assert
-		verify(reply).answer("Willkommen, neuer Burgbewohner. Tippe /help", null);
+		verify(reply).answer("Willkommen bei CastleBot, Vorname. Tippe /help", null);
 	}
 
 	@Test
