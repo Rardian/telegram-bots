@@ -53,8 +53,7 @@ public class CastleBot implements Bot {
 
 	@Override
 	public String getCommandOverview() {
-		StringBuffer helpText = new StringBuffer(
-				"Willkommen bei CastleBot. Werde Teil einer wachsenden und florierenden Burggemeinschaft. Folgende Kommandos stehen dir zur Verfügung.\n");
+		StringBuffer helpText = new StringBuffer("Folgende Kommandos stehen dir zur Verfügung.\n");
 		Collection<Command> commandList = getCommandInitializer().getCommandSet().values();
 
 		Set<Command> commandSet = new TreeSet<>(new Comparator<Command>() {
