@@ -2,6 +2,7 @@ package de.rardian.telegram.bot.model;
 
 import java.util.Arrays;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.json.JSONObject;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -14,7 +15,7 @@ import com.google.common.base.MoreObjects;
  * @author Rardian
  *
  */
-public class User implements Chat {
+public class User implements Chat, Comparable<User> {
 	public static final String JSON_ID = "id";
 	public static final String JSON_FIRSTNAME = "first_name";
 	public static final String JSON_LASTNAME = "last_name";
@@ -50,6 +51,11 @@ public class User implements Chat {
 	@VisibleForTesting
 	public static User newUniqueTestUser(long uniqueId) {
 		return new User(uniqueId, "Vorname" + uniqueId, "Nachname" + uniqueId, "Username" + uniqueId);
+	}
+
+	@Override
+	public int compareTo(User o) {
+		return ObjectUtils.compare(id, o.getId());
 	}
 
 	public User fillWithJson(JSONObject json) {
