@@ -54,7 +54,9 @@ public class UpdatesRetriever implements Runnable {
 
 				if (jsonOkay(json)) {
 					List<Message> newMessages = extractMessages(json);
-					System.out.println("Alle neuen Nachrichten: " + newMessages);
+					if (newMessages.size() > 0) {
+						System.out.println("Neue Nachrichten: " + newMessages);
+					}
 
 					//					// remove duplicates
 					//					Set<Message> set = new LinkedHashSet<>(newMessages);
@@ -74,7 +76,7 @@ public class UpdatesRetriever implements Runnable {
 				}
 			} catch (UnirestException e) {
 				e.printStackTrace();
-				throw new RuntimeException("Ergebnis nicht okay.", e);
+				throw new RuntimeException("Kommunikationsfehler", e);
 			}
 
 		}
