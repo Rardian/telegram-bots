@@ -74,7 +74,7 @@ public class CastleBotTest {
 		String result = underTest.getCommandOverview();
 
 		// Assert
-		String expected = "Willkommen bei CastleBot. Werde Teil einer wachsenden und florierenden Burggemeinschaft. Folgende Kommandos stehen dir zur Verfügung.\n" //
+		String expected = "Folgende Kommandos stehen dir zur Verfügung.\n" //
 				+ "/bau - Erweitert das Lager der Burg\n"//
 				+ "/help - Diese Übersicht\n" //
 				+ "/prod - Produziere Güter für die Burg\n" //
