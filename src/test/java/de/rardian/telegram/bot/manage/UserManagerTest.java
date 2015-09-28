@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
+import org.json.JSONObject;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -72,6 +73,20 @@ public class UserManagerTest {
 
 		// Assert
 		assertThat(underTest.isUserKnown(User.newIdentTestUser()), is(true));
+	}
+
+	@Test
+	public void registerUser_usernameNull() throws Exception {
+		// Init
+		UserManager underTest = new UserManager();
+		JSONObject json = new JSONObject("{\"id\":92097519,\"first_name\":\"Vorname\"}");
+		User testUser = new User().fillWithJson(json);
+
+		// Run
+		underTest.registerUser(testUser);
+
+		// Assert
+		assertThat(underTest.isUserKnown(testUser), is(true));
 	}
 
 	@Test
