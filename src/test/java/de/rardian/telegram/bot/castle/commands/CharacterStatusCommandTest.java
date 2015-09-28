@@ -8,19 +8,18 @@ import java.util.Collection;
 
 import org.junit.Test;
 
-import de.rardian.telegram.bot.castle.commands.actions.CastleStatusAction;
+import de.rardian.telegram.bot.castle.commands.actions.CharacterStatusAction;
 import de.rardian.telegram.bot.command.Action;
 
-public class CastleStatusCommandTest {
-
+public class CharacterStatusCommandTest {
 	@Test
 	public void executeWithParams() throws Exception {
 		// Init / Run
-		Collection<Action> result = new CastleStatusCommand().executeWithParams("");
+		Collection<Action> result = new CharacterStatusCommand().executeWithParams("");
 
 		// Assert
 		assertThat(result.size(), is(1));
-		assertThat(result.iterator().next(), instanceOf(CastleStatusAction.class));
+		assertThat(result.iterator().next(), instanceOf(CharacterStatusAction.class));
 	}
 
 }

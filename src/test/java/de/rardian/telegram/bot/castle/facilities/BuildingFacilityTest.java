@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import de.rardian.telegram.bot.castle.model.Castle;
+import de.rardian.telegram.bot.castle.model.InhabitantTestFactory;
 import de.rardian.telegram.bot.castle.model.Resources;
 import de.rardian.telegram.bot.model.User;
 
@@ -35,7 +36,7 @@ public class BuildingFacilityTest {
 		// Init
 		underTest = new BuildingFacility(castle, new Resources(RESOURCES_EMPTY, RESOURCES_CAPACITY));
 		for (int i = 0; i < 3; i++) {
-			underTest.addMember(User.newUniqueTestUser(i));
+			underTest.addMember(InhabitantTestFactory.newUniqueInhabitant(i));
 		}
 
 		// Run
@@ -51,7 +52,7 @@ public class BuildingFacilityTest {
 		underTest = new BuildingFacility(castle, new Resources(RESOURCES_FULL, RESOURCES_CAPACITY));
 		final int builderCount = 3;
 		for (int i = 0; i < builderCount; i++) {
-			underTest.addMember(User.newUniqueTestUser(i));
+			underTest.addMember(InhabitantTestFactory.newUniqueInhabitant(i));
 		}
 
 		// Run
@@ -68,7 +69,7 @@ public class BuildingFacilityTest {
 		underTest = new BuildingFacility(castle, testResources);
 		final int builderCount = RESOURCES_FULL;
 		for (int i = 0; i < builderCount; i++) {
-			underTest.addMember(User.newUniqueTestUser(i));
+			underTest.addMember(InhabitantTestFactory.newUniqueInhabitant(i));
 		}
 		// We need a building progress of (RESOURCES_CAPACITY + 1 )* 2
 		underTest.process();

@@ -22,6 +22,7 @@ public class CommandInitializer {
 	private void initCommands() {
 		Collection<Command> commandsToInitialize = Arrays.asList(//
 				new CastleStatusCommand(), //
+				new CharacterStatusCommand(), //
 				new InhabitantProduceCommand(), //
 				new HelpCommand(), //
 				new BuildCommand());

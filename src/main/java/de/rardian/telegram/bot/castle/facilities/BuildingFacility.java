@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.Validate;
 
 import de.rardian.telegram.bot.castle.model.Castle;
+import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.castle.model.Resources;
 
 public class BuildingFacility extends BasicFacility implements Runnable {
@@ -17,8 +18,13 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 		super(castle, resources);
 	}
 
+	@Override
+	protected CastleFacilityCategories getCategory() {
+		return CastleFacilityCategories.BUILDING;
+	}
+
 	/** Start the building queue, if needed. */
-	public void start() {
+	protected void start() {
 		Validate.notNull(castle, "a castle needs to be set");
 
 		if (executorService == null) {
@@ -30,25 +36,41 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 	@Override
 	public void run() {
 		ProcessResult result = process();
-		System.out.println(result);
+		//		System.out.println(result);
 
 		// TODO Listener über result informieren
 	}
 
+	//	@Override
+	//	public ProcessResult process() {
+	//
+	//		int actualBuildingProgress = resources.increaseCapacity(members);
+	//
+	//		return new BuildingResult(actualBuildingProgress);
+	//	}
 	@Override
 	public ProcessResult process() {
-		int potentialBuildingProgress = getMemberCount();
 		int actualBuildingProgress = 0;
 
-		// cost for extending capacity: new capacity * 2
-		// every builder uses 1 resource and increases buildprogress
-		actualBuildingProgress = Math.min(potentialBuildingProgress, resources.getActual());
-		resources.reduce(actualBuildingProgress);
-		overallBuildingProgress += actualBuildingProgress;
+		for (Inhabitant inhabitant : members) {
+			int potentialBuildingProgress = inhabitant.getBuildingSkill();
 
-		if (overallBuildingProgress >= (resources.getCapacity() + 1) * 2) {
-			resources.increaseCapacity();
-			overallBuildingProgress = 0;
+			// cost for extending capacity: new capacity * 2
+			// every builder uses 1 resource and increases buildprogress
+			int memberBuildingProgress = Math.min(potentialBuildingProgress, resources.getActual());
+
+			if (memberBuildingProgress > 0) {
+				resources.reduce(memberBuildingProgress);
+				actualBuildingProgress += memberBuildingProgress;
+				overallBuildingProgress += memberBuildingProgress;
+				inhabitant.increaseXp(category);
+			}
+
+			if (overallBuildingProgress >= (resources.getCapacity() + 1) * 2) {
+				resources.increaseCapacity();
+				overallBuildingProgress = 0;
+				break;
+			}
 		}
 
 		return new BuildingResult(actualBuildingProgress);

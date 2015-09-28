@@ -1,6 +1,7 @@
 package de.rardian.telegram.bot.castle.model;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
@@ -50,8 +51,8 @@ public class CastleTest {
 	@Test
 	public void getStatusAsStringWithTwoProducers() throws Exception {
 		// Init
-		underTest.addProducer(User.newUniqueTestUser(1));
-		underTest.addProducer(User.newUniqueTestUser(2));
+		underTest.addProducer(InhabitantTestFactory.newUniqueInhabitant(1));
+		underTest.addProducer(InhabitantTestFactory.newUniqueInhabitant(2));
 
 		// Run
 		String actual = underTest.getStatusAsString();
@@ -138,15 +139,16 @@ public class CastleTest {
 	//		assertThat(result.getResources(), is(5));
 	//	}
 
-	//	@Test
-	//	public void addInhabitant() throws Exception {
-	//		throw new RuntimeException("not yet implemented");
-	//		// Init
-	//
-	//		// Run
-	//
-	//		// Assert
-	//
-	//	}
+	@Test
+	public void shouldAddUserAsInhabitant() throws Exception {
+		// Init
+		underTest.addInhabitant(user);
+
+		// Run
+		Inhabitant result = underTest.getInhabitant(user);
+
+		// Assert
+		assertNotNull(result);
+	}
 
 }

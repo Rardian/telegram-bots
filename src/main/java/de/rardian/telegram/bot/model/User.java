@@ -30,8 +30,7 @@ public class User implements Chat, Comparable<User> {
 
 	}
 
-	@VisibleForTesting
-	User(long id, String firstName, String lastName, String userName) {
+	protected User(long id, String firstName, String lastName, String userName) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;

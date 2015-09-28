@@ -77,6 +77,7 @@ public class CastleBotTest {
 		String expected = "Folgende Kommandos stehen dir zur Verfügung.\n" //
 				+ "/bau - Erweitert das Lager der Burg\n"//
 				+ "/burg - Zeigt den Status der Burg\n"//
+				+ "/char - Zeigt den Status deines Burgbewohners\n"//
 				+ "/help - Diese Übersicht\n" //
 				+ "/prod - Produziere Güter für die Burg\n";
 		assertThat(result, is(expected));

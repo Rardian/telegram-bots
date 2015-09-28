@@ -14,15 +14,15 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
 import de.rardian.telegram.bot.castle.model.Castle;
+import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.command.MessageReply;
-import de.rardian.telegram.bot.model.User;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MoveInhabitantToProductionActionTest {
 	@Mock
 	private Castle castle;
 	@Mock
-	private User user;
+	private Inhabitant inhabitant;
 	@Mock
 	private MessageReply reply;
 	@InjectMocks
@@ -34,7 +34,7 @@ public class MoveInhabitantToProductionActionTest {
 		underTest.execute();
 
 		// Assert
-		verify(castle).addProducer(user);
+		verify(castle).addProducer(inhabitant);
 	}
 
 	@Test
@@ -49,7 +49,7 @@ public class MoveInhabitantToProductionActionTest {
 	@Test
 	public void executeCannotAddProducerTwice() throws Exception {
 		// Init
-		Mockito.doThrow(AlreadyAddedException.class).when(castle).addProducer(user);
+		Mockito.doThrow(AlreadyAddedException.class).when(castle).addProducer(inhabitant);
 
 		// Run
 		underTest.execute();

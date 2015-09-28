@@ -22,9 +22,14 @@ public class ProductionFacility extends BasicFacility implements Runnable {
 	@Override
 	public void run() {
 		ProcessResult result = process();
-		System.out.println(result);
+		//		System.out.println(result);
 
 		// TODO Listener über result informieren
+	}
+
+	@Override
+	protected CastleFacilityCategories getCategory() {
+		return CastleFacilityCategories.PRODUCING;
 	}
 
 	protected void start() {
@@ -38,11 +43,25 @@ public class ProductionFacility extends BasicFacility implements Runnable {
 
 	@Override
 	public ProcessResult process() {
-		int potentialResourceIncrease = getMemberCount();
+		//		int potentialResourceIncrease = getPotentialIncrease();
 
-		int actualResourceIncrease = resources.increaseIfPossible(potentialResourceIncrease);
+		//		int actualResourceIncrease = resources.increaseIfPossible(potentialResourceIncrease);
+
+		int actualResourceIncrease = resources.increase(members);
+
+		// TODO Nachricht an Interessierte senden, wenn Lager voll
 
 		return new ProductionResult(actualResourceIncrease, resources.getActual());
+	}
+
+	@Override
+	protected int getPotentialIncrease() {
+		int potentialIncrease = 0;
+		//		for (Inhabitant inhabitant : members) {
+		//			potentialIncrease += inhabitant.getProductionSkill();
+		//			inhabitant.increaseXp(category);
+		//		}
+		return potentialIncrease;
 	}
 
 	@VisibleForTesting

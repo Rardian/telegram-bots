@@ -1,12 +1,12 @@
 package de.rardian.telegram.bot.castle.facilities;
 
 import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
-import de.rardian.telegram.bot.model.User;
+import de.rardian.telegram.bot.castle.model.Inhabitant;
 
 public interface CastleFacility {
-	public void addMember(User newMember) throws AlreadyAddedException;
+	public void addMember(Inhabitant inhabitant) throws AlreadyAddedException;
 
-	public void removeMember(User user);
+	public void removeMember(Inhabitant inhabitant);
 
 	public int getMemberCount();
 

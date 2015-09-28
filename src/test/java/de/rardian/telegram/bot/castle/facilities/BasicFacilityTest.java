@@ -11,8 +11,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
 import de.rardian.telegram.bot.castle.model.Castle;
+import de.rardian.telegram.bot.castle.model.Inhabitant;
+import de.rardian.telegram.bot.castle.model.InhabitantTestFactory;
 import de.rardian.telegram.bot.castle.model.Resources;
-import de.rardian.telegram.bot.model.User;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BasicFacilityTest {
@@ -22,7 +23,7 @@ public class BasicFacilityTest {
 	private static final int RESOURCES_CAPACITY = 5;
 
 	@Mock
-	private User user;
+	private Inhabitant user;
 	@Mock
 	private Castle castle;
 	@Mock
@@ -48,12 +49,12 @@ public class BasicFacilityTest {
 	@Test
 	public void shouldntAddProducerTwice() throws Exception {
 		// Init
-		underTest.addMember(User.newIdentTestUser());
+		underTest.addMember(InhabitantTestFactory.newInhabitant());
 		thrown.expect(AlreadyAddedException.class);
 		thrown.expectMessage("user is already producing");
 
 		// Run / Assert
-		underTest.addMember(User.newIdentTestUser());
+		underTest.addMember(InhabitantTestFactory.newInhabitant());
 	}
 
 	private class TestFacility extends BasicFacility {
@@ -69,6 +70,11 @@ public class BasicFacilityTest {
 
 		@Override
 		protected void start() {
+		}
+
+		@Override
+		protected CastleFacilityCategories getCategory() {
+			return null;
 		}
 
 	}

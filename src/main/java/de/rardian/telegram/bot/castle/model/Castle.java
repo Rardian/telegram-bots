@@ -2,9 +2,12 @@ package de.rardian.telegram.bot.castle.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
+
+import com.google.common.collect.Maps;
 
 import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
 import de.rardian.telegram.bot.castle.facilities.BuildingFacility;
@@ -13,7 +16,7 @@ import de.rardian.telegram.bot.castle.facilities.ProductionFacility;
 import de.rardian.telegram.bot.model.User;
 
 public class Castle {
-	private Collection<User> inhabitants = Collections.synchronizedList(new ArrayList<>());
+	private Map<User, Inhabitant> inhabitants = Maps.synchronizedNavigableMap(new TreeMap<>());
 
 	private Resources resources = new Resources(0, 5);
 	private CastleFacility buildingFacility;
@@ -21,11 +24,16 @@ public class Castle {
 	private ArrayList<CastleFacility> facilities;
 
 	public String getStatusAsString() {
+		String listOfInhabitants = "";
+		synchronized (inhabitants) {
+			listOfInhabitants = getUserListByFirstname(inhabitants.keySet());
+		}
+
 		String status = "Die Burg ist in gutem Zustand.\n"//
 				+ "Bewohner: "//
 				+ inhabitants.size()//
 				+ " ("//
-				+ getUserListByFirstname(inhabitants)//
+				+ listOfInhabitants//
 				+ ")\n"//
 				+ "Produzenten: "//
 				+ getProductionFacility().getMemberCount()//
@@ -46,27 +54,34 @@ public class Castle {
 
 	public String getUserListByFirstname(Collection<User> users) {
 		ArrayList<String> usersByFirstname = new ArrayList<>(users.size());
+
 		for (User user : users) {
 			usersByFirstname.add(user.getFirstName());
 		}
+
 		return StringUtils.join(usersByFirstname, ", ");
 	}
 
-	public void addProducer(User user) throws AlreadyAddedException {
-		getProductionFacility().addMember(user);
+	public void addProducer(Inhabitant inhabitant) throws AlreadyAddedException {
+		getProductionFacility().addMember(inhabitant);
 	}
 
-	public void addBuilder(User user) throws AlreadyAddedException {
-		getBuildingFacility().addMember(user);
+	public void addBuilder(Inhabitant inhabitant) throws AlreadyAddedException {
+		getBuildingFacility().addMember(inhabitant);
 	}
 
 	public void addInhabitant(User user) {
-		inhabitants.add(user);
+		Inhabitant newInhabitant = new Inhabitant();
+		newInhabitant.setUser(user);
+		inhabitants.put(user, newInhabitant);
 		// TODO don't add users twice (actually ensured by UserManager)
-		// TODO use Inhabitant instead of User
 	}
 
-	public void setInhabitantIdle(User user) {
+	public Inhabitant getInhabitant(User user) {
+		return inhabitants.get(user);
+	}
+
+	public void setInhabitantIdle(Inhabitant user) {
 		for (CastleFacility facility : getFacilities()) {
 			facility.removeMember(user);
 		}

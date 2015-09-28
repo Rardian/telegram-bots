@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import de.rardian.telegram.bot.castle.model.Castle;
+import de.rardian.telegram.bot.castle.model.InhabitantTestFactory;
 import de.rardian.telegram.bot.castle.model.Resources;
 import de.rardian.telegram.bot.model.User;
 
@@ -38,7 +39,7 @@ public class ProductionFacilityTest {
 	public void produceShouldntIncreaseResourcesOverMax() throws Exception {
 		// Init
 		for (int i = 0; i < 6; i++) {
-			underTest.addMember(User.newUniqueTestUser(i));
+			underTest.addMember(InhabitantTestFactory.newUniqueInhabitant(i));
 		}
 
 		// Run
@@ -52,7 +53,7 @@ public class ProductionFacilityTest {
 	public void produceShouldIncreaseResourcesIfCapacityIsLeft() throws Exception {
 		// Init
 		for (int i = 0; i < 3; i++) {
-			underTest.addMember(User.newUniqueTestUser(i));
+			underTest.addMember(InhabitantTestFactory.newUniqueInhabitant(i));
 		}
 
 		// Run
@@ -66,7 +67,7 @@ public class ProductionFacilityTest {
 	public void produceShouldntIncreaseResourcesOverMaxIfThereAlreadyAreResources() throws Exception {
 		// Init
 		for (int i = 0; i < 3; i++) {
-			underTest.addMember(User.newUniqueTestUser(i));
+			underTest.addMember(InhabitantTestFactory.newUniqueInhabitant(i));
 		}
 		underTest.process();
 

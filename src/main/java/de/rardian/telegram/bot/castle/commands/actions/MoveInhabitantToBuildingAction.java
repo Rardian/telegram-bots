@@ -2,16 +2,15 @@ package de.rardian.telegram.bot.castle.commands.actions;
 
 import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
 import de.rardian.telegram.bot.castle.model.Castle;
+import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.command.Action;
 import de.rardian.telegram.bot.command.MessageReply;
 import de.rardian.telegram.bot.command.SendsAnswer;
-import de.rardian.telegram.bot.command.UserAware;
-import de.rardian.telegram.bot.model.User;
 
-public class MoveInhabitantToBuildingAction implements Action, CastleAware, UserAware, SendsAnswer {
+public class MoveInhabitantToBuildingAction implements Action, CastleAware, InhabitantAware, SendsAnswer {
 	private Castle castle;
-	private User user;
 	private MessageReply reply;
+	private Inhabitant inhabitant;
 
 	@Override
 	public void setMessageReply(MessageReply reply) {
@@ -24,14 +23,14 @@ public class MoveInhabitantToBuildingAction implements Action, CastleAware, User
 	}
 
 	@Override
-	public void setUser(User user) {
-		this.user = user;
+	public void setInhabitant(Inhabitant inhabitant) {
+		this.inhabitant = inhabitant;
 	}
 
 	@Override
 	public void execute() {
 		try {
-			castle.addBuilder(user);
+			castle.addBuilder(inhabitant);
 			reply.answer("Du bist jetzt Teil der Baumannschaft.", null);
 		} catch (AlreadyAddedException e) {
 			reply.answer("Du bist bereits Teil der Baumannschaft.", null);
