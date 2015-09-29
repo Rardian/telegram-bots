@@ -26,7 +26,7 @@ public class UpdatesRetriever implements Runnable {
 	private String urlForPolling;
 
 	/** Timeout for longpolling */
-	private final int timeout = 60;
+	private final int timeout = 45;
 	private long offset = 0;
 	private Bot bot;
 
@@ -50,12 +50,13 @@ public class UpdatesRetriever implements Runnable {
 
 			try {
 				JSONObject json = request.asJson().getBody().getObject();
-				System.out.println(json);
+				//				System.out.println(json);
 
 				if (jsonOkay(json)) {
 					List<Message> newMessages = extractMessages(json);
 					if (newMessages.size() > 0) {
-						System.out.println("Neue Nachrichten: " + newMessages);
+						System.out.println(newMessages.size() + " neue Nachrichten");
+						//						System.out.println("Neue Nachrichten: " + newMessages);
 					}
 
 					//					// remove duplicates
@@ -66,17 +67,19 @@ public class UpdatesRetriever implements Runnable {
 
 					for (Message message : newMessages) {
 						long updateId = message.getUpdate_id();
+						System.out.println("Nachricht: " + message.getText());
 						bot.processMessage(message);
 						// only after successful processing may the offset be increased
 						offset = updateId + 1;
 					}
 				} else {
-					System.out.println("Json fehlerhaft:\n" + json.toString(2));
-					throw new RuntimeException("Ergebnis nicht okay.");
+					System.out.println("Json fehlerhaft, Retrieve wird fortgesetzt:\n" + json.toString(2));
+					//					throw new RuntimeException("Ergebnis nicht okay.");
 				}
 			} catch (UnirestException e) {
 				e.printStackTrace();
-				throw new RuntimeException("Kommunikationsfehler", e);
+				System.out.println("Kommunikationsfehler. Update-Retrieve wird fortgesetzt.");
+				//				throw new RuntimeException("Kommunikationsfehler", e);
 			}
 
 		}

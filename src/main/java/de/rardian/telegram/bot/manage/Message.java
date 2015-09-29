@@ -37,7 +37,7 @@ public class Message {
 	}
 
 	public Message fillWithJson(JSONObject json) {
-		System.out.println(json.toString(2));
+		//		System.out.println(json.toString(2));
 
 		User from = new User();
 		from.fillWithJson(json.getJSONObject("from"));

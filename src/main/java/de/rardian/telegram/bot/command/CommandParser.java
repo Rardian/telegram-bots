@@ -27,7 +27,7 @@ public class CommandParser {
 			int indexForParamStart = (text.contains(" ") ? text.indexOf(" ") : text.length());
 			String command = text.substring(0, indexForParamStart);
 			String params = text.substring(indexForParamStart);
-			System.out.println("Kommando='" + command + "', Parameter='" + params + "'");
+			//			System.out.println("Kommando='" + command + "', Parameter='" + params + "'");
 
 			Command commandToExecute = commands.get(command);
 			if (commandToExecute == null) {

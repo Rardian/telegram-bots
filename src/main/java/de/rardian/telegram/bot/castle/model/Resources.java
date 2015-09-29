@@ -53,19 +53,19 @@ public class Resources {
 		int actualIncrease = 0;
 
 		for (Inhabitant inhabitant : members) {
-			System.out.println("increase from member: " + inhabitant.getName());
+			//			System.out.println("increase from member: " + inhabitant.getName());
 
 			int potentialIncrease = inhabitant.getProductionSkill();
-			System.out.println("  potential increase : " + potentialIncrease);
+			//			System.out.println("  potential increase : " + potentialIncrease);
 
 			actualIncrease += increaseIfPossible(potentialIncrease);
-			System.out.println("  actual increase : " + actualIncrease);
+			//			System.out.println("  actual increase : " + actualIncrease);
 
 			if (actualIncrease > 0) {
 				inhabitant.increaseXp(CastleFacilityCategories.PRODUCING);
-				System.out.println("  xp increased :)");
+				//				System.out.println("  xp increased :)");
 			} else {
-				System.out.println("  xp not increased :(");
+				//				System.out.println("  xp not increased :(");
 			}
 		}
 
