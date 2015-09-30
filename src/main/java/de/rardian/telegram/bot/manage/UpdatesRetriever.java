@@ -1,5 +1,6 @@
 package de.rardian.telegram.bot.manage;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -67,18 +68,25 @@ public class UpdatesRetriever implements Runnable {
 
 					for (Message message : newMessages) {
 						long updateId = message.getUpdate_id();
-						System.out.println("Nachricht: " + message.getText());
+						System.out.println("Nachricht von " + message.getFrom().getFirstName() + ": " + message.getText());
 						bot.processMessage(message);
 						// only after successful processing may the offset be increased
 						offset = updateId + 1;
 					}
 				} else {
 					System.out.println("Json fehlerhaft, Retrieve wird fortgesetzt:\n" + json.toString(2));
+					Unirest.shutdown();
 					//					throw new RuntimeException("Ergebnis nicht okay.");
 				}
-			} catch (UnirestException e) {
+			} catch (UnirestException | IOException e) {
 				e.printStackTrace();
-				System.out.println("Kommunikationsfehler. Update-Retrieve wird fortgesetzt.");
+				System.out.println("Kommunikationsfehler. Update-Retrieve wird fortgesetzt. Request: " + request.getUrl());
+				try {
+					Unirest.shutdown();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+					System.out.println("Shutdown versucht. Update-Retrieve wird fortgesetzt. Request: " + request.getUrl());
+				}
 				//				throw new RuntimeException("Kommunikationsfehler", e);
 			}
 
