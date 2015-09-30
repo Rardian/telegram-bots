@@ -6,12 +6,17 @@ import de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories;
 
 public class Resources {
 
+	/** actual amount of resources */
 	private int resources;
+	/** dictates maximum amount of resources */
 	private int capacity;
+	/** dictates possible maximum increase, stored with times of 10 */
+	private int resourceFieldCount;
 
-	public Resources(int initialResources, int resourcesCapacity) {
+	public Resources(int initialResources, int resourcesCapacity, int resourceFieldCount) {
 		resources = initialResources;
 		capacity = resourcesCapacity;
+		this.resourceFieldCount = resourceFieldCount * 10;
 	}
 
 	public int getActual() {
@@ -35,11 +40,14 @@ public class Resources {
 		// act + inc > max => max - act
 		int actualResourceIncrease = 0;
 
+		potentialResourceIncrease = Math.min(potentialResourceIncrease, resourceFieldCount);
+
 		if (getActual() + potentialResourceIncrease <= getCapacity()) {
 			actualResourceIncrease = potentialResourceIncrease;
 		} else {
 			actualResourceIncrease = getCapacity() - getActual();
 		}
+
 		increase(actualResourceIncrease);
 
 		return actualResourceIncrease;
@@ -72,26 +80,12 @@ public class Resources {
 		return actualIncrease;
 	}
 
-	//	public int increaseCapacity(Collection<Inhabitant> members) {
-	//		int actualBuildingProgress = 0;
-	//
-	//		for (Inhabitant inhabitant : members) {
-	//			int potentialIncrease = inhabitant.getBuildingSkill();
-	//
-	//			// cost for extending capacity: new capacity * 2
-	//			// every builder uses 1 resource and increases buildprogress
-	//			actualBuildingProgress = Math.min(potentialIncrease, getActual());
-	//
-	//			resources.reduce(actualBuildingProgress);
-	//			overallBuildingProgress += actualBuildingProgress;
-	//		}
-	//
-	//
-	//		if (overallBuildingProgress >= (resources.getCapacity() + 1) * 2) {
-	//			resources.increaseCapacity();
-	//			overallBuildingProgress = 0;
-	//		} // TODO Auto-generated method stub
-	//		return 0;
-	//	}
+	public int getResourceFieldCount() {
+		return resourceFieldCount / 10;
+	}
+
+	public void increaseResourceFieldCount() {
+		resourceFieldCount++;
+	}
 
 }

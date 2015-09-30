@@ -22,6 +22,7 @@ public class ProductionFacilityTest {
 	public ExpectedException thrown = ExpectedException.none();
 
 	private static final int RESOURCES_CAPACITY = 5;
+	private static final int RESOURCES_FIELDCOUNT = RESOURCES_CAPACITY;
 
 	@Mock
 	private User user;
@@ -32,7 +33,7 @@ public class ProductionFacilityTest {
 
 	@Before
 	public void initCastle() {
-		underTest = new ProductionFacility(castle, new Resources(0, RESOURCES_CAPACITY));
+		underTest = new ProductionFacility(castle, new Resources(0, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT));
 	}
 
 	@Test

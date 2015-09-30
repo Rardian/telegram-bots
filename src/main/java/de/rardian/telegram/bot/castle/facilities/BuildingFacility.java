@@ -19,7 +19,7 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 	}
 
 	@Override
-	protected CastleFacilityCategories getCategory() {
+	public CastleFacilityCategories getCategory() {
 		return CastleFacilityCategories.BUILDING;
 	}
 
@@ -33,21 +33,6 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 		}
 	}
 
-	@Override
-	public void run() {
-		ProcessResult result = process();
-		//		System.out.println(result);
-
-		// TODO Listener über result informieren
-	}
-
-	//	@Override
-	//	public ProcessResult process() {
-	//
-	//		int actualBuildingProgress = resources.increaseCapacity(members);
-	//
-	//		return new BuildingResult(actualBuildingProgress);
-	//	}
 	@Override
 	public ProcessResult process() {
 		int actualBuildingProgress = 0;

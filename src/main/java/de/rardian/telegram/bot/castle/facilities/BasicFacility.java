@@ -15,7 +15,8 @@ import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.castle.model.Resources;
 import de.rardian.telegram.bot.manage.UserManager;
 
-public abstract class BasicFacility implements CastleFacility {
+/** Provides a basic implementation for handling members. */
+public abstract class BasicFacility implements CastleFacility, Runnable {
 	protected Castle castle;
 	protected Resources resources;
 	protected Collection<Inhabitant> members = Collections.synchronizedList(new ArrayList<>());
@@ -25,6 +26,15 @@ public abstract class BasicFacility implements CastleFacility {
 		this.castle = castle;
 		this.resources = resources;
 		category = getCategory();
+	}
+
+	@Override
+	public void run() {
+		ProcessResult result = process();
+		//		System.out.println(result);
+
+		// TODO Execute Actions contained in ProcessResult, create and use Bot.executeAction(Action)
+		// TODO Listener über result informieren
 	}
 
 	@Override
@@ -70,9 +80,6 @@ public abstract class BasicFacility implements CastleFacility {
 		return StringUtils.join(usersByFirstname, ", ");
 	}
 
-	@Override
-	public abstract ProcessResult process();
-
 	/**
 	 * Hook for calculating the potentialIncrease. Defaults to member count:
 	 * Every member increases the output by one.
@@ -83,7 +90,4 @@ public abstract class BasicFacility implements CastleFacility {
 
 	/** start the facility's work. */
 	protected abstract void start();
-
-	/** You need to define a category for your facility. */
-	protected abstract CastleFacilityCategories getCategory();
 }

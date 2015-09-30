@@ -25,7 +25,8 @@ public class CommandInitializer {
 				new CharacterStatusCommand(), //
 				new InhabitantProduceCommand(), //
 				new HelpCommand(), //
-				new BuildCommand());
+				new BuildCommand(), //
+				new ScoutCommand());
 
 		for (Command command : commandsToInitialize) {
 			for (String commandString : command.getCommandStrings()) {

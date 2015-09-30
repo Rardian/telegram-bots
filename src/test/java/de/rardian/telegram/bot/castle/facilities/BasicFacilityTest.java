@@ -21,6 +21,7 @@ public class BasicFacilityTest {
 	public ExpectedException thrown = ExpectedException.none();
 
 	private static final int RESOURCES_CAPACITY = 5;
+	private static final int RESOURCES_FIELDCOUNT = RESOURCES_CAPACITY;
 
 	@Mock
 	private Inhabitant user;
@@ -33,7 +34,7 @@ public class BasicFacilityTest {
 
 	@Before
 	public void initFacility() {
-		resources = new Resources(0, RESOURCES_CAPACITY);
+		resources = new Resources(0, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
 		underTest = Mockito.spy(new TestFacility(castle, resources));
 	}
 
@@ -73,7 +74,7 @@ public class BasicFacilityTest {
 		}
 
 		@Override
-		protected CastleFacilityCategories getCategory() {
+		public CastleFacilityCategories getCategory() {
 			return null;
 		}
 

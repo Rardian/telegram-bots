@@ -35,7 +35,7 @@ public class ActionInitializer implements CastleAware, BotAware {
 			((UserAware) action).setUser(user);
 		}
 		if (action instanceof InhabitantAware) {
-			((InhabitantAware) action).setInhabitant(castle.getInhabitant(user));
+			((InhabitantAware) action).setInhabitant(castle.getInhabitantFor(user));
 		}
 		if (action instanceof BotAware) {
 			((BotAware) action).setBot(bot);

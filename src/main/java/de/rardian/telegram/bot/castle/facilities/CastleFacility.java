@@ -12,6 +12,9 @@ public interface CastleFacility {
 
 	public String getMemberListByFirstname();
 
+	/** You need to define a category for your facility. */
+	public CastleFacilityCategories getCategory();
+
 	public ProcessResult process();
 
 }

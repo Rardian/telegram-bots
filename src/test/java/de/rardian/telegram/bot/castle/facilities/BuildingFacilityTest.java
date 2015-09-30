@@ -21,6 +21,7 @@ public class BuildingFacilityTest {
 	public ExpectedException thrown = ExpectedException.none();
 
 	private static final int RESOURCES_CAPACITY = 5;
+	private static final int RESOURCES_FIELDCOUNT = RESOURCES_CAPACITY;
 	private static final int RESOURCES_FULL = RESOURCES_CAPACITY;
 	private static final int RESOURCES_EMPTY = 0;
 
@@ -34,7 +35,7 @@ public class BuildingFacilityTest {
 	@Test
 	public void noBuildingWithoutResources() throws Exception {
 		// Init
-		underTest = new BuildingFacility(castle, new Resources(RESOURCES_EMPTY, RESOURCES_CAPACITY));
+		underTest = new BuildingFacility(castle, new Resources(RESOURCES_EMPTY, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT));
 		for (int i = 0; i < 3; i++) {
 			underTest.addMember(InhabitantTestFactory.newUniqueInhabitant(i));
 		}
@@ -49,7 +50,7 @@ public class BuildingFacilityTest {
 	@Test
 	public void builderCountSmallerThanResourceCountShouldIncreaseBuildingProgressByBuilderCount() throws Exception {
 		// Init
-		underTest = new BuildingFacility(castle, new Resources(RESOURCES_FULL, RESOURCES_CAPACITY));
+		underTest = new BuildingFacility(castle, new Resources(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT));
 		final int builderCount = 3;
 		for (int i = 0; i < builderCount; i++) {
 			underTest.addMember(InhabitantTestFactory.newUniqueInhabitant(i));
@@ -65,7 +66,7 @@ public class BuildingFacilityTest {
 	@Test
 	public void buildingCrewReachesGoalShouldIncreasesCapacity() throws Exception {
 		// Init
-		Resources testResources = new Resources(RESOURCES_FULL, RESOURCES_CAPACITY);
+		Resources testResources = new Resources(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
 		underTest = new BuildingFacility(castle, testResources);
 		final int builderCount = RESOURCES_FULL;
 		for (int i = 0; i < builderCount; i++) {

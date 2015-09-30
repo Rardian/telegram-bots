@@ -11,7 +11,7 @@ import com.google.common.annotations.VisibleForTesting;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Resources;
 
-public class ProductionFacility extends BasicFacility implements Runnable {
+public class ProductionFacility extends BasicFacility {
 
 	private ScheduledExecutorService executorService;
 
@@ -20,15 +20,7 @@ public class ProductionFacility extends BasicFacility implements Runnable {
 	}
 
 	@Override
-	public void run() {
-		ProcessResult result = process();
-		//		System.out.println(result);
-
-		// TODO Listener über result informieren
-	}
-
-	@Override
-	protected CastleFacilityCategories getCategory() {
+	public CastleFacilityCategories getCategory() {
 		return CastleFacilityCategories.PRODUCING;
 	}
 
@@ -50,6 +42,7 @@ public class ProductionFacility extends BasicFacility implements Runnable {
 		int actualResourceIncrease = resources.increase(members);
 
 		// TODO Nachricht an Interessierte senden, wenn Lager voll
+		// TODO Listener aus Oberklasse protected machen oder den Nachricht-Code dorthin verschieben
 
 		return new ProductionResult(actualResourceIncrease, resources.getActual());
 	}

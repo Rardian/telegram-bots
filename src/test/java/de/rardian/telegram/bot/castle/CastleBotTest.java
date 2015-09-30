@@ -79,7 +79,8 @@ public class CastleBotTest {
 				+ "/burg - Zeigt den Status der Burg\n"//
 				+ "/char - Zeigt den Status deines Burgbewohners\n"//
 				+ "/help - Diese Übersicht\n" //
-				+ "/prod - Produziere Güter für die Burg\n";
+				+ "/prod - Produziere Güter für die Burg\n" //
+				+ "/scout - Erkunde das Umland\n";
 		assertThat(result, is(expected));
 	}
 
