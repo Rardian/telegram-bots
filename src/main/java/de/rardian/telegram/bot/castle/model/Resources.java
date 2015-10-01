@@ -1,8 +1,8 @@
 package de.rardian.telegram.bot.castle.model;
 
-import java.util.Collection;
+import static de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories.PRODUCING;
 
-import de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories;
+import java.util.Collection;
 
 public class Resources {
 
@@ -40,7 +40,7 @@ public class Resources {
 		// act + inc > max => max - act
 		int actualResourceIncrease = 0;
 
-		potentialResourceIncrease = Math.min(potentialResourceIncrease, resourceFieldCount);
+		potentialResourceIncrease = Math.min(potentialResourceIncrease, getResourceFieldCount());
 
 		if (getActual() + potentialResourceIncrease <= getCapacity()) {
 			actualResourceIncrease = potentialResourceIncrease;
@@ -61,19 +61,19 @@ public class Resources {
 		int actualIncrease = 0;
 
 		for (Inhabitant inhabitant : members) {
-			//			System.out.println("increase from member: " + inhabitant.getName());
+			// System.out.println("increase from member: " + inhabitant.getName());
 
-			int potentialIncrease = inhabitant.getProductionSkill();
-			//			System.out.println("  potential increase : " + potentialIncrease);
+			int potentialIncrease = inhabitant.getSkill(PRODUCING);
+			// System.out.println("  potential increase : " + potentialIncrease);
 
 			actualIncrease += increaseIfPossible(potentialIncrease);
-			//			System.out.println("  actual increase : " + actualIncrease);
+			// System.out.println("  actual increase : " + actualIncrease);
 
 			if (actualIncrease > 0) {
-				inhabitant.increaseXp(CastleFacilityCategories.PRODUCING);
-				//				System.out.println("  xp increased :)");
+				inhabitant.increaseXp(PRODUCING);
+				// System.out.println("  xp increased :)");
 			} else {
-				//				System.out.println("  xp not increased :(");
+				// System.out.println("  xp not increased :(");
 			}
 		}
 
