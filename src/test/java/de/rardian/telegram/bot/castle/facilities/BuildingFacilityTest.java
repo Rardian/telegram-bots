@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import de.rardian.telegram.bot.castle.model.Castle;
+import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.castle.model.InhabitantTestFactory;
 import de.rardian.telegram.bot.castle.model.Resources;
 import de.rardian.telegram.bot.model.User;
@@ -31,6 +32,35 @@ public class BuildingFacilityTest {
 	private Castle castle;
 
 	private BuildingFacility underTest;
+
+	@Test
+	public void ShouldNotUseMoreResourcesThanNeededOnFinishing() throws Exception {
+		// Init
+		Resources testResources = new Resources(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
+		underTest = new BuildingFacility(castle, testResources);
+		Inhabitant seasonedBuilder = InhabitantTestFactory.newUniqueInhabitant(1);
+
+		// levelup
+		for (int i = 0; i < 100; i++) {
+			seasonedBuilder.increaseXp(CastleFacilityCategories.BUILDING);
+		}
+		underTest.addMember(seasonedBuilder);
+		System.out.println(seasonedBuilder.getSkill(CastleFacilityCategories.BUILDING));
+
+		// We need to finish the building needing (RESOURCES_CAPACITY + 1) * 2 building steps
+		underTest.process();
+		// refill
+		testResources.increaseIfPossible(RESOURCES_CAPACITY);
+		underTest.process();
+		// refill
+		testResources.increaseIfPossible(RESOURCES_CAPACITY);
+
+		// Run
+		underTest.process();
+
+		// Assert that for the last build step only 2 resources are used
+		assertThat(testResources.getActual(), is(3));
+	}
 
 	@Test
 	public void noBuildingWithoutResources() throws Exception {
@@ -64,7 +94,7 @@ public class BuildingFacilityTest {
 	}
 
 	@Test
-	public void buildingCrewReachesGoalShouldIncreasesCapacity() throws Exception {
+	public void buildingCrewReachesGoalShouldIncreaseCapacity() throws Exception {
 		// Init
 		Resources testResources = new Resources(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
 		underTest = new BuildingFacility(castle, testResources);
@@ -72,7 +102,7 @@ public class BuildingFacilityTest {
 		for (int i = 0; i < builderCount; i++) {
 			underTest.addMember(InhabitantTestFactory.newUniqueInhabitant(i));
 		}
-		// We need a building progress of (RESOURCES_CAPACITY + 1 )* 2
+		// We need a building progress of (RESOURCES_CAPACITY + 1) * 2
 		underTest.process();
 		// refill
 		testResources.increaseIfPossible(RESOURCES_CAPACITY);

@@ -71,6 +71,7 @@ public class CastleBot implements Bot {
 			helpText.append(command.getDescription());
 			helpText.append("\n");
 		}
+		helpText.append("Bitte hinterlasse Feedback auf: https://github.com/Rardian/telegram-bots/issues");
 
 		return helpText.toString();
 	}

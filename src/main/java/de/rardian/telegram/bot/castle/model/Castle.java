@@ -46,7 +46,7 @@ public class Castle {
 				+ "-> Scouts: " + printFacility(CastleFacilityCategories.SCOUTING)//
 				+ "Ressourcen:\n"//
 				+ "-> Aktuell: " + resources.getActual() + " (Fundstätten: " + resources.getResourceFieldCount() + ")\n"//
-				+ "-> Kapazität: " + resources.getCapacity() + " (max. Kapazität: " + resources.getResourceFieldCount() * 10 + "\n"// TODO max Kapazität von Fieldcount trennen. Gibt dann zwei Typen findbarer Sachen in der Umgebung
+				+ "-> Kapazität: " + resources.getCapacity() + " (max. Kapazität: " + resources.getMaxCapacity() + ")\n"// TODO max Kapazität von Fieldcount trennen. Gibt dann zwei Typen findbarer Sachen in der Umgebung
 				+ "Bauvorhaben: "//
 				+ ((BuildingFacility) getBuildingFacility()).getProgress() + " (von " + (resources.getCapacity() + 1) * 2 + ")";
 		return status;

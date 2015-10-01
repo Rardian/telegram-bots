@@ -1,5 +1,7 @@
 package de.rardian.telegram.bot.castle.facilities;
 
+import static de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories.BUILDING;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +22,7 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 
 	@Override
 	public CastleFacilityCategories getCategory() {
-		return CastleFacilityCategories.BUILDING;
+		return BUILDING;
 	}
 
 	/** Start the building queue, if needed. */
@@ -29,7 +31,7 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 
 		if (executorService == null) {
 			executorService = Executors.newSingleThreadScheduledExecutor();
-			executorService.scheduleAtFixedRate(this, 10, 5, TimeUnit.SECONDS);
+			executorService.scheduleAtFixedRate(this, 10, 1, TimeUnit.SECONDS);
 		}
 	}
 
@@ -37,24 +39,35 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 	public ProcessResult process() {
 		int actualBuildingProgress = 0;
 
-		for (Inhabitant inhabitant : members) {
-			int potentialBuildingProgress = inhabitant.getBuildingSkill();
+		synchronized (members) {
 
-			// cost for extending capacity: new capacity * 2
-			// every builder uses 1 resource and increases buildprogress
-			int memberBuildingProgress = Math.min(potentialBuildingProgress, resources.getActual());
+			for (Inhabitant inhabitant : members) {
+				int potentialBuildingProgress = inhabitant.getSkill(BUILDING);
+				int overallBuildingStepsNeeded = (resources.getCapacity() + 1) * 2;
 
-			if (memberBuildingProgress > 0) {
-				resources.reduce(memberBuildingProgress);
-				actualBuildingProgress += memberBuildingProgress;
-				overallBuildingProgress += memberBuildingProgress;
-				inhabitant.increaseXp(category);
-			}
+				// cost for extending capacity: new capacity * 2
+				// every builder uses 1 resource and increases buildprogress
+				final int memberBuildingProgress = Math.min(potentialBuildingProgress, resources.getActual());
+				final boolean capacityCanBeIncreased = resources.getCapacity() < resources.getMaxCapacity();
 
-			if (overallBuildingProgress >= (resources.getCapacity() + 1) * 2) {
-				resources.increaseCapacity();
-				overallBuildingProgress = 0;
-				break;
+				if (capacityCanBeIncreased && memberBuildingProgress > 0) {
+					int remainingBuildingSteps = overallBuildingStepsNeeded - overallBuildingProgress;
+					int actualBuildingSteps = Math.min(remainingBuildingSteps, memberBuildingProgress);
+
+					resources.reduce(actualBuildingSteps);
+					actualBuildingProgress += actualBuildingSteps;
+					overallBuildingProgress += actualBuildingSteps;
+					inhabitant.increaseXp(category);
+				}
+
+				final boolean buildingFinished = overallBuildingProgress >= overallBuildingStepsNeeded;
+				System.out.println("buildingFinished=" + buildingFinished + " && capacityCanBeIncreased=" + capacityCanBeIncreased);
+
+				if (buildingFinished && capacityCanBeIncreased) {
+					resources.increaseCapacity();
+					overallBuildingProgress = 0;
+					break;
+				}
 			}
 		}
 

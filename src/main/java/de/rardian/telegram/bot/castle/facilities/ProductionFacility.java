@@ -29,7 +29,7 @@ public class ProductionFacility extends BasicFacility {
 
 		if (executorService == null) {
 			executorService = Executors.newSingleThreadScheduledExecutor();
-			executorService.scheduleAtFixedRate(this, 10, 5, TimeUnit.SECONDS);
+			executorService.scheduleAtFixedRate(this, 10, 1, TimeUnit.SECONDS);
 		}
 	}
 

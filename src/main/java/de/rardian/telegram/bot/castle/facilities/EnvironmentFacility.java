@@ -26,24 +26,32 @@ public class EnvironmentFacility extends BasicFacility implements Runnable {
 
 		if (executorService == null) {
 			executorService = Executors.newSingleThreadScheduledExecutor();
-			executorService.scheduleAtFixedRate(this, 10, 5, TimeUnit.SECONDS);
+			executorService.scheduleAtFixedRate(this, 10, 1, TimeUnit.SECONDS);
 		}
 	}
 
 	@Override
 	public ProcessResult process() {
 		// TODO based on SCOUTING skill and already existing resource locations the chance for finding new spots de- or increases
-		for (Inhabitant inhabitant : members) {
-			int scoutingSkill = inhabitant.getSkill(SCOUTING);
-			int resourceFieldCount = resources.getResourceFieldCount();
 
-			if (scoutingSkill * 10 > resourceFieldCount) {
-				System.out.println("fieldCount erhöht");
-				resources.increaseResourceFieldCount();
+		synchronized (members) {
+
+			for (Inhabitant inhabitant : members) {
+				int scoutingSkill = inhabitant.getSkill(SCOUTING);
+				int resourceFieldCount = resources.getResourceFieldCount();
+
+				if (scoutingSkill * 10 > resourceFieldCount) {
+					System.out.println(inhabitant.getName() + " erhöht fieldCount");
+					resources.increaseResourceFieldCount();
+				}
+
+				if (scoutingSkill % 2 == 0) {
+					System.out.println("scoutingSkill von " + inhabitant.getName() + " erhöht");
+					inhabitant.increaseXp(SCOUTING);
+				}
 			}
-
-			inhabitant.increaseXp(SCOUTING);
 		}
+
 		return new ProcessResult() {
 		};
 	}

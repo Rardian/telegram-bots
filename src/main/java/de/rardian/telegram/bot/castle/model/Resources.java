@@ -4,6 +4,8 @@ import static de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories
 
 import java.util.Collection;
 
+import com.google.common.annotations.VisibleForTesting;
+
 public class Resources {
 
 	/** actual amount of resources */
@@ -35,6 +37,7 @@ public class Resources {
 		capacity++;
 	}
 
+	@VisibleForTesting
 	public int increaseIfPossible(int potentialResourceIncrease) {
 		// act + inc <= max => inc
 		// act + inc > max => max - act
@@ -48,36 +51,39 @@ public class Resources {
 			actualResourceIncrease = getCapacity() - getActual();
 		}
 
-		increase(actualResourceIncrease);
+		resources += actualResourceIncrease;
 
 		return actualResourceIncrease;
-	}
-
-	private void increase(int actualResourceIncrease) {
-		resources += actualResourceIncrease;
 	}
 
 	public int increase(Collection<Inhabitant> members) {
 		int actualIncrease = 0;
 
-		for (Inhabitant inhabitant : members) {
-			// System.out.println("increase from member: " + inhabitant.getName());
+		synchronized (members) {
 
-			int potentialIncrease = inhabitant.getSkill(PRODUCING);
-			// System.out.println("  potential increase : " + potentialIncrease);
+			for (Inhabitant inhabitant : members) {
+				// System.out.println("increase from member: " + inhabitant.getName());
 
-			actualIncrease += increaseIfPossible(potentialIncrease);
-			// System.out.println("  actual increase : " + actualIncrease);
+				int potentialIncrease = inhabitant.getSkill(PRODUCING);
+				// System.out.println("  potential increase : " + potentialIncrease);
 
-			if (actualIncrease > 0) {
-				inhabitant.increaseXp(PRODUCING);
-				// System.out.println("  xp increased :)");
-			} else {
-				// System.out.println("  xp not increased :(");
+				actualIncrease += increaseIfPossible(potentialIncrease);
+				// System.out.println("  actual increase : " + actualIncrease);
+
+				if (actualIncrease > 0) {
+					inhabitant.increaseXp(PRODUCING);
+					// System.out.println("  xp increased :)");
+				} else {
+					// System.out.println("  xp not increased :(");
+				}
 			}
 		}
 
 		return actualIncrease;
+	}
+
+	public int getMaxCapacity() {
+		return resourceFieldCount;
 	}
 
 	public int getResourceFieldCount() {
