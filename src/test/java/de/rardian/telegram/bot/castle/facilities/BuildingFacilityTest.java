@@ -1,5 +1,6 @@
 package de.rardian.telegram.bot.castle.facilities;
 
+import static de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories.BUILDING;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -41,11 +42,12 @@ public class BuildingFacilityTest {
 		Inhabitant seasonedBuilder = InhabitantTestFactory.newUniqueInhabitant(1);
 
 		// levelup
-		for (int i = 0; i < 100; i++) {
-			seasonedBuilder.increaseXp(CastleFacilityCategories.BUILDING);
+		final int neededLevel = 5;
+		while (seasonedBuilder.getSkill(BUILDING) < neededLevel) {
+			seasonedBuilder.increaseXp(BUILDING);
 		}
 		underTest.addMember(seasonedBuilder);
-		System.out.println(seasonedBuilder.getSkill(CastleFacilityCategories.BUILDING));
+		System.out.println(seasonedBuilder.getSkill(BUILDING));
 
 		// We need to finish the building needing (RESOURCES_CAPACITY + 1) * 2 building steps
 		underTest.process();
