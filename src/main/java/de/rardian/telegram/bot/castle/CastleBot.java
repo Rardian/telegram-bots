@@ -16,9 +16,9 @@ import de.rardian.telegram.bot.command.ActionExecuter;
 import de.rardian.telegram.bot.command.ActionInitializer;
 import de.rardian.telegram.bot.command.Command;
 import de.rardian.telegram.bot.command.CommandParser;
-import de.rardian.telegram.bot.manage.Message;
 import de.rardian.telegram.bot.manage.UserManager;
 import de.rardian.telegram.bot.model.Bot;
+import de.rardian.telegram.bot.model.Message;
 import de.rardian.telegram.bot.model.User;
 
 public class CastleBot implements Bot {

@@ -1,12 +1,9 @@
-package de.rardian.telegram.bot.manage;
+package de.rardian.telegram.bot.model;
 
 import org.json.JSONObject;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
-
-import de.rardian.telegram.bot.model.Chat;
-import de.rardian.telegram.bot.model.User;
 
 public class Message {
 	private long updateId;

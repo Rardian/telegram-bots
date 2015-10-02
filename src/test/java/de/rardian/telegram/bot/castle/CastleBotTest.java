@@ -17,8 +17,8 @@ import org.mockito.Mock;
 import de.rardian.telegram.bot.command.Action;
 import de.rardian.telegram.bot.command.ActionExecuter;
 import de.rardian.telegram.bot.command.CommandParser;
-import de.rardian.telegram.bot.manage.Message;
 import de.rardian.telegram.bot.manage.UserManager;
+import de.rardian.telegram.bot.model.Message;
 import de.rardian.telegram.bot.model.User;
 
 @RunWith(org.mockito.runners.MockitoJUnitRunner.class)

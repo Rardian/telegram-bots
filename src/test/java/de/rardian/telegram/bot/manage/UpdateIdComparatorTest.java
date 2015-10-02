@@ -8,6 +8,8 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 
+import de.rardian.telegram.bot.model.Message;
+
 public class UpdateIdComparatorTest {
 
 	private static final Long GREATER = Long.valueOf(99);

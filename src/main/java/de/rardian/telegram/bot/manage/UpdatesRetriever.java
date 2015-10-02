@@ -12,6 +12,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequest;
 
 import de.rardian.telegram.bot.model.Bot;
+import de.rardian.telegram.bot.model.Message;
 
 /**
  * new Strategy:<BR>
@@ -44,6 +45,8 @@ public class UpdatesRetriever implements Runnable {
 
 	@Override
 	public void run() {
+		// TODO improve handling of connection losses, shutdown doesn't work, simple retry, doesn't either
+
 		while (true) {
 			HttpRequest request = Unirest.get(urlForPolling)//
 					.queryString("timeout", timeout)//

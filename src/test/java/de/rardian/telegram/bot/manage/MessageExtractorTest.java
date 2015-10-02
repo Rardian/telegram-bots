@@ -11,7 +11,8 @@ import java.util.List;
 import org.json.JSONObject;
 import org.junit.Test;
 
-import de.rardian.telegram.bot.model.User;
+import de.rardian.telegram.bot.model.Message;
+import de.rardian.telegram.bot.model.MessageTest;
 
 public class MessageExtractorTest {
 
@@ -33,11 +34,11 @@ public class MessageExtractorTest {
 	public void extractMessages_ExtractOneMessage() throws Exception {
 		// Arrange
 		String jsonText = "{\"ok\":true,\"result\":[{\"update_id\":40332882,\"message\":{\"message_id\":13,\"from\":" + JSON_CHAT_AND_FROM
-				+ ",\"chat\":" + JSON_CHAT_AND_FROM + ",\"date\":1437335810,\"text\":\"Hallo Bot\"}}]}";
+				+ ",\"chat\":" + JSON_CHAT_AND_FROM + ",\"date\":1437335810,\"text\":\"Message\"}}]}";
 		JSONObject json = new JSONObject(jsonText);
 		MessageExtractor target = new MessageExtractor(json);
 
-		Message expectedMessage = new Message(40332882, 1437335810, "Hallo Bot", User.newIdentTestUser(), User.newIdentTestUser(), 13);
+		Message expectedMessage = MessageTest.newIdentTestMessage();
 
 		// Act
 		List<Message> actual = target.extractMessages();

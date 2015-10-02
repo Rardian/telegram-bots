@@ -6,6 +6,8 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import de.rardian.telegram.bot.model.Message;
+
 public class MessageExtractor {
 	private JSONObject json;
 

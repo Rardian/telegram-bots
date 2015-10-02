@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
-import de.rardian.telegram.bot.manage.Message;
+import de.rardian.telegram.bot.model.Message;
 
 @RunWith(org.mockito.runners.MockitoJUnitRunner.class)
 public class ActionExecuterTest {

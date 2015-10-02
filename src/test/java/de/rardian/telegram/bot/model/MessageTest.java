@@ -1,4 +1,4 @@
-package de.rardian.telegram.bot.manage;
+package de.rardian.telegram.bot.model;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -7,14 +7,15 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.rardian.telegram.bot.model.Chat;
-import de.rardian.telegram.bot.model.User;
-
 public class MessageTest {
 
 	private static final String JSON_CHAT_AND_FROM = "{\"id\":8039535,\"first_name\":\"Vorname\",\"last_name\":\"Nachname\",\"username\":\"Username\"}";
 
 	private Message underTest;
+
+	public static Message newIdentTestMessage() {
+		return new Message(40332882, 1437335810, "Message", User.newIdentTestUser(), User.newIdentTestUser(), 13);
+	}
 
 	@Before
 	public void initMessage() {
@@ -58,7 +59,7 @@ public class MessageTest {
 	}
 
 	/**
-	 * Test method for {@link de.rardian.telegram.bot.manage.Message#getChat()}.
+	 * Test method for {@link de.rardian.telegram.bot.model.Message#getChat()}.
 	 */
 	@Test
 	public void getChat() throws Exception {
@@ -71,7 +72,7 @@ public class MessageTest {
 	}
 
 	/**
-	 * Test method for {@link de.rardian.telegram.bot.manage.Message#getFrom()}.
+	 * Test method for {@link de.rardian.telegram.bot.model.Message#getFrom()}.
 	 */
 	@Test
 	public void getFrom() throws Exception {
@@ -85,7 +86,7 @@ public class MessageTest {
 
 	/**
 	 * Test method for
-	 * {@link de.rardian.telegram.bot.manage.Message#getMessage_id()}.
+	 * {@link de.rardian.telegram.bot.model.Message#getMessage_id()}.
 	 */
 	@Test
 	public void getMessage_id() throws Exception {

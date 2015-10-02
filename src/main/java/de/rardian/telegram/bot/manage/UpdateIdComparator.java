@@ -2,6 +2,8 @@ package de.rardian.telegram.bot.manage;
 
 import java.util.Comparator;
 
+import de.rardian.telegram.bot.model.Message;
+
 public class UpdateIdComparator implements Comparator<Message> {
 
 	@Override

@@ -16,8 +16,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import de.rardian.telegram.bot.castle.commands.actions.CastleAware;
 import de.rardian.telegram.bot.castle.model.Castle;
-import de.rardian.telegram.bot.manage.Message;
 import de.rardian.telegram.bot.model.Bot;
+import de.rardian.telegram.bot.model.Message;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ActionInitializerTest {

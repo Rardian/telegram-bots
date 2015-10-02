@@ -4,8 +4,8 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequest;
 
-import de.rardian.telegram.bot.manage.Message;
 import de.rardian.telegram.bot.model.Bot;
+import de.rardian.telegram.bot.model.Message;
 import de.rardian.telegram.bot.model.ReplyKeyboardMarkup;
 
 public class MessageReply {

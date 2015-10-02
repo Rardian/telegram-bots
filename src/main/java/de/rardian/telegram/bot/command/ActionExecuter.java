@@ -1,6 +1,6 @@
 package de.rardian.telegram.bot.command;
 
-import de.rardian.telegram.bot.manage.Message;
+import de.rardian.telegram.bot.model.Message;
 
 public class ActionExecuter {
 
