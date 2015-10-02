@@ -1,9 +1,9 @@
 package de.rardian.telegram.bot.castle.commands.actions;
 
 import de.rardian.telegram.bot.castle.model.Castle;
-import de.rardian.telegram.bot.command.Action;
-import de.rardian.telegram.bot.command.MessageReply;
-import de.rardian.telegram.bot.command.SendsAnswer;
+import de.rardian.telegram.bot.command.action.Action;
+import de.rardian.telegram.bot.command.action.SendsAnswer;
+import de.rardian.telegram.bot.communication.MessageReply;
 
 public class CastleStatusAction implements Action, CastleAware, SendsAnswer {
 

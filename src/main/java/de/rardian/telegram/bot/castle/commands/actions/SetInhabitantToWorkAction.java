@@ -4,9 +4,9 @@ import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
 import de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
-import de.rardian.telegram.bot.command.Action;
-import de.rardian.telegram.bot.command.MessageReply;
-import de.rardian.telegram.bot.command.SendsAnswer;
+import de.rardian.telegram.bot.command.action.Action;
+import de.rardian.telegram.bot.command.action.SendsAnswer;
+import de.rardian.telegram.bot.communication.MessageReply;
 
 public class SetInhabitantToWorkAction implements Action, CastleAware, InhabitantAware, SendsAnswer {
 	private Castle castle;

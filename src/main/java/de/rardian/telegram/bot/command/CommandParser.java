@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.Validate;
 
+import de.rardian.telegram.bot.command.action.Action;
+import de.rardian.telegram.bot.command.action.CommandUnknownAction;
 import de.rardian.telegram.bot.model.Message;
 
 public class CommandParser {

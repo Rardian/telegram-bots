@@ -12,7 +12,7 @@ import java.util.Collection;
 import org.junit.Test;
 
 import de.rardian.telegram.bot.castle.commands.actions.PrintHelpAction;
-import de.rardian.telegram.bot.command.Action;
+import de.rardian.telegram.bot.command.action.Action;
 
 /**
  *

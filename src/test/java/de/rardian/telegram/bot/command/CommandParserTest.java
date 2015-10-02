@@ -19,6 +19,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import de.rardian.telegram.bot.castle.commands.Test1Command;
+import de.rardian.telegram.bot.command.action.Action;
+import de.rardian.telegram.bot.command.action.CommandUnknownAction;
 import de.rardian.telegram.bot.model.Message;
 
 @RunWith(MockitoJUnitRunner.class)

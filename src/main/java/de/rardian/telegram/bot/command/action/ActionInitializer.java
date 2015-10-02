@@ -1,8 +1,9 @@
-package de.rardian.telegram.bot.command;
+package de.rardian.telegram.bot.command.action;
 
 import de.rardian.telegram.bot.castle.commands.actions.CastleAware;
 import de.rardian.telegram.bot.castle.commands.actions.InhabitantAware;
 import de.rardian.telegram.bot.castle.model.Castle;
+import de.rardian.telegram.bot.communication.MessageReply;
 import de.rardian.telegram.bot.model.Bot;
 import de.rardian.telegram.bot.model.Message;
 import de.rardian.telegram.bot.model.User;

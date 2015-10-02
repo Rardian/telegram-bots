@@ -9,7 +9,7 @@ import java.util.Collection;
 import org.junit.Test;
 
 import de.rardian.telegram.bot.castle.commands.actions.SetInhabitantToWorkAction;
-import de.rardian.telegram.bot.command.Action;
+import de.rardian.telegram.bot.command.action.Action;
 
 public class InhabitantProduceCommandTest {
 

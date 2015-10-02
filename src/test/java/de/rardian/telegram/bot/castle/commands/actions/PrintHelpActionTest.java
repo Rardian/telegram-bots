@@ -12,7 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import de.rardian.telegram.bot.command.MessageReply;
+import de.rardian.telegram.bot.communication.MessageReply;
 import de.rardian.telegram.bot.model.Bot;
 
 @RunWith(MockitoJUnitRunner.class)

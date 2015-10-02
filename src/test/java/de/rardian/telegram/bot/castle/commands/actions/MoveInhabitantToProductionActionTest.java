@@ -15,7 +15,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
-import de.rardian.telegram.bot.command.MessageReply;
+import de.rardian.telegram.bot.communication.MessageReply;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MoveInhabitantToProductionActionTest {

@@ -2,6 +2,8 @@ package de.rardian.telegram.bot.command;
 
 import java.util.Collection;
 
+import de.rardian.telegram.bot.command.action.Action;
+
 public interface Command {
 
 	public Collection<Action> executeWithParams(String params);

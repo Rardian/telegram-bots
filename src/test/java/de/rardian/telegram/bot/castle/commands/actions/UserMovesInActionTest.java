@@ -13,7 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import de.rardian.telegram.bot.castle.model.Castle;
-import de.rardian.telegram.bot.command.MessageReply;
+import de.rardian.telegram.bot.communication.MessageReply;
 import de.rardian.telegram.bot.model.User;
 
 @RunWith(MockitoJUnitRunner.class)

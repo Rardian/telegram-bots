@@ -33,7 +33,7 @@ public abstract class BasicFacility implements CastleFacility, Runnable {
 		ProcessResult result = process();
 		//		System.out.println(result);
 
-		// TODO Execute Actions contained in ProcessResult, create and use Bot.executeAction(Action)
+		// TODO Execute Actions contained in ProcessResult, create and use Bot.executeActions(Collection<Action>)
 		// TODO Listener über result informieren
 	}
 

@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import de.rardian.telegram.bot.castle.model.Castle;
-import de.rardian.telegram.bot.command.MessageReply;
+import de.rardian.telegram.bot.communication.MessageReply;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CastleStatusActionTest {

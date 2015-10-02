@@ -1,4 +1,4 @@
-package de.rardian.telegram.bot.command;
+package de.rardian.telegram.bot.command.action;
 
 public interface Action {
 

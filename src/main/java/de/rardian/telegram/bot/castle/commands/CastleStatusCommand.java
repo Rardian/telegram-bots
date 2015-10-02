@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import de.rardian.telegram.bot.castle.commands.actions.CastleStatusAction;
-import de.rardian.telegram.bot.command.Action;
 import de.rardian.telegram.bot.command.Command;
+import de.rardian.telegram.bot.command.action.Action;
 
 public class CastleStatusCommand implements Command {
 

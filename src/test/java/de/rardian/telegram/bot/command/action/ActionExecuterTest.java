@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.rardian.telegram.bot.command;
+package de.rardian.telegram.bot.command.action;
 
 import static org.mockito.Mockito.verify;
 
@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
+import de.rardian.telegram.bot.command.action.Action;
+import de.rardian.telegram.bot.command.action.ActionExecuter;
 import de.rardian.telegram.bot.model.Message;
 
 @RunWith(org.mockito.runners.MockitoJUnitRunner.class)

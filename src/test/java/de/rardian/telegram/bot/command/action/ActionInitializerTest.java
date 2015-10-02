@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.rardian.telegram.bot.command;
+package de.rardian.telegram.bot.command.action;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -16,6 +16,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import de.rardian.telegram.bot.castle.commands.actions.CastleAware;
 import de.rardian.telegram.bot.castle.model.Castle;
+import de.rardian.telegram.bot.command.action.Action;
+import de.rardian.telegram.bot.command.action.ActionInitializer;
+import de.rardian.telegram.bot.communication.MessageReply;
 import de.rardian.telegram.bot.model.Bot;
 import de.rardian.telegram.bot.model.Message;
 
