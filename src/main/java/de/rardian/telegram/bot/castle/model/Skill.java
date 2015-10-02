@@ -3,6 +3,11 @@ package de.rardian.telegram.bot.castle.model;
 import de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories;
 
 public class Skill {
+	/**
+	 * defines how fast one levels up by multiplying the needed xp for the next
+	 * level.
+	 */
+	private static final int levelDistanceFactor = 15;
 	private CastleFacilityCategories category;
 	private int level;
 	private int xp;
@@ -22,7 +27,7 @@ public class Skill {
 
 		xp++;
 
-		if (xp >= level * 10) {
+		if (xp >= level * levelDistanceFactor) {
 			xp = 0;
 			level++;
 			levelup = true;
