@@ -4,6 +4,7 @@ import de.rardian.telegram.bot.castle.commands.actions.CastleAware;
 import de.rardian.telegram.bot.castle.commands.actions.InhabitantAware;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.communication.MessageReply;
+import de.rardian.telegram.bot.communication.MessageSender;
 import de.rardian.telegram.bot.model.Bot;
 import de.rardian.telegram.bot.model.Message;
 import de.rardian.telegram.bot.model.User;
@@ -24,7 +25,6 @@ public class ActionInitializer implements CastleAware, BotAware {
 	}
 
 	public void injectActionDependencies(Action action, Message message) {
-		final User user = message.getFrom();
 
 		if (action instanceof CastleAware) {
 			((CastleAware) action).setCastle(castle);
@@ -32,10 +32,15 @@ public class ActionInitializer implements CastleAware, BotAware {
 		if (action instanceof SendsAnswer) {
 			((SendsAnswer) action).setMessageReply(getMessageReply(message));
 		}
+		if (action instanceof SendsMessage) {
+			((SendsMessage) action).setMessageSender(new MessageSender().asBot(bot));
+		}
 		if (action instanceof UserAware) {
+			final User user = message.getFrom();
 			((UserAware) action).setUser(user);
 		}
 		if (action instanceof InhabitantAware) {
+			final User user = message.getFrom();
 			((InhabitantAware) action).setInhabitant(castle.getInhabitantFor(user));
 		}
 		if (action instanceof BotAware) {

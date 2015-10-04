@@ -14,6 +14,7 @@ import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.castle.model.Resources;
 import de.rardian.telegram.bot.manage.UserManager;
+import de.rardian.telegram.bot.model.Bot;
 
 /** Provides a basic implementation for handling members. */
 public abstract class BasicFacility implements CastleFacility, Runnable {
@@ -21,19 +22,22 @@ public abstract class BasicFacility implements CastleFacility, Runnable {
 	protected Resources resources;
 	protected Collection<Inhabitant> members = Collections.synchronizedList(new ArrayList<>());
 	protected CastleFacilityCategories category;
+	private Bot bot;
 
-	public BasicFacility(Castle castle, Resources resources) {
+	public BasicFacility(Castle castle, Resources resources, Bot bot) {
 		this.castle = castle;
 		this.resources = resources;
+		this.bot = bot;
 		category = getCategory();
 	}
 
 	@Override
 	public void run() {
-		ProcessResult result = process();
+		ProcessResult2 result = process();
 		//		System.out.println(result);
 
-		// TODO Execute Actions contained in ProcessResult, create and use Bot.executeActions(Collection<Action>)
+		bot.executeResultActions(result.getResultActions());
+
 		// TODO Listener über result informieren
 	}
 

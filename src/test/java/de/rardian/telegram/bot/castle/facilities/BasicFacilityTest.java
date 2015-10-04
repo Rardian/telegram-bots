@@ -14,6 +14,7 @@ import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.castle.model.InhabitantTestFactory;
 import de.rardian.telegram.bot.castle.model.Resources;
+import de.rardian.telegram.bot.model.Bot;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BasicFacilityTest {
@@ -23,6 +24,8 @@ public class BasicFacilityTest {
 	private static final int RESOURCES_CAPACITY = 5;
 	private static final int RESOURCES_FIELDCOUNT = RESOURCES_CAPACITY;
 
+	@Mock
+	private Bot bot;
 	@Mock
 	private Inhabitant user;
 	@Mock
@@ -35,7 +38,7 @@ public class BasicFacilityTest {
 	@Before
 	public void initFacility() {
 		resources = new Resources(0, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
-		underTest = Mockito.spy(new TestFacility(castle, resources));
+		underTest = Mockito.spy(new TestFacility(castle, resources, bot));
 	}
 
 	@Test
@@ -60,12 +63,12 @@ public class BasicFacilityTest {
 
 	private class TestFacility extends BasicFacility {
 
-		public TestFacility(Castle castle, Resources resources) {
-			super(castle, resources);
+		public TestFacility(Castle castle, Resources resources, Bot bot) {
+			super(castle, resources, bot);
 		}
 
 		@Override
-		public ProcessResult process() {
+		public ProcessResult2 process() {
 			return null;
 		}
 

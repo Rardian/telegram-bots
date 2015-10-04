@@ -10,13 +10,17 @@ import com.google.common.annotations.VisibleForTesting;
 
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Resources;
+import de.rardian.telegram.bot.model.Bot;
 
 public class ProductionFacility extends BasicFacility {
 
+	public static final String RESULT_RESOURCES_ACTUAL = "RESULT_RESOURCES";
+	public static final String RESULT_RESOURCES_INCREASE = "RESULT_RESOURCES_INCREASE";
+
 	private ScheduledExecutorService executorService;
 
-	public ProductionFacility(Castle castle, Resources resources) {
-		super(castle, resources);
+	public ProductionFacility(Castle castle, Resources resources, Bot bot) {
+		super(castle, resources, bot);
 	}
 
 	@Override
@@ -29,12 +33,12 @@ public class ProductionFacility extends BasicFacility {
 
 		if (executorService == null) {
 			executorService = Executors.newSingleThreadScheduledExecutor();
-			executorService.scheduleAtFixedRate(this, 10, 1, TimeUnit.SECONDS);
+			executorService.scheduleAtFixedRate(this, 10, 5, TimeUnit.SECONDS);
 		}
 	}
 
 	@Override
-	public ProcessResult process() {
+	public ProcessResult2 process() {
 		//		int potentialResourceIncrease = getPotentialIncrease();
 
 		//		int actualResourceIncrease = resources.increaseIfPossible(potentialResourceIncrease);
@@ -44,7 +48,10 @@ public class ProductionFacility extends BasicFacility {
 		// TODO Nachricht an Interessierte senden, wenn Lager voll
 		// TODO Listener aus Oberklasse protected machen oder den Nachricht-Code dorthin verschieben
 
-		return new ProductionResult(actualResourceIncrease, resources.getActual());
+		ProcessResult2 result = new ProcessResult2();
+		result.addResultInteger(RESULT_RESOURCES_ACTUAL, Integer.valueOf(resources.getActual()));
+		result.addResultInteger(RESULT_RESOURCES_INCREASE, Integer.valueOf(actualResourceIncrease));
+		return result;
 	}
 
 	@Override

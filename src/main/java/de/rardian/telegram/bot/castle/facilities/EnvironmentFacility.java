@@ -11,13 +11,16 @@ import org.apache.commons.lang3.Validate;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.castle.model.Resources;
+import de.rardian.telegram.bot.command.action.SendMessageToUserAction;
+import de.rardian.telegram.bot.model.Bot;
+import de.rardian.telegram.bot.model.User;
 
 public class EnvironmentFacility extends BasicFacility implements Runnable {
 
 	private ScheduledExecutorService executorService;
 
-	public EnvironmentFacility(Castle castle, Resources resources) {
-		super(castle, resources);
+	public EnvironmentFacility(Castle castle, Resources resources, Bot bot) {
+		super(castle, resources, bot);
 	}
 
 	@Override
@@ -31,8 +34,9 @@ public class EnvironmentFacility extends BasicFacility implements Runnable {
 	}
 
 	@Override
-	public ProcessResult process() {
+	public ProcessResult2 process() {
 		// TODO based on SCOUTING skill and already existing resource locations the chance for finding new spots de- or increases
+		ProcessResult2 resultContainer = new ProcessResult2();
 
 		synchronized (members) {
 
@@ -45,15 +49,18 @@ public class EnvironmentFacility extends BasicFacility implements Runnable {
 					resources.increaseResourceFieldCount();
 				}
 
-				if (scoutingSkill % 2 == 0) {
-					System.out.println("scoutingSkill von " + inhabitant.getName() + " erhöht");
-					inhabitant.increaseXp(SCOUTING);
+				//				if (resourceFieldCount % 2 == 0) {
+				System.out.println("scoutingSkill von " + inhabitant.getName() + " erhöht");
+				boolean levelup = inhabitant.increaseXp(SCOUTING);
+				if (levelup) {
+					User user = castle.getUserBy(inhabitant);
+					resultContainer.addResultAction(new SendMessageToUserAction(user, "Du hast dich im Kundschaften verbessert."));
 				}
+				//				}
 			}
 		}
 
-		return new ProcessResult() {
-		};
+		return resultContainer;
 	}
 
 	@Override

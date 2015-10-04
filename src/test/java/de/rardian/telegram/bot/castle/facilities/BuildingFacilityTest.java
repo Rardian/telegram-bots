@@ -15,6 +15,7 @@ import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.castle.model.InhabitantTestFactory;
 import de.rardian.telegram.bot.castle.model.Resources;
+import de.rardian.telegram.bot.model.Bot;
 import de.rardian.telegram.bot.model.User;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -28,6 +29,8 @@ public class BuildingFacilityTest {
 	private static final int RESOURCES_EMPTY = 0;
 
 	@Mock
+	private Bot bot;
+	@Mock
 	private User user;
 	@Mock
 	private Castle castle;
@@ -38,7 +41,7 @@ public class BuildingFacilityTest {
 	public void ShouldNotUseMoreResourcesThanNeededOnFinishing() throws Exception {
 		// Init
 		Resources testResources = new Resources(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
-		underTest = new BuildingFacility(castle, testResources);
+		underTest = new BuildingFacility(castle, testResources, bot);
 		Inhabitant seasonedBuilder = InhabitantTestFactory.newUniqueInhabitant(1);
 
 		// levelup
@@ -67,39 +70,39 @@ public class BuildingFacilityTest {
 	@Test
 	public void noBuildingWithoutResources() throws Exception {
 		// Init
-		underTest = new BuildingFacility(castle, new Resources(RESOURCES_EMPTY, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT));
+		underTest = new BuildingFacility(castle, new Resources(RESOURCES_EMPTY, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT), bot);
 		for (int i = 0; i < 3; i++) {
 			underTest.addMember(InhabitantTestFactory.newUniqueInhabitant(i));
 		}
 
 		// Run
-		BuildingResult result = (BuildingResult) underTest.process();
+		ProcessResult2 result = underTest.process();
 
 		// Assert
-		assertThat(result.getBuildingProgress(), is(RESOURCES_EMPTY));
+		assertThat(result.getResultInteger(BuildingFacility.RESULT_BUILDING_PROGRESS), is(0));
 	}
 
 	@Test
 	public void builderCountSmallerThanResourceCountShouldIncreaseBuildingProgressByBuilderCount() throws Exception {
 		// Init
-		underTest = new BuildingFacility(castle, new Resources(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT));
+		underTest = new BuildingFacility(castle, new Resources(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT), bot);
 		final int builderCount = 3;
 		for (int i = 0; i < builderCount; i++) {
 			underTest.addMember(InhabitantTestFactory.newUniqueInhabitant(i));
 		}
 
 		// Run
-		BuildingResult result = (BuildingResult) underTest.process();
+		ProcessResult2 result = underTest.process();
 
 		// Assert
-		assertThat(result.getBuildingProgress(), is(builderCount));
+		assertThat(result.getResultInteger(BuildingFacility.RESULT_BUILDING_PROGRESS), is(builderCount));
 	}
 
 	@Test
 	public void buildingCrewReachesGoalShouldIncreaseCapacity() throws Exception {
 		// Init
 		Resources testResources = new Resources(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
-		underTest = new BuildingFacility(castle, testResources);
+		underTest = new BuildingFacility(castle, testResources, bot);
 		final int builderCount = RESOURCES_FULL;
 		for (int i = 0; i < builderCount; i++) {
 			underTest.addMember(InhabitantTestFactory.newUniqueInhabitant(i));

@@ -80,12 +80,13 @@ public class Inhabitant implements Comparable<Inhabitant> {
 		return getSkills().get(skill).level();
 	}
 
-	public void increaseXp(CastleFacilityCategories category) {
+	public boolean increaseXp(CastleFacilityCategories category) {
 		boolean levelup = getSkills().get(category).increase();
 		//		System.out.println(getStatusAsString());
 		if (levelup) {
 			System.out.println("*** " + getName() + " steigt in " + category + " auf ***");
 		}
+		return levelup;
 	}
 
 	@Deprecated

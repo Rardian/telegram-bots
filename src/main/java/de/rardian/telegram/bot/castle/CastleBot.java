@@ -16,6 +16,7 @@ import de.rardian.telegram.bot.command.CommandParser;
 import de.rardian.telegram.bot.command.action.Action;
 import de.rardian.telegram.bot.command.action.ActionExecuter;
 import de.rardian.telegram.bot.command.action.ActionInitializer;
+import de.rardian.telegram.bot.command.action.ResultAction;
 import de.rardian.telegram.bot.manage.UserManager;
 import de.rardian.telegram.bot.model.Bot;
 import de.rardian.telegram.bot.model.Message;
@@ -27,7 +28,7 @@ public class CastleBot implements Bot {
 	private UserManager userManager;
 	private CommandParser commandParser;
 	private CommandInitializer commandInitializer;
-	private Castle castle = new Castle();
+	private Castle castle;
 	private ActionExecuter actionExecuter;
 
 	public void setUserManager(UserManager manager) {
@@ -49,6 +50,14 @@ public class CastleBot implements Bot {
 	@Override
 	public String getId() {
 		return ID;
+	}
+
+	@Override
+	public void executeResultActions(Collection<ResultAction> actions) {
+		System.out.println("ResultActions executed");
+		for (ResultAction action : actions) {
+			getActionExecuter().execute(action);
+		}
 	}
 
 	@Override
@@ -125,7 +134,7 @@ public class CastleBot implements Bot {
 
 	private Castle getCastle() {
 		if (castle == null) {
-			castle = new Castle();
+			castle = new Castle(this);
 			//			castle.setProductionListener();
 		}
 		return castle;

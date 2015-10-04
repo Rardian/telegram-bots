@@ -11,13 +11,16 @@ import org.apache.commons.lang3.Validate;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.castle.model.Resources;
+import de.rardian.telegram.bot.model.Bot;
 
 public class BuildingFacility extends BasicFacility implements Runnable {
+	public static final String RESULT_BUILDING_PROGRESS = "RESULT_BUILDING_PROGRESS";
+
 	private int overallBuildingProgress = 0;
 	private ScheduledExecutorService executorService;
 
-	public BuildingFacility(Castle castle, Resources resources) {
-		super(castle, resources);
+	public BuildingFacility(Castle castle, Resources resources, Bot bot) {
+		super(castle, resources, bot);
 	}
 
 	@Override
@@ -31,12 +34,12 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 
 		if (executorService == null) {
 			executorService = Executors.newSingleThreadScheduledExecutor();
-			executorService.scheduleAtFixedRate(this, 10, 1, TimeUnit.SECONDS);
+			executorService.scheduleAtFixedRate(this, 10, 15, TimeUnit.SECONDS);
 		}
 	}
 
 	@Override
-	public ProcessResult process() {
+	public ProcessResult2 process() {
 		int actualBuildingProgress = 0;
 
 		synchronized (members) {
@@ -71,7 +74,9 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 			}
 		}
 
-		return new BuildingResult(actualBuildingProgress);
+		ProcessResult2 result = new ProcessResult2();
+		result.addResultInteger(RESULT_BUILDING_PROGRESS, actualBuildingProgress);
+		return result;
 	}
 
 	public int getProgress() {

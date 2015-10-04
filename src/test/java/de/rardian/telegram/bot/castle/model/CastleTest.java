@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import de.rardian.telegram.bot.castle.CastleBot;
 import de.rardian.telegram.bot.model.User;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -18,13 +19,15 @@ public class CastleTest {
 	public ExpectedException thrown = ExpectedException.none();
 
 	@Mock
+	private CastleBot bot;
+	@Mock
 	private User user;
 
 	private Castle underTest;
 
 	@Before
 	public void initCastle() {
-		underTest = new Castle();
+		underTest = new Castle(bot);
 	}
 
 	@Test

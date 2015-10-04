@@ -6,6 +6,11 @@ public class ActionExecuter {
 
 	private ActionInitializer actionInitializer;
 
+	public void execute(ResultAction action) {
+		actionInitializer.injectActionDependencies(action, null);
+		action.execute();
+	}
+
 	public void execute(Action action, Message message) {
 		actionInitializer.injectActionDependencies(action, message);
 		action.execute();

@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.InhabitantTestFactory;
 import de.rardian.telegram.bot.castle.model.Resources;
+import de.rardian.telegram.bot.model.Bot;
 import de.rardian.telegram.bot.model.User;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -27,13 +28,15 @@ public class ProductionFacilityTest {
 	@Mock
 	private User user;
 	@Mock
+	private Bot bot;
+	@Mock
 	private Castle castle;
 
 	private ProductionFacility underTest;
 
 	@Before
 	public void initCastle() {
-		underTest = new ProductionFacility(castle, new Resources(0, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT));
+		underTest = new ProductionFacility(castle, new Resources(0, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT), bot);
 	}
 
 	@Test
@@ -44,10 +47,10 @@ public class ProductionFacilityTest {
 		}
 
 		// Run
-		ProductionResult result = (ProductionResult) underTest.process();
+		ProcessResult2 result = underTest.process();
 
 		// Assert
-		assertThat(result.getResources(), is(RESOURCES_CAPACITY));
+		assertThat(result.getResultInteger(ProductionFacility.RESULT_RESOURCES_ACTUAL), is(RESOURCES_CAPACITY));
 	}
 
 	@Test
@@ -58,10 +61,10 @@ public class ProductionFacilityTest {
 		}
 
 		// Run
-		ProductionResult result = (ProductionResult) underTest.process();
+		ProcessResult2 result = underTest.process();
 
 		// Assert
-		assertThat(result.getResources(), is(3));
+		assertThat(result.getResultInteger(ProductionFacility.RESULT_RESOURCES_ACTUAL), is(3));
 	}
 
 	@Test
@@ -73,10 +76,10 @@ public class ProductionFacilityTest {
 		underTest.process();
 
 		// Run
-		ProductionResult result = (ProductionResult) underTest.process();
+		ProcessResult2 result = underTest.process();
 
 		// Assert
-		assertThat(result.getResources(), is(RESOURCES_CAPACITY));
+		assertThat(result.getResultInteger(ProductionFacility.RESULT_RESOURCES_ACTUAL), is(RESOURCES_CAPACITY));
 	}
 
 }

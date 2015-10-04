@@ -3,6 +3,7 @@ package de.rardian.telegram.bot.castle.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
@@ -10,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.Maps;
 
+import de.rardian.telegram.bot.castle.CastleBot;
 import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
 import de.rardian.telegram.bot.castle.facilities.BuildingFacility;
 import de.rardian.telegram.bot.castle.facilities.CastleFacility;
@@ -28,6 +30,12 @@ public class Castle {
 
 	//	private ArrayList<CastleFacility> facilities;
 	private NavigableMap<CastleFacilityCategories, CastleFacility> facilities;
+
+	private CastleBot bot;
+
+	public Castle(CastleBot castleBot) {
+		this.bot = castleBot;
+	}
 
 	public String getStatusAsString() {
 		String listOfInhabitants = "";
@@ -102,6 +110,17 @@ public class Castle {
 		return inhabitants.get(user);
 	}
 
+	public User getUserBy(Inhabitant search) {
+		synchronized (inhabitants) {
+			for (Entry<User, Inhabitant> pairs : inhabitants.entrySet()) {
+				if (pairs.getValue().compareTo(search) == 0) {
+					return pairs.getKey();
+				}
+			}
+		}
+		throw new IllegalStateException("Keinen Nutzer für Einwohner '" + search.getName() + "' gefunden");
+	}
+
 	public void setInhabitantIdle(Inhabitant user) {
 		Collection<CastleFacility> facilities = getFacilities().values();
 
@@ -114,21 +133,21 @@ public class Castle {
 
 	private CastleFacility getBuildingFacility() {
 		if (buildingFacility == null) {
-			buildingFacility = new BuildingFacility(this, resources);
+			buildingFacility = new BuildingFacility(this, resources, bot);
 		}
 		return buildingFacility;
 	}
 
 	private CastleFacility getEnvironmentFacility() {
 		if (environmentFacility == null) {
-			environmentFacility = new EnvironmentFacility(this, resources);
+			environmentFacility = new EnvironmentFacility(this, resources, bot);
 		}
 		return environmentFacility;
 	}
 
 	private CastleFacility getProductionFacility() {
 		if (produceFacility == null) {
-			produceFacility = new ProductionFacility(this, resources);
+			produceFacility = new ProductionFacility(this, resources, bot);
 		}
 		return produceFacility;
 	}

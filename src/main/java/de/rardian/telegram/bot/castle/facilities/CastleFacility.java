@@ -15,6 +15,6 @@ public interface CastleFacility {
 	/** You need to define a category for your facility. */
 	public CastleFacilityCategories getCategory();
 
-	public ProcessResult process();
+	public ProcessResult2 process();
 
 }
