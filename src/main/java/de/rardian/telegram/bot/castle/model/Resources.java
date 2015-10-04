@@ -1,9 +1,5 @@
 package de.rardian.telegram.bot.castle.model;
 
-import static de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories.PRODUCING;
-
-import java.util.Collection;
-
 import com.google.common.annotations.VisibleForTesting;
 
 public class Resources {
@@ -56,31 +52,31 @@ public class Resources {
 		return actualResourceIncrease;
 	}
 
-	public int increase(Collection<Inhabitant> members) {
-		int actualIncrease = 0;
-
-		synchronized (members) {
-
-			for (Inhabitant inhabitant : members) {
-				// System.out.println("increase from member: " + inhabitant.getName());
-
-				int potentialIncrease = inhabitant.getSkill(PRODUCING);
-				// System.out.println("  potential increase : " + potentialIncrease);
-
-				actualIncrease += increaseIfPossible(potentialIncrease);
-				// System.out.println("  actual increase : " + actualIncrease);
-
-				if (actualIncrease > 0) {
-					inhabitant.increaseXp(PRODUCING);
-					// System.out.println("  xp increased :)");
-				} else {
-					// System.out.println("  xp not increased :(");
-				}
-			}
-		}
-
-		return actualIncrease;
-	}
+	//	public int increase(Collection<Inhabitant> members) {
+	//		int actualIncrease = 0;
+	//
+	//		synchronized (members) {
+	//
+	//			for (Inhabitant inhabitant : members) {
+	//				// System.out.println("increase from member: " + inhabitant.getName());
+	//
+	//				int potentialIncrease = inhabitant.getSkill(PRODUCING);
+	//				// System.out.println("  potential increase : " + potentialIncrease);
+	//
+	//				actualIncrease += increaseIfPossible(potentialIncrease);
+	//				// System.out.println("  actual increase : " + actualIncrease);
+	//
+	//				if (actualIncrease > 0) {
+	//					inhabitant.increaseXp(PRODUCING);
+	//					// System.out.println("  xp increased :)");
+	//				} else {
+	//					// System.out.println("  xp not increased :(");
+	//				}
+	//			}
+	//		}
+	//
+	//		return actualIncrease;
+	//	}
 
 	public int getMaxCapacity() {
 		return resourceFieldCount;

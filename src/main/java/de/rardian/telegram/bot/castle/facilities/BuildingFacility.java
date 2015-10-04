@@ -34,13 +34,14 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 
 		if (executorService == null) {
 			executorService = Executors.newSingleThreadScheduledExecutor();
-			executorService.scheduleAtFixedRate(this, 10, 15, TimeUnit.SECONDS);
+			executorService.scheduleAtFixedRate(this, 1, 1, TimeUnit.SECONDS);
 		}
 	}
 
 	@Override
 	public ProcessResult2 process() {
 		int actualBuildingProgress = 0;
+		ProcessResult2 resultContainer = new ProcessResult2();
 
 		synchronized (members) {
 
@@ -60,7 +61,7 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 					resources.reduce(actualBuildingSteps);
 					actualBuildingProgress += actualBuildingSteps;
 					overallBuildingProgress += actualBuildingSteps;
-					inhabitant.increaseXp(category);
+					super.increaseInhabitantXp(inhabitant, BUILDING, resultContainer);
 				}
 
 				final boolean buildingFinished = overallBuildingProgress >= overallBuildingStepsNeeded;
@@ -74,9 +75,8 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 			}
 		}
 
-		ProcessResult2 result = new ProcessResult2();
-		result.addResultInteger(RESULT_BUILDING_PROGRESS, actualBuildingProgress);
-		return result;
+		resultContainer.addResultInteger(RESULT_BUILDING_PROGRESS, actualBuildingProgress);
+		return resultContainer;
 	}
 
 	public int getProgress() {

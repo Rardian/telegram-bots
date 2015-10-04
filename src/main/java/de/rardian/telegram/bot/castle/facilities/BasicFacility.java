@@ -13,8 +13,10 @@ import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.castle.model.Resources;
+import de.rardian.telegram.bot.command.action.SendMessageToUserAction;
 import de.rardian.telegram.bot.manage.UserManager;
 import de.rardian.telegram.bot.model.Bot;
+import de.rardian.telegram.bot.model.User;
 
 /** Provides a basic implementation for handling members. */
 public abstract class BasicFacility implements CastleFacility, Runnable {
@@ -59,6 +61,16 @@ public abstract class BasicFacility implements CastleFacility, Runnable {
 		start();
 	}
 
+	protected void increaseInhabitantXp(Inhabitant inhabitant, CastleFacilityCategories skill, ProcessResult2 resultContainer) {
+		boolean levelup = inhabitant.increaseXp(skill);
+		System.out.println(skill + " von " + inhabitant.getName() + " erhöht");
+
+		if (levelup) {
+			User user = castle.getUserBy(inhabitant);
+			resultContainer.addResultAction(new SendMessageToUserAction(user, "Du hast dich in " + skill + " verbessert."));
+		}
+	}
+
 	@Override
 	public void removeMember(Inhabitant inhabitant) {
 		Iterables.removeIf(members, new com.google.common.base.Predicate<Inhabitant>() {
@@ -94,4 +106,5 @@ public abstract class BasicFacility implements CastleFacility, Runnable {
 
 	/** start the facility's work. */
 	protected abstract void start();
+
 }

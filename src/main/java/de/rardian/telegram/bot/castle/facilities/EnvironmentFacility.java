@@ -11,9 +11,7 @@ import org.apache.commons.lang3.Validate;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.castle.model.Resources;
-import de.rardian.telegram.bot.command.action.SendMessageToUserAction;
 import de.rardian.telegram.bot.model.Bot;
-import de.rardian.telegram.bot.model.User;
 
 public class EnvironmentFacility extends BasicFacility implements Runnable {
 
@@ -29,7 +27,7 @@ public class EnvironmentFacility extends BasicFacility implements Runnable {
 
 		if (executorService == null) {
 			executorService = Executors.newSingleThreadScheduledExecutor();
-			executorService.scheduleAtFixedRate(this, 10, 1, TimeUnit.SECONDS);
+			executorService.scheduleAtFixedRate(this, 1, 1, TimeUnit.SECONDS);
 		}
 	}
 
@@ -49,14 +47,10 @@ public class EnvironmentFacility extends BasicFacility implements Runnable {
 					resources.increaseResourceFieldCount();
 				}
 
-				//				if (resourceFieldCount % 2 == 0) {
-				System.out.println("scoutingSkill von " + inhabitant.getName() + " erhöht");
-				boolean levelup = inhabitant.increaseXp(SCOUTING);
-				if (levelup) {
-					User user = castle.getUserBy(inhabitant);
-					resultContainer.addResultAction(new SendMessageToUserAction(user, "Du hast dich im Kundschaften verbessert."));
-				}
-				//				}
+				//			if (resourceFieldCount % 2 == 0) {
+
+				super.increaseInhabitantXp(inhabitant, SCOUTING, resultContainer);
+				//			}				
 			}
 		}
 
