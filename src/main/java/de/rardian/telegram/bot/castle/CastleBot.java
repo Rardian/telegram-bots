@@ -54,7 +54,7 @@ public class CastleBot implements Bot {
 
 	@Override
 	public void executeResultActions(Collection<ResultAction> actions) {
-		System.out.println("ResultActions executed");
+		//		System.out.println("ResultActions executed");
 		for (ResultAction action : actions) {
 			getActionExecuter().execute(action);
 		}

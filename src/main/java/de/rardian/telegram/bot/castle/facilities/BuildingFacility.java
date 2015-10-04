@@ -2,16 +2,22 @@ package de.rardian.telegram.bot.castle.facilities;
 
 import static de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories.BUILDING;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.castle.model.Resources;
+import de.rardian.telegram.bot.command.action.BroadcastMessageAction;
 import de.rardian.telegram.bot.model.Bot;
+import de.rardian.telegram.bot.model.User;
 
 public class BuildingFacility extends BasicFacility implements Runnable {
 	public static final String RESULT_BUILDING_PROGRESS = "RESULT_BUILDING_PROGRESS";
@@ -65,11 +71,17 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 				}
 
 				final boolean buildingFinished = overallBuildingProgress >= overallBuildingStepsNeeded;
-				System.out.println("buildingFinished=" + buildingFinished + " && capacityCanBeIncreased=" + capacityCanBeIncreased);
 
 				if (buildingFinished && capacityCanBeIncreased) {
 					resources.increaseCapacity();
 					overallBuildingProgress = 0;
+
+					User user = castle.getUserBy(inhabitant);
+					Collection<Inhabitant> otherMembers = CollectionUtils.disjunction(members, Arrays.asList(inhabitant));
+					resultContainer.addResultAction(//
+							new BroadcastMessageAction(//
+									user, "Du hast den Bau abgeschlossen.", //
+									new ArrayList<Inhabitant>(otherMembers), "Der Bau wurde von " + inhabitant.getName() + " abgeschlossen."));
 					break;
 				}
 			}
