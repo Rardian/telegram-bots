@@ -36,7 +36,7 @@ public class ProductionFacility extends BasicFacility {
 
 		if (executorService == null) {
 			executorService = Executors.newSingleThreadScheduledExecutor();
-			executorService.scheduleAtFixedRate(this, 1, 1, TimeUnit.SECONDS);
+			executorService.scheduleAtFixedRate(this, 5, 10, TimeUnit.SECONDS);
 		}
 	}
 
@@ -58,18 +58,12 @@ public class ProductionFacility extends BasicFacility {
 
 				if (actualResourceIncrease > 0) {
 					super.increaseInhabitantXp(inhabitant, PRODUCING, resultContainer);
-					inhabitant.increaseXp(PRODUCING);
 					// System.out.println("  xp increased :)");
 				} else {
 					// System.out.println("  xp not increased :(");
 				}
 			}
 		}
-		//		int potentialResourceIncrease = getPotentialIncrease();
-
-		//		int actualResourceIncrease = resources.increaseIfPossible(potentialResourceIncrease);
-
-		//		int actualResourceIncrease = resources.increase(members);
 
 		// TODO Nachricht an Interessierte senden, wenn Lager voll
 		// TODO Listener aus Oberklasse protected machen oder den Nachricht-Code dorthin verschieben
@@ -82,10 +76,10 @@ public class ProductionFacility extends BasicFacility {
 	@Override
 	protected int getPotentialIncrease() {
 		int potentialIncrease = 0;
-		//		for (Inhabitant inhabitant : members) {
-		//			potentialIncrease += inhabitant.getProductionSkill();
-		//			inhabitant.increaseXp(category);
-		//		}
+		// for (Inhabitant inhabitant : members) {
+		// potentialIncrease += inhabitant.getProductionSkill();
+		// inhabitant.increaseXp(category);
+		// }
 		return potentialIncrease;
 	}
 
