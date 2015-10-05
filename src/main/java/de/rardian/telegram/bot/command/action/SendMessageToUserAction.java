@@ -5,7 +5,7 @@ import de.rardian.telegram.bot.model.User;
 
 public class SendMessageToUserAction extends ResultAction implements SendsMessage {
 
-	private MessageSender sender;
+	protected MessageSender sender;
 	private String message;
 
 	public SendMessageToUserAction(User user, String message) {

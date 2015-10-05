@@ -29,11 +29,11 @@ public class MessageSender {
 			request.asJson();
 		} catch (UnirestException e1) {
 			e1.printStackTrace();
-			throw new RuntimeException(e1);
+			// throw new RuntimeException(e1);
 		}
 	}
 
-	//	public void broadcast(Channel channel) {
+	// public void broadcast(Channel channel) {
 	//
-	//	}
+	// }
 }

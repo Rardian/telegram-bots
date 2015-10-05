@@ -5,12 +5,10 @@ import java.util.Collection;
 import de.rardian.telegram.bot.castle.commands.actions.CastleAware;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
-import de.rardian.telegram.bot.communication.MessageSender;
 import de.rardian.telegram.bot.model.User;
 
 public class BroadcastMessageAction extends SendMessageToUserAction implements SendsMessage, CastleAware {
 
-	private MessageSender sender;
 	private Collection<Inhabitant> otherMembers;
 	private String othersMessage;
 	private Castle castle;

@@ -38,7 +38,7 @@ public class MessageReply {
 			request.asJson();
 		} catch (UnirestException e1) {
 			e1.printStackTrace();
-			throw new RuntimeException(e1);
+			// throw new RuntimeException(e1);
 		}
 	}
 
