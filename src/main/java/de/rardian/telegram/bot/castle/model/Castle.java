@@ -28,7 +28,7 @@ public class Castle {
 	private CastleFacility produceFacility;
 	private CastleFacility environmentFacility;
 
-	//	private ArrayList<CastleFacility> facilities;
+	// private ArrayList<CastleFacility> facilities;
 	private NavigableMap<CastleFacilityCategories, CastleFacility> facilities;
 
 	private CastleBot bot;
@@ -54,10 +54,16 @@ public class Castle {
 				+ "-> Scouts: " + printFacility(CastleFacilityCategories.SCOUTING)//
 				+ "Ressourcen:\n"//
 				+ "-> Aktuell: " + resources.getActual() + " (Fundstätten: " + resources.getResourceFieldCount() + ")\n"//
-				+ "-> Kapazität: " + resources.getCapacity() + " (max. Kapazität: " + resources.getMaxCapacity() + ")\n"// TODO max Kapazität von Fieldcount trennen. Gibt dann zwei Typen findbarer Sachen in der Umgebung
+				+ "-> Kapazität: " + resources.getCapacity() + " (max. Kapazität: " + resources.getMaxCapacity() + ")\n"//
+				// FIXME maxCapacity sollte das Zehnfache von resourceFieldCount sein
+				// TODO max Kapazität von Fieldcount trennen. Gibt dann zwei Typen findbarer Sachen in der Umgebung
 				+ "Bauvorhaben: "//
 				+ ((BuildingFacility) getBuildingFacility()).getProgress() + " (von " + (resources.getCapacity() + 1) * 2 + ")";
 		return status;
+	}
+
+	public Collection<Inhabitant> getInhabitants() {
+		return new ArrayList<Inhabitant>(inhabitants.values());
 	}
 
 	private String printFacility(CastleFacilityCategories category) {

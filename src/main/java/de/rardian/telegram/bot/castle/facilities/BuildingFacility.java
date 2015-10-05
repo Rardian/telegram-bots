@@ -40,7 +40,7 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 
 		if (executorService == null) {
 			executorService = Executors.newSingleThreadScheduledExecutor();
-			executorService.scheduleAtFixedRate(this, 1, 1, TimeUnit.SECONDS);
+			executorService.scheduleAtFixedRate(this, 10, 20, TimeUnit.SECONDS);
 		}
 	}
 
@@ -77,11 +77,13 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 					overallBuildingProgress = 0;
 
 					User user = castle.getUserBy(inhabitant);
-					Collection<Inhabitant> otherMembers = CollectionUtils.disjunction(members, Arrays.asList(inhabitant));
+					Collection<Inhabitant> otherMembers = CollectionUtils.disjunction(//
+							castle.getInhabitants(), Arrays.asList(inhabitant));
 					resultContainer.addResultAction(//
 							new BroadcastMessageAction(//
-									user, "Du hast den Bau abgeschlossen.", //
-									new ArrayList<Inhabitant>(otherMembers), "Der Bau wurde von " + inhabitant.getName() + " abgeschlossen."));
+									user, "Du hast die Lagerkapazität.", //
+									new ArrayList<Inhabitant>(otherMembers), inhabitant.getName()
+											+ " hat die Lagerkapazität erhöht."));
 					break;
 				}
 			}

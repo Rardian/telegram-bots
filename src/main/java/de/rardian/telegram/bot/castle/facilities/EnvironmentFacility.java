@@ -33,7 +33,7 @@ public class EnvironmentFacility extends BasicFacility implements Runnable {
 
 		if (executorService == null) {
 			executorService = Executors.newSingleThreadScheduledExecutor();
-			executorService.scheduleAtFixedRate(this, 1, 1, TimeUnit.SECONDS);
+			executorService.scheduleAtFixedRate(this, 15, 45, TimeUnit.SECONDS);
 		}
 	}
 
