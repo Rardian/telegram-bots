@@ -33,7 +33,7 @@ public class EnvironmentFacility extends BasicFacility implements Runnable {
 
 		if (executorService == null) {
 			executorService = Executors.newSingleThreadScheduledExecutor();
-			executorService.scheduleAtFixedRate(this, 15, 45, TimeUnit.SECONDS);
+			executorService.scheduleAtFixedRate(this, 15, 55, TimeUnit.SECONDS);
 		}
 	}
 
@@ -55,7 +55,8 @@ public class EnvironmentFacility extends BasicFacility implements Runnable {
 
 					if (newResourceFieldCount > resourceFieldCount) {
 						User user = castle.getUserBy(inhabitant);
-						Collection<Inhabitant> otherMembers = CollectionUtils.disjunction(members, Arrays.asList(inhabitant));
+						Collection<Inhabitant> otherMembers = CollectionUtils.disjunction(//
+								castle.getInhabitants(), Arrays.asList(inhabitant));
 
 						resultContainer.addResultAction(//
 								new BroadcastMessageAction(//
