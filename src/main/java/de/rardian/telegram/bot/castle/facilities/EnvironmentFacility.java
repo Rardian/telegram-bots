@@ -51,15 +51,16 @@ public class EnvironmentFacility extends BasicFacility implements Runnable {
 
 				if (scoutingSkill * 10 > resourceFieldCount) {
 					System.out.println(inhabitant.getName() + " erhöht fieldCount");
-					resources.increaseResourceFieldCount();
-					if (resources.getResourceFieldCount() > resourceFieldCount) {
+					int newResourceFieldCount = resources.increaseResourceFieldCount();
+
+					if (newResourceFieldCount > resourceFieldCount) {
 						User user = castle.getUserBy(inhabitant);
 						Collection<Inhabitant> otherMembers = CollectionUtils.disjunction(members, Arrays.asList(inhabitant));
+
 						resultContainer.addResultAction(//
 								new BroadcastMessageAction(//
-										user, "Du hast ein Ressourcenfeld gefunden.", //
-										new ArrayList<Inhabitant>(otherMembers), inhabitant.getName()
-												+ " hat ein Ressourcenfeld gefunden."));
+										user, "Du hast ein Ressourcenfeld entdeckt.", //
+										new ArrayList<Inhabitant>(otherMembers), inhabitant.getName() + " hat ein Ressourcenfeld entdeckt."));
 					}
 				}
 

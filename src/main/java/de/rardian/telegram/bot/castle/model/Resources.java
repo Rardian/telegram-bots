@@ -86,8 +86,10 @@ public class Resources {
 		return resourceFieldCount / 10;
 	}
 
-	public void increaseResourceFieldCount() {
+	public int increaseResourceFieldCount() {
 		resourceFieldCount++;
+
+		return getResourceFieldCount();
 	}
 
 }
