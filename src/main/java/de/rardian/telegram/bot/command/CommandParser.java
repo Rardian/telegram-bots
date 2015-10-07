@@ -38,6 +38,9 @@ public class CommandParser {
 			if (commandToExecute == null) {
 				actions.add(new CommandUnknownAction());
 			} else {
+				if (commandToExecute instanceof MessageAware) {
+					((MessageAware) commandToExecute).setMessage(message);
+				}
 				Collection<Action> resultActions = commandToExecute.executeWithParams(params);
 				actions.addAll(resultActions);
 			}
