@@ -12,16 +12,9 @@ import de.rardian.telegram.bot.model.User;
 public class Inhabitant implements Comparable<Inhabitant> {
 	private User representative;
 
-	// Level
-	/**
-	 * influences the amount of xp needed for advancement, not shown to players
-	 */
-	//	private int level = 1;
-	/**
-	 * gather level * 100 XP to gain a level and thus advance in a skill of your
-	 * choice
-	 */
-	//	private int xp = 0;
+	// Personality
+	private String name;
+	private String appearance;
 
 	// Skills
 	/**
@@ -54,7 +47,7 @@ public class Inhabitant implements Comparable<Inhabitant> {
 
 	@Override
 	public int compareTo(Inhabitant o) {
-		return ObjectUtils.compare(representative, o.getUser());
+		return ObjectUtils.compare(getUser(), o.getUser());
 	}
 
 	private User getUser() {
@@ -63,12 +56,19 @@ public class Inhabitant implements Comparable<Inhabitant> {
 
 	public String getStatusAsString() {
 		String skillsAsString = StringUtils.join(getSkills().values(), ",\n  ");
-		return "Deinem Bewohner geht's gut.\n  "//
+		return getName() + " geht's gut.\n  "//
 				+ skillsAsString;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getName() {
-		return representative.getFirstName();
+		if (name == null) {
+			return representative.getFirstName();
+		}
+		return name;
 	}
 
 	@Deprecated

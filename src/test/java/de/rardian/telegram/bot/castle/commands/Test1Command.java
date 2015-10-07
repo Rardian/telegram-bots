@@ -12,9 +12,13 @@ public class Test1Command implements Command {
 		@Override
 		public void execute() {
 			// TODO Auto-generated method stub
-
 		}
 	};
+	private String params;
+
+	public String getParams() {
+		return params;
+	}
 
 	@Override
 	public Collection<String> getCommandStrings() {
@@ -23,12 +27,12 @@ public class Test1Command implements Command {
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return "TestCommand";
 	}
 
 	@Override
 	public Collection<Action> executeWithParams(String params) {
+		this.params = params;
 		return Arrays.asList(TEST_ACTION);
 	}
 

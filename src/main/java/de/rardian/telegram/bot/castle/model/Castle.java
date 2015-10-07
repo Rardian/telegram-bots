@@ -40,7 +40,7 @@ public class Castle {
 	public String getStatusAsString() {
 		String listOfInhabitants = "";
 		synchronized (inhabitants) {
-			listOfInhabitants = getUserListByFirstname(inhabitants.keySet());
+			listOfInhabitants = getInhabitantsByName(inhabitants.values());
 		}
 
 		String status = "Die Burg ist in gutem Zustand.\n"//
@@ -55,8 +55,7 @@ public class Castle {
 				+ "Ressourcen:\n"//
 				+ "-> Aktuell: " + resources.getActual() + " (Fundstätten: " + resources.getResourceFieldCount() + ")\n"//
 				+ "-> Kapazität: " + resources.getCapacity() + " (max. Kapazität: " + resources.getMaxCapacity() + ")\n"//
-				// FIXME maxCapacity sollte das Zehnfache von resourceFieldCount sein
-				// TODO max Kapazität von Fieldcount trennen. Gibt dann zwei Typen findbarer Sachen in der Umgebung
+		// TODO max Kapazität von Fieldcount trennen. Gibt dann zwei Typen findbarer Sachen in der Umgebung
 				+ "Bauvorhaben: "//
 				+ ((BuildingFacility) getBuildingFacility()).getProgress() + " (von " + (resources.getCapacity() + 1) * 2 + ")";
 		return status;
@@ -71,20 +70,20 @@ public class Castle {
 
 		String result = facility.getMemberCount()//
 				+ " ("//
-				+ facility.getMemberListByFirstname()//
+				+ facility.getMemberListByName()//
 				+ ")\n";
 
 		return result;
 	}
 
-	public String getUserListByFirstname(Collection<User> users) {
-		ArrayList<String> usersByFirstname = new ArrayList<>(users.size());
+	public String getInhabitantsByName(Collection<Inhabitant> inhabitants) {
+		ArrayList<String> inhabitantsByName = new ArrayList<>(inhabitants.size());
 
-		for (User user : users) {
-			usersByFirstname.add(user.getFirstName());
+		for (Inhabitant inhabitant : inhabitants) {
+			inhabitantsByName.add(inhabitant.getName());
 		}
 
-		return StringUtils.join(usersByFirstname, ", ");
+		return StringUtils.join(inhabitantsByName, ", ");
 	}
 
 	public void addWorkerFor(CastleFacilityCategories category, Inhabitant inhabitant) throws AlreadyAddedException {

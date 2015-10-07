@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.apache.commons.collections4.Predicate;
-import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.Iterables;
 
@@ -88,16 +87,13 @@ public abstract class BasicFacility implements CastleFacility, Runnable {
 	}
 
 	@Override
-	public String getMemberListByFirstname() {
-		ArrayList<String> usersByFirstname = new ArrayList<>(members.size());
-		for (Inhabitant inhabitant : members) {
-			usersByFirstname.add(inhabitant.getName());
-		}
-		return StringUtils.join(usersByFirstname, ", ");
+	public String getMemberListByName() {
+		return castle.getInhabitantsByName(new ArrayList<>(members));
 	}
 
 	/**
-	 * Hook for calculating the potentialIncrease. Defaults to member count: Every member increases the output by one.
+	 * Hook for calculating the potentialIncrease. Defaults to member count:
+	 * Every member increases the output by one.
 	 */
 	protected int getPotentialIncrease() {
 		return getMemberCount();

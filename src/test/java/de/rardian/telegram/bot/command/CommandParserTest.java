@@ -25,6 +25,7 @@ import de.rardian.telegram.bot.model.Message;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CommandParserTest {
+
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 
@@ -90,6 +91,23 @@ public class CommandParserTest {
 
 		// Assert
 		assertThat(result, hasItem(Test1Command.TEST_ACTION));
+	}
+
+	@Test
+	public void shouldRemoveSpacesBeforeParams() throws Exception {
+		// Init
+		final String PARAMS = "eins zwei";
+		Test1Command testCommand = new Test1Command();
+		final String commandTrigger = "/command1";
+
+		when(message.getText()).thenReturn(commandTrigger + " " + PARAMS);
+		when(commands.get(commandTrigger)).thenReturn(testCommand);
+
+		// Run
+		underTest.parse(message);
+
+		// Assert
+		assertThat(testCommand.getParams(), is(PARAMS));
 	}
 
 	@Test

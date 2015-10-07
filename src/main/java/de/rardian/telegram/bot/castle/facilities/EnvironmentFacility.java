@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 
+import de.rardian.telegram.bot.castle.commands.actions.SetInhabitantsIdle;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.castle.model.Resources;
@@ -34,6 +35,7 @@ public class EnvironmentFacility extends BasicFacility implements Runnable {
 		if (executorService == null) {
 			executorService = Executors.newSingleThreadScheduledExecutor();
 			executorService.scheduleAtFixedRate(this, 15, 55, TimeUnit.SECONDS);
+			//			executorService.scheduleAtFixedRate(this, 1, 1, TimeUnit.SECONDS);
 		}
 	}
 
@@ -58,15 +60,16 @@ public class EnvironmentFacility extends BasicFacility implements Runnable {
 						Collection<Inhabitant> otherMembers = CollectionUtils.disjunction(//
 								castle.getInhabitants(), Arrays.asList(inhabitant));
 
-						resultContainer
-								.addResultAction(//
+						resultContainer.addResultAction(//
 								new BroadcastMessageAction(
 										//
 										user,
-										"Du hast ein Ressourcenfeld entdeckt. Das erhöht die Effizienz der Produzenten und die maximale Lagerkapazität!", //
-										new ArrayList<Inhabitant>(otherMembers),
-										inhabitant.getName()
+										"Du hast ein Ressourcenfeld entdeckt. Das erhöht die Effizienz der Produzenten und die maximale Lagerkapazität! Gut gelaunt kehrst du zur Burg zurück.", //
+										new ArrayList<Inhabitant>(otherMembers), inhabitant.getName()
 												+ " hat ein Ressourcenfeld entdeckt. Dadurch erhöht sich die Effizienz der Produzenten und die maximale Lagerkapazität!"));
+						resultContainer.addResultAction(//
+								new SetInhabitantsIdle(user, Arrays.asList(inhabitant)));
+
 					}
 				}
 

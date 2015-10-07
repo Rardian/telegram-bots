@@ -10,7 +10,7 @@ public interface CastleFacility {
 
 	public int getMemberCount();
 
-	public String getMemberListByFirstname();
+	public String getMemberListByName();
 
 	/** You need to define a category for your facility. */
 	public CastleFacilityCategories getCategory();

@@ -47,7 +47,7 @@ public class ResourcesTest {
 		int result = underTest.getMaxCapacity();
 
 		// Assert
-		assertThat(result, is(20));
+		assertThat(result, is(15));
 	}
 
 }

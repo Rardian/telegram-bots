@@ -21,12 +21,13 @@ public class CommandInitializer {
 
 	private void initCommands() {
 		Collection<Command> commandsToInitialize = Arrays.asList(//
+				new BuildCommand(), //
 				new CastleStatusCommand(), //
 				new CharacterStatusCommand(), //
 				new InhabitantProduceCommand(), //
 				new HelpCommand(), //
-				new BuildCommand(), //
-				new ScoutCommand());
+				new ScoutCommand(), //
+				new SetNameCommand());
 
 		for (Command command : commandsToInitialize) {
 			for (String commandString : command.getCommandStrings()) {

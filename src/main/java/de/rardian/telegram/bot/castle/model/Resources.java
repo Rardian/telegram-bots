@@ -50,7 +50,7 @@ public class Resources {
 	}
 
 	public int getMaxCapacity() {
-		return getResourceFieldCount() * 10;
+		return (getResourceFieldCount() + 1) * 5;
 	}
 
 	public int getResourceFieldCount() {
