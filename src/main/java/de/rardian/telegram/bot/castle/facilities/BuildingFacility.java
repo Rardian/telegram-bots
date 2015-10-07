@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 
+import de.rardian.telegram.bot.castle.commands.actions.SetInhabitantsIdle;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.castle.model.Resources;
@@ -56,7 +57,7 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 				int overallBuildingStepsNeeded = (resources.getCapacity() + 1) * 2;
 
 				// cost for extending capacity: new capacity * 2
-				// every builder uses 1 resource and increases buildprogress
+				// every builder uses <skill> resources to increase buildprogress
 				final int memberBuildingProgress = Math.min(potentialBuildingProgress, resources.getActual());
 				final boolean capacityCanBeIncreased = resources.getCapacity() < resources.getMaxCapacity();
 
@@ -72,18 +73,29 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 
 				final boolean buildingFinished = overallBuildingProgress >= overallBuildingStepsNeeded;
 
+				// FIXME remove capacityCanBeIncreased, it's not necessary
 				if (buildingFinished && capacityCanBeIncreased) {
 					resources.increaseCapacity();
 					overallBuildingProgress = 0;
 
 					User user = castle.getUserBy(inhabitant);
-					Collection<Inhabitant> otherMembers = CollectionUtils.disjunction(//
+					Collection<Inhabitant> otherInhabitants = CollectionUtils.disjunction(//
 							castle.getInhabitants(), Arrays.asList(inhabitant));
+					Collection<Inhabitant> otherMembers = CollectionUtils.disjunction(//
+							members, Arrays.asList(inhabitant));
 
+					// TODO assign a project leader (the starter), who is the one to finish the project
 					resultContainer.addResultAction(//
 							new BroadcastMessageAction(//
-									user, "Du hast die Lagerkapazität.", //
-									new ArrayList<Inhabitant>(otherMembers), inhabitant.getName() + " hat die Lagerkapazität erhöht."));
+									user, "Du hast das Bauprojekt beendet.", //
+									new ArrayList<Inhabitant>(otherInhabitants), inhabitant.getName() + " hat die Lagerkapazität erhöht."));
+					resultContainer.addResultAction(//
+							new BroadcastMessageAction(
+							//
+									user, "Nach Beendigung des Bauprojekts hast du die Baumannschaft verlassen.", //
+									new ArrayList<Inhabitant>(otherMembers), "Nach Abschluss der Baumaßnahmen hast du die Baumannschaft verlassen."));
+					resultContainer.addResultAction(//
+							new SetInhabitantsIdle(user, new ArrayList<Inhabitant>(members)));
 					break;
 				}
 			}

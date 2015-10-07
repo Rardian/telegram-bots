@@ -127,12 +127,12 @@ public class Castle {
 		throw new IllegalStateException("Keinen Nutzer für Einwohner '" + search.getName() + "' gefunden");
 	}
 
-	public void setInhabitantIdle(Inhabitant user) {
+	public void setInhabitantIdle(Inhabitant inhabitant) {
 		Collection<CastleFacility> facilities = getFacilities().values();
 
 		synchronized (getFacilities()) {
 			for (CastleFacility facility : facilities) {
-				facility.removeMember(user);
+				facility.removeMember(inhabitant);
 			}
 		}
 	}

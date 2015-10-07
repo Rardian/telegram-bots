@@ -36,7 +36,7 @@ public abstract class BasicFacility implements CastleFacility, Runnable {
 	@Override
 	public void run() {
 		ProcessResult2 result = process();
-		//		System.out.println(result);
+		// System.out.println(result);
 
 		bot.executeResultActions(result.getResultActions());
 
@@ -56,7 +56,7 @@ public abstract class BasicFacility implements CastleFacility, Runnable {
 		}
 		castle.setInhabitantIdle(newMember);
 		members.add(newMember);
-		// TODO set status in Inhabitant object
+		// TODO consider setting status in Inhabitant object
 
 		start();
 	}
@@ -97,8 +97,7 @@ public abstract class BasicFacility implements CastleFacility, Runnable {
 	}
 
 	/**
-	 * Hook for calculating the potentialIncrease. Defaults to member count:
-	 * Every member increases the output by one.
+	 * Hook for calculating the potentialIncrease. Defaults to member count: Every member increases the output by one.
 	 */
 	protected int getPotentialIncrease() {
 		return getMemberCount();

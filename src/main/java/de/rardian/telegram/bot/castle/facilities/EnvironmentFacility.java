@@ -58,10 +58,15 @@ public class EnvironmentFacility extends BasicFacility implements Runnable {
 						Collection<Inhabitant> otherMembers = CollectionUtils.disjunction(//
 								castle.getInhabitants(), Arrays.asList(inhabitant));
 
-						resultContainer.addResultAction(//
-								new BroadcastMessageAction(//
-										user, "Du hast ein Ressourcenfeld entdeckt.", //
-										new ArrayList<Inhabitant>(otherMembers), inhabitant.getName() + " hat ein Ressourcenfeld entdeckt."));
+						resultContainer
+								.addResultAction(//
+								new BroadcastMessageAction(
+										//
+										user,
+										"Du hast ein Ressourcenfeld entdeckt. Das erhöht die Effizienz der Produzenten und die maximale Lagerkapazität!", //
+										new ArrayList<Inhabitant>(otherMembers),
+										inhabitant.getName()
+												+ " hat ein Ressourcenfeld entdeckt. Dadurch erhöht sich die Effizienz der Produzenten und die maximale Lagerkapazität!"));
 					}
 				}
 
