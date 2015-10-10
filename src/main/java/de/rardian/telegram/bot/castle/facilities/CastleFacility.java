@@ -4,6 +4,15 @@ import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
 
 public interface CastleFacility {
+	public enum CATEGORY {
+		/** How well you produce resources */
+		PRODUCING, //
+		/** How well you build, repair and craft */
+		BUILDING, //
+		/** How well you can survive in the wilderness and find hidden spots */
+		SCOUTING
+	};
+
 	public void addMember(Inhabitant inhabitant) throws AlreadyAddedException;
 
 	public void removeMember(Inhabitant inhabitant);
@@ -13,7 +22,7 @@ public interface CastleFacility {
 	public String getMemberListByName();
 
 	/** You need to define a category for your facility. */
-	public CastleFacilityCategories getCategory();
+	public CATEGORY getCategory();
 
 	public ProcessResult2 process();
 

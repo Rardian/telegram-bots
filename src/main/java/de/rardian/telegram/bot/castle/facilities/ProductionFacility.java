@@ -1,6 +1,6 @@
 package de.rardian.telegram.bot.castle.facilities;
 
-import static de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories.PRODUCING;
+import static de.rardian.telegram.bot.castle.facilities.CastleFacility.CATEGORY.PRODUCING;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -27,8 +27,8 @@ public class ProductionFacility extends BasicFacility {
 	}
 
 	@Override
-	public CastleFacilityCategories getCategory() {
-		return CastleFacilityCategories.PRODUCING;
+	public CATEGORY getCategory() {
+		return CATEGORY.PRODUCING;
 	}
 
 	protected void start() {

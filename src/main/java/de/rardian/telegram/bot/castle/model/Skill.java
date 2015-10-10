@@ -1,18 +1,17 @@
 package de.rardian.telegram.bot.castle.model;
 
-import de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories;
+import de.rardian.telegram.bot.castle.facilities.CastleFacility;
 
 public class Skill {
 	/**
-	 * defines how fast one levels up by multiplying the needed xp for the next
-	 * level.
+	 * defines how fast one levels up by multiplying the needed xp for the next level.
 	 */
 	private static final int levelDistanceFactor = 15;
-	private CastleFacilityCategories category;
+	private CastleFacility.CATEGORY category;
 	private int level;
 	private int xp;
 
-	public Skill(CastleFacilityCategories category) {
+	public Skill(CastleFacility.CATEGORY category) {
 		this.category = category;
 		level = 1;
 		xp = 0;

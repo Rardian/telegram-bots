@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories;
+import de.rardian.telegram.bot.castle.facilities.CastleFacility;
 import de.rardian.telegram.bot.model.User;
 
 public class Inhabitant implements Comparable<Inhabitant> {
@@ -18,22 +18,19 @@ public class Inhabitant implements Comparable<Inhabitant> {
 
 	// Skills
 	/**
-	 * influences the count and increase rate of followers and relationships to
-	 * other players
+	 * influences the count and increase rate of followers and relationships to other players
 	 */
 	private int leadership;
 	/**
-	 * influences the chance to discover secrets (either on quests or on
-	 * building or producing)
+	 * influences the chance to discover secrets (either on quests or on building or producing)
 	 */
 	private int knowledge;
 
-	private Map<CastleFacilityCategories, Skill> skills;
+	private Map<CastleFacility.CATEGORY, Skill> skills;
 
 	// Resources
 	/**
-	 * the amount of followers helping you with a task, increases with focus of
-	 * specific tasks
+	 * the amount of followers helping you with a task, increases with focus of specific tasks
 	 */
 	private int followers;
 	/** the amount of damage a character can take before they get unconscious */
@@ -73,14 +70,14 @@ public class Inhabitant implements Comparable<Inhabitant> {
 
 	@Deprecated
 	public int getProductionSkill() {
-		return getSkills().get(CastleFacilityCategories.PRODUCING).level();
+		return getSkills().get(CastleFacility.CATEGORY.PRODUCING).level();
 	}
 
-	public int getSkill(CastleFacilityCategories skill) {
+	public int getSkill(CastleFacility.CATEGORY skill) {
 		return getSkills().get(skill).level();
 	}
 
-	public boolean increaseXp(CastleFacilityCategories category) {
+	public boolean increaseXp(CastleFacility.CATEGORY category) {
 		boolean levelup = getSkills().get(category).increase();
 		//		System.out.println(getStatusAsString());
 		if (levelup) {
@@ -91,13 +88,13 @@ public class Inhabitant implements Comparable<Inhabitant> {
 
 	@Deprecated
 	public int getBuildingSkill() {
-		return getSkills().get(CastleFacilityCategories.BUILDING).level();
+		return getSkills().get(CastleFacility.CATEGORY.BUILDING).level();
 	}
 
-	private Map<CastleFacilityCategories, Skill> getSkills() {
+	private Map<CastleFacility.CATEGORY, Skill> getSkills() {
 		if (skills == null) {
 			skills = new HashMap<>();
-			for (CastleFacilityCategories category : CastleFacilityCategories.values()) {
+			for (CastleFacility.CATEGORY category : CastleFacility.CATEGORY.values()) {
 				skills.put(category, new Skill(category));
 			}
 		}

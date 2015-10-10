@@ -15,7 +15,6 @@ import de.rardian.telegram.bot.castle.CastleBot;
 import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
 import de.rardian.telegram.bot.castle.facilities.BuildingFacility;
 import de.rardian.telegram.bot.castle.facilities.CastleFacility;
-import de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories;
 import de.rardian.telegram.bot.castle.facilities.EnvironmentFacility;
 import de.rardian.telegram.bot.castle.facilities.ProductionFacility;
 import de.rardian.telegram.bot.model.User;
@@ -29,7 +28,7 @@ public class Castle {
 	private CastleFacility environmentFacility;
 
 	// private ArrayList<CastleFacility> facilities;
-	private NavigableMap<CastleFacilityCategories, CastleFacility> facilities;
+	private NavigableMap<CastleFacility.CATEGORY, CastleFacility> facilities;
 
 	private CastleBot bot;
 
@@ -49,9 +48,9 @@ public class Castle {
 				+ " ("//
 				+ listOfInhabitants//
 				+ ")\n"//
-				+ "-> Produzenten: " + printFacility(CastleFacilityCategories.PRODUCING)//
-				+ "-> Baumeister: " + printFacility(CastleFacilityCategories.BUILDING)//
-				+ "-> Scouts: " + printFacility(CastleFacilityCategories.SCOUTING)//
+				+ "-> Produzenten: " + printFacility(CastleFacility.CATEGORY.PRODUCING)//
+				+ "-> Baumeister: " + printFacility(CastleFacility.CATEGORY.BUILDING)//
+				+ "-> Scouts: " + printFacility(CastleFacility.CATEGORY.SCOUTING)//
 				+ "Ressourcen:\n"//
 				+ "-> Aktuell: " + resources.getActual() + " (Fundstätten: " + resources.getResourceFieldCount() + ")\n"//
 				+ "-> Kapazität: " + resources.getCapacity() + " (max. Kapazität: " + resources.getMaxCapacity() + ")\n"//
@@ -65,7 +64,7 @@ public class Castle {
 		return new ArrayList<Inhabitant>(inhabitants.values());
 	}
 
-	private String printFacility(CastleFacilityCategories category) {
+	private String printFacility(CastleFacility.CATEGORY category) {
 		CastleFacility facility = getFacilities().get(category);
 
 		String result = facility.getMemberCount()//
@@ -86,21 +85,21 @@ public class Castle {
 		return StringUtils.join(inhabitantsByName, ", ");
 	}
 
-	public void addWorkerFor(CastleFacilityCategories category, Inhabitant inhabitant) throws AlreadyAddedException {
+	public void addWorkerFor(CastleFacility.CATEGORY category, Inhabitant inhabitant) throws AlreadyAddedException {
 		getFacility(category).addMember(inhabitant);
 	}
 
 	@Deprecated
 	public void addProducer(Inhabitant inhabitant) throws AlreadyAddedException {
-		getFacility(CastleFacilityCategories.PRODUCING).addMember(inhabitant);
+		getFacility(CastleFacility.CATEGORY.PRODUCING).addMember(inhabitant);
 	}
 
 	@Deprecated
 	public void addBuilder(Inhabitant inhabitant) throws AlreadyAddedException {
-		getFacility(CastleFacilityCategories.BUILDING).addMember(inhabitant);
+		getFacility(CastleFacility.CATEGORY.BUILDING).addMember(inhabitant);
 	}
 
-	private CastleFacility getFacility(CastleFacilityCategories category) {
+	private CastleFacility getFacility(CastleFacility.CATEGORY category) {
 		return getFacilities().get(category);
 	}
 
@@ -157,7 +156,7 @@ public class Castle {
 		return produceFacility;
 	}
 
-	private NavigableMap<CastleFacilityCategories, CastleFacility> getFacilities() {
+	private NavigableMap<CastleFacility.CATEGORY, CastleFacility> getFacilities() {
 		if (facilities == null) {
 			facilities = Maps.synchronizedNavigableMap(new TreeMap<>());
 			facilities.put(getBuildingFacility().getCategory(), getBuildingFacility());

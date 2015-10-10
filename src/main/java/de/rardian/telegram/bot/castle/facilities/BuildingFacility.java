@@ -1,6 +1,6 @@
 package de.rardian.telegram.bot.castle.facilities;
 
-import static de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories.BUILDING;
+import static de.rardian.telegram.bot.castle.facilities.CastleFacility.CATEGORY.BUILDING;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +31,7 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 	}
 
 	@Override
-	public CastleFacilityCategories getCategory() {
+	public CATEGORY getCategory() {
 		return BUILDING;
 	}
 
@@ -91,7 +91,7 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 									new ArrayList<Inhabitant>(otherInhabitants), inhabitant.getName() + " hat die Lagerkapazität erhöht."));
 					resultContainer.addResultAction(//
 							new BroadcastMessageAction(
-							//
+									//
 									user, "Nach Beendigung des Bauprojekts hast du die Baumannschaft verlassen.", //
 									new ArrayList<Inhabitant>(otherMembers), "Nach Abschluss der Baumaßnahmen hast du die Baumannschaft verlassen."));
 					resultContainer.addResultAction(//

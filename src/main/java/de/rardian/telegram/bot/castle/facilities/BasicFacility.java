@@ -22,7 +22,7 @@ public abstract class BasicFacility implements CastleFacility, Runnable {
 	protected Castle castle;
 	protected Resources resources;
 	protected Collection<Inhabitant> members = Collections.synchronizedList(new ArrayList<>());
-	protected CastleFacilityCategories category;
+	protected CATEGORY category;
 	private Bot bot;
 
 	public BasicFacility(Castle castle, Resources resources, Bot bot) {
@@ -60,7 +60,7 @@ public abstract class BasicFacility implements CastleFacility, Runnable {
 		start();
 	}
 
-	protected void increaseInhabitantXp(Inhabitant inhabitant, CastleFacilityCategories skill, ProcessResult2 resultContainer) {
+	protected void increaseInhabitantXp(Inhabitant inhabitant, CATEGORY skill, ProcessResult2 resultContainer) {
 		boolean levelup = inhabitant.increaseXp(skill);
 		System.out.println(skill + " von " + inhabitant.getName() + " erhöht");
 
@@ -92,8 +92,7 @@ public abstract class BasicFacility implements CastleFacility, Runnable {
 	}
 
 	/**
-	 * Hook for calculating the potentialIncrease. Defaults to member count:
-	 * Every member increases the output by one.
+	 * Hook for calculating the potentialIncrease. Defaults to member count: Every member increases the output by one.
 	 */
 	protected int getPotentialIncrease() {
 		return getMemberCount();

@@ -2,6 +2,10 @@ package de.rardian.telegram.bot.castle.model;
 
 public class Resources {
 
+	public enum TYPE {
+		WOOD, STONE, IRON
+	};
+
 	/** actual amount of resources */
 	private int resources;
 	/** dictates maximum amount of resources */

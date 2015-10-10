@@ -77,7 +77,7 @@ public class BasicFacilityTest {
 		}
 
 		@Override
-		public CastleFacilityCategories getCategory() {
+		public CATEGORY getCategory() {
 			return null;
 		}
 

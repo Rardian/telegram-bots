@@ -1,6 +1,6 @@
 package de.rardian.telegram.bot.castle.facilities;
 
-import static de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories.SCOUTING;
+import static de.rardian.telegram.bot.castle.facilities.CastleFacility.CATEGORY.SCOUTING;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -84,7 +84,7 @@ public class EnvironmentFacility extends BasicFacility implements Runnable {
 	}
 
 	@Override
-	public CastleFacilityCategories getCategory() {
+	public CATEGORY getCategory() {
 		return SCOUTING;
 	}
 

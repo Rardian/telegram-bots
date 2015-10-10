@@ -1,7 +1,7 @@
 package de.rardian.telegram.bot.castle.commands.actions;
 
 import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
-import de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories;
+import de.rardian.telegram.bot.castle.facilities.CastleFacility;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.command.action.Action;
@@ -12,9 +12,9 @@ public class SetInhabitantToWorkAction implements Action, CastleAware, Inhabitan
 	private Castle castle;
 	private MessageReply reply;
 	private Inhabitant inhabitant;
-	private CastleFacilityCategories category;
+	private CastleFacility.CATEGORY category;
 
-	public SetInhabitantToWorkAction(CastleFacilityCategories category) {
+	public SetInhabitantToWorkAction(CastleFacility.CATEGORY category) {
 		this.category = category;
 	}
 

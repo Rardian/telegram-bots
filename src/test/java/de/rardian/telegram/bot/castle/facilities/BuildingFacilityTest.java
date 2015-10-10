@@ -1,6 +1,6 @@
 package de.rardian.telegram.bot.castle.facilities;
 
-import static de.rardian.telegram.bot.castle.facilities.CastleFacilityCategories.BUILDING;
+import static de.rardian.telegram.bot.castle.facilities.CastleFacility.CATEGORY.BUILDING;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
