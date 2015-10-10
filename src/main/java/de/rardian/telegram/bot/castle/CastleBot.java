@@ -113,7 +113,7 @@ public class CastleBot implements Bot {
 
 	private CommandInitializer getCommandInitializer() {
 		if (commandInitializer == null) {
-			commandInitializer = new CommandInitializer();
+			commandInitializer = new CommandInitializer(getCastle());
 		}
 		return commandInitializer;
 	}

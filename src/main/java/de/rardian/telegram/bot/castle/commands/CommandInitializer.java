@@ -5,21 +5,22 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.command.Command;
 
 public class CommandInitializer {
 
 	private HashMap<String, Command> commands = new HashMap<>();
 
-	public CommandInitializer() {
-		initCommands();
+	public CommandInitializer(Castle castle) {
+		initCommands(castle);
 	}
 
 	public Map<String, Command> getCommandSet() {
 		return commands;
 	}
 
-	private void initCommands() {
+	private void initCommands(Castle castle) {
 		Collection<Command> commandsToInitialize = Arrays.asList(//
 				new BuildCommand(), //
 				new CastleStatusCommand(), //
@@ -27,6 +28,7 @@ public class CommandInitializer {
 				new InhabitantProduceCommand(), //
 				new HelpCommand(), //
 				new ScoutCommand(), //
+				new ShoutCommand(castle), //
 				new SetNameCommand());
 
 		for (Command command : commandsToInitialize) {
