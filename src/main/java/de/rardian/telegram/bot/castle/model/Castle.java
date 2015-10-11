@@ -17,12 +17,13 @@ import de.rardian.telegram.bot.castle.facilities.BuildingFacility;
 import de.rardian.telegram.bot.castle.facilities.CastleFacility;
 import de.rardian.telegram.bot.castle.facilities.EnvironmentFacility;
 import de.rardian.telegram.bot.castle.facilities.ProductionFacility;
+import de.rardian.telegram.bot.castle.model.ResourcesManager.TYPE;
 import de.rardian.telegram.bot.model.User;
 
 public class Castle {
 	private Map<User, Inhabitant> inhabitants = Maps.synchronizedNavigableMap(new TreeMap<>());
 
-	private Resources resources = new Resources(0, 5, 1);
+	private ResourcesManager resources = new ResourcesManager(0, 5, 1);
 	private CastleFacility buildingFacility;
 	private CastleFacility produceFacility;
 	private CastleFacility environmentFacility;
@@ -42,6 +43,15 @@ public class Castle {
 			listOfInhabitants = getInhabitantsByName(inhabitants.values());
 		}
 
+		String resourcesAsString = "";
+		for (ResourcesManager.TYPE resourceType : ResourcesManager.TYPE.values()) {
+			resourcesAsString += "->" + resourceType + "\n";
+			resourcesAsString += "--> Aktuell: " + resources.getAmount(resourceType) + " (Fundstätten: "
+					+ resources.getResourceFieldCount(resourceType) + ")\n";
+			resourcesAsString += "--> Kapazität: " + resources.getCapacity(resourceType) + " (max. Kapazität: "
+					+ resources.getMaxCapacity(resourceType) + ")\n";
+
+		}
 		String status = "Die Burg ist in gutem Zustand.\n"//
 				+ "Bewohner: "//
 				+ inhabitants.size()//
@@ -52,11 +62,10 @@ public class Castle {
 				+ "-> Baumeister: " + printFacility(CastleFacility.CATEGORY.BUILDING)//
 				+ "-> Scouts: " + printFacility(CastleFacility.CATEGORY.SCOUTING)//
 				+ "Ressourcen:\n"//
-				+ "-> Aktuell: " + resources.getActual() + " (Fundstätten: " + resources.getResourceFieldCount() + ")\n"//
-				+ "-> Kapazität: " + resources.getCapacity() + " (max. Kapazität: " + resources.getMaxCapacity() + ")\n"//
+				+ resourcesAsString//
 		// TODO max Kapazität von Fieldcount trennen. Gibt dann zwei Typen findbarer Sachen in der Umgebung
 				+ "Bauvorhaben: "//
-				+ ((BuildingFacility) getBuildingFacility()).getProgress() + " (von " + (resources.getCapacity() + 1) * 2 + ")";
+				+ ((BuildingFacility) getBuildingFacility()).getProgress() + " (von " + (resources.getCapacity(TYPE.WOOD) + 1) * 2 + ")";
 		return status;
 	}
 

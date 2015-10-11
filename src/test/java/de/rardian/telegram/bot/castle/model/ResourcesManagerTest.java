@@ -6,19 +6,19 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ResourcesTest {
+public class ResourcesManagerTest {
 
-	private Resources underTest;
+	private ResourcesManager underTest;
 
 	@Before
 	public void initResources() {
-		underTest = new Resources(0, 5, 1);
+		underTest = new ResourcesManager(0, 5, 1);
 	}
 
 	@Test
 	public void maxCapacityShouldBeTenTimesResourceFieldCount() throws Exception {
 		// Run
-		int result = underTest.getMaxCapacity();
+		int result = underTest.getMaxCapacity(ResourcesManager.TYPE.WOOD);
 
 		// Assert
 		assertThat(result, is(10));
@@ -27,10 +27,10 @@ public class ResourcesTest {
 	@Test
 	public void maxCapacityShouldBeTenTimesResourceFieldCountAfterIncrease() throws Exception {
 		// Init
-		underTest.increaseResourceFieldCount();
+		underTest.increaseResourceFieldCount(ResourcesManager.TYPE.WOOD);
 
 		// Run
-		int result = underTest.getMaxCapacity();
+		int result = underTest.getMaxCapacity(ResourcesManager.TYPE.WOOD);
 
 		// Assert
 		assertThat(result, is(10));
@@ -40,11 +40,11 @@ public class ResourcesTest {
 	public void tenResourceFieldIncreasesShouldIncreaseMaxCapacity() throws Exception {
 		// Init
 		for (int i = 0; i < 10; i++) {
-			underTest.increaseResourceFieldCount();
+			underTest.increaseResourceFieldCount(ResourcesManager.TYPE.WOOD);
 		}
 
 		// Run
-		int result = underTest.getMaxCapacity();
+		int result = underTest.getMaxCapacity(ResourcesManager.TYPE.WOOD);
 
 		// Assert
 		assertThat(result, is(15));

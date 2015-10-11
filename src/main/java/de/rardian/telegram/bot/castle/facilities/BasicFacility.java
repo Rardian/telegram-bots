@@ -11,7 +11,7 @@ import com.google.common.collect.Iterables;
 import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
-import de.rardian.telegram.bot.castle.model.Resources;
+import de.rardian.telegram.bot.castle.model.ResourcesManager;
 import de.rardian.telegram.bot.command.action.SendMessageToUserAction;
 import de.rardian.telegram.bot.manage.UserManager;
 import de.rardian.telegram.bot.model.Bot;
@@ -20,12 +20,12 @@ import de.rardian.telegram.bot.model.User;
 /** Provides a basic implementation for handling members. */
 public abstract class BasicFacility implements CastleFacility, Runnable {
 	protected Castle castle;
-	protected Resources resources;
+	protected ResourcesManager resources;
 	protected Collection<Inhabitant> members = Collections.synchronizedList(new ArrayList<>());
 	protected CATEGORY category;
 	private Bot bot;
 
-	public BasicFacility(Castle castle, Resources resources, Bot bot) {
+	public BasicFacility(Castle castle, ResourcesManager resources, Bot bot) {
 		this.castle = castle;
 		this.resources = resources;
 		this.bot = bot;

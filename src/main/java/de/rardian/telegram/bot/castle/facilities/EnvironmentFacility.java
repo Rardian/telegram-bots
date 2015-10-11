@@ -15,7 +15,7 @@ import org.apache.commons.lang3.Validate;
 import de.rardian.telegram.bot.castle.commands.actions.SetInhabitantsIdle;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
-import de.rardian.telegram.bot.castle.model.Resources;
+import de.rardian.telegram.bot.castle.model.ResourcesManager;
 import de.rardian.telegram.bot.command.action.BroadcastMessageAction;
 import de.rardian.telegram.bot.model.Bot;
 import de.rardian.telegram.bot.model.User;
@@ -24,7 +24,7 @@ public class EnvironmentFacility extends BasicFacility implements Runnable {
 
 	private ScheduledExecutorService executorService;
 
-	public EnvironmentFacility(Castle castle, Resources resources, Bot bot) {
+	public EnvironmentFacility(Castle castle, ResourcesManager resources, Bot bot) {
 		super(castle, resources, bot);
 	}
 
@@ -49,11 +49,11 @@ public class EnvironmentFacility extends BasicFacility implements Runnable {
 
 			for (Inhabitant inhabitant : members) {
 				int scoutingSkill = inhabitant.getSkill(SCOUTING);
-				int resourceFieldCount = resources.getResourceFieldCount();
+				int resourceFieldCount = resources.getResourceFieldCount(ResourcesManager.TYPE.WOOD);
 
 				if (scoutingSkill * 10 > resourceFieldCount) {
 					System.out.println(inhabitant.getName() + " erhöht fieldCount");
-					int newResourceFieldCount = resources.increaseResourceFieldCount();
+					int newResourceFieldCount = resources.increaseResourceFieldCount(ResourcesManager.TYPE.WOOD);
 
 					if (newResourceFieldCount > resourceFieldCount) {
 						User user = castle.getUserBy(inhabitant);

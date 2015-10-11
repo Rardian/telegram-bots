@@ -14,7 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.castle.model.InhabitantTestFactory;
-import de.rardian.telegram.bot.castle.model.Resources;
+import de.rardian.telegram.bot.castle.model.ResourcesManager;
 import de.rardian.telegram.bot.model.Bot;
 import de.rardian.telegram.bot.model.User;
 
@@ -40,7 +40,7 @@ public class BuildingFacilityTest {
 	@Test
 	public void ShouldNotUseMoreResourcesThanNeededOnFinishing() throws Exception {
 		// Init
-		Resources testResources = new Resources(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
+		ResourcesManager testResources = new ResourcesManager(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
 		underTest = new BuildingFacility(castle, testResources, bot);
 		Inhabitant seasonedBuilder = InhabitantTestFactory.newUniqueInhabitant(1);
 
@@ -55,22 +55,22 @@ public class BuildingFacilityTest {
 		// We need to finish the building needing (RESOURCES_CAPACITY + 1) * 2 building steps
 		underTest.process();
 		// refill
-		testResources.increaseIfPossible(RESOURCES_CAPACITY);
+		testResources.increaseIfPossible(ResourcesManager.TYPE.WOOD, RESOURCES_CAPACITY);
 		underTest.process();
 		// refill
-		testResources.increaseIfPossible(RESOURCES_CAPACITY);
+		testResources.increaseIfPossible(ResourcesManager.TYPE.WOOD, RESOURCES_CAPACITY);
 
 		// Run
 		underTest.process();
 
 		// Assert that for the last build step only 2 resources are used
-		assertThat(testResources.getActual(), is(3));
+		assertThat(testResources.getAmount(ResourcesManager.TYPE.WOOD), is(3));
 	}
 
 	@Test
 	public void noBuildingWithoutResources() throws Exception {
 		// Init
-		underTest = new BuildingFacility(castle, new Resources(RESOURCES_EMPTY, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT), bot);
+		underTest = new BuildingFacility(castle, new ResourcesManager(RESOURCES_EMPTY, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT), bot);
 		for (int i = 0; i < 3; i++) {
 			underTest.addMember(InhabitantTestFactory.newUniqueInhabitant(i));
 		}
@@ -85,7 +85,7 @@ public class BuildingFacilityTest {
 	@Test
 	public void builderCountSmallerThanResourceCountShouldIncreaseBuildingProgressByBuilderCount() throws Exception {
 		// Init
-		underTest = new BuildingFacility(castle, new Resources(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT), bot);
+		underTest = new BuildingFacility(castle, new ResourcesManager(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT), bot);
 		final int builderCount = 3;
 		for (int i = 0; i < builderCount; i++) {
 			underTest.addMember(InhabitantTestFactory.newUniqueInhabitant(i));
@@ -101,7 +101,7 @@ public class BuildingFacilityTest {
 	@Test
 	public void buildingCrewReachesGoalShouldIncreaseCapacity() throws Exception {
 		// Init
-		Resources testResources = new Resources(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
+		ResourcesManager testResources = new ResourcesManager(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
 		underTest = new BuildingFacility(castle, testResources, bot);
 		final int builderCount = RESOURCES_FULL;
 		for (int i = 0; i < builderCount; i++) {
@@ -110,16 +110,16 @@ public class BuildingFacilityTest {
 		// We need a building progress of (RESOURCES_CAPACITY + 1) * 2
 		underTest.process();
 		// refill
-		testResources.increaseIfPossible(RESOURCES_CAPACITY);
+		testResources.increaseIfPossible(ResourcesManager.TYPE.WOOD, RESOURCES_CAPACITY);
 		underTest.process();
 		// refill
-		testResources.increaseIfPossible(RESOURCES_CAPACITY);
+		testResources.increaseIfPossible(ResourcesManager.TYPE.WOOD, RESOURCES_CAPACITY);
 
 		// Run
 		underTest.process();
 
 		// Assert
-		assertThat(testResources.getCapacity(), is(RESOURCES_CAPACITY + 1));
+		assertThat(testResources.getCapacity(ResourcesManager.TYPE.WOOD), is(RESOURCES_CAPACITY + 1));
 	}
 
 }

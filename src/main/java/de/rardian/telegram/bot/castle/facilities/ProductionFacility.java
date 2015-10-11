@@ -12,7 +12,7 @@ import com.google.common.annotations.VisibleForTesting;
 
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
-import de.rardian.telegram.bot.castle.model.Resources;
+import de.rardian.telegram.bot.castle.model.ResourcesManager;
 import de.rardian.telegram.bot.model.Bot;
 
 public class ProductionFacility extends BasicFacility {
@@ -22,7 +22,7 @@ public class ProductionFacility extends BasicFacility {
 
 	private ScheduledExecutorService executorService;
 
-	public ProductionFacility(Castle castle, Resources resources, Bot bot) {
+	public ProductionFacility(Castle castle, ResourcesManager resources, Bot bot) {
 		super(castle, resources, bot);
 	}
 
@@ -37,6 +37,7 @@ public class ProductionFacility extends BasicFacility {
 		if (executorService == null) {
 			executorService = Executors.newSingleThreadScheduledExecutor();
 			executorService.scheduleAtFixedRate(this, 5, 15, TimeUnit.SECONDS);
+			//			executorService.scheduleAtFixedRate(this, 1, 1, TimeUnit.SECONDS);
 		}
 	}
 
@@ -53,7 +54,7 @@ public class ProductionFacility extends BasicFacility {
 				int potentialIncrease = inhabitant.getSkill(PRODUCING);
 				// System.out.println("  potential increase : " + potentialIncrease);
 
-				actualResourceIncrease += resources.increaseIfPossible(potentialIncrease);
+				actualResourceIncrease += resources.increaseIfPossible(ResourcesManager.TYPE.WOOD, potentialIncrease);
 				// System.out.println("  actual increase : " + actualIncrease);
 
 				if (actualResourceIncrease > 0) {
@@ -68,7 +69,7 @@ public class ProductionFacility extends BasicFacility {
 		// TODO Nachricht an Interessierte senden, wenn Lager voll
 		// TODO Listener aus Oberklasse protected machen oder den Nachricht-Code dorthin verschieben
 
-		resultContainer.addResultInteger(RESULT_RESOURCES_ACTUAL, Integer.valueOf(resources.getActual()));
+		resultContainer.addResultInteger(RESULT_RESOURCES_ACTUAL, Integer.valueOf(resources.getAmount(ResourcesManager.TYPE.WOOD)));
 		resultContainer.addResultInteger(RESULT_RESOURCES_INCREASE, Integer.valueOf(actualResourceIncrease));
 		return resultContainer;
 	}

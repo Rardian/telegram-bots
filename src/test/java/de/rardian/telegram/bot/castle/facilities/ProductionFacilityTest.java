@@ -13,7 +13,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.InhabitantTestFactory;
-import de.rardian.telegram.bot.castle.model.Resources;
+import de.rardian.telegram.bot.castle.model.ResourcesManager;
 import de.rardian.telegram.bot.model.Bot;
 import de.rardian.telegram.bot.model.User;
 
@@ -36,7 +36,7 @@ public class ProductionFacilityTest {
 
 	@Before
 	public void initCastle() {
-		underTest = new ProductionFacility(castle, new Resources(0, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT), bot);
+		underTest = new ProductionFacility(castle, new ResourcesManager(0, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT), bot);
 	}
 
 	@Test

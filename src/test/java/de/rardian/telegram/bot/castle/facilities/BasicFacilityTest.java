@@ -13,7 +13,7 @@ import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.castle.model.InhabitantTestFactory;
-import de.rardian.telegram.bot.castle.model.Resources;
+import de.rardian.telegram.bot.castle.model.ResourcesManager;
 import de.rardian.telegram.bot.model.Bot;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -31,13 +31,13 @@ public class BasicFacilityTest {
 	@Mock
 	private Castle castle;
 	@Mock
-	private Resources resources;
+	private ResourcesManager resources;
 
 	private BasicFacility underTest;
 
 	@Before
 	public void initFacility() {
-		resources = new Resources(0, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
+		resources = new ResourcesManager(0, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
 		underTest = Mockito.spy(new TestFacility(castle, resources, bot));
 	}
 
@@ -63,7 +63,7 @@ public class BasicFacilityTest {
 
 	private class TestFacility extends BasicFacility {
 
-		public TestFacility(Castle castle, Resources resources, Bot bot) {
+		public TestFacility(Castle castle, ResourcesManager resources, Bot bot) {
 			super(castle, resources, bot);
 		}
 

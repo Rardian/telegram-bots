@@ -15,7 +15,7 @@ import org.apache.commons.lang3.Validate;
 import de.rardian.telegram.bot.castle.commands.actions.SetInhabitantsIdle;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
-import de.rardian.telegram.bot.castle.model.Resources;
+import de.rardian.telegram.bot.castle.model.ResourcesManager;
 import de.rardian.telegram.bot.command.action.BroadcastMessageAction;
 import de.rardian.telegram.bot.model.Bot;
 import de.rardian.telegram.bot.model.User;
@@ -26,7 +26,7 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 	private int overallBuildingProgress = 0;
 	private ScheduledExecutorService executorService;
 
-	public BuildingFacility(Castle castle, Resources resources, Bot bot) {
+	public BuildingFacility(Castle castle, ResourcesManager resources, Bot bot) {
 		super(castle, resources, bot);
 	}
 
@@ -42,6 +42,7 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 		if (executorService == null) {
 			executorService = Executors.newSingleThreadScheduledExecutor();
 			executorService.scheduleAtFixedRate(this, 10, 35, TimeUnit.SECONDS);
+			//			executorService.scheduleAtFixedRate(this, 1, 1, TimeUnit.SECONDS);
 		}
 	}
 
@@ -51,21 +52,24 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 		ProcessResult2 resultContainer = new ProcessResult2();
 
 		synchronized (members) {
+			// TODO work with different Resource Types
+			// TODO if nothing can be built (e.g. max capacity reached), inform player and remove Inhabitant
 
 			for (Inhabitant inhabitant : members) {
 				int potentialBuildingProgress = inhabitant.getSkill(BUILDING);
-				int overallBuildingStepsNeeded = (resources.getCapacity() + 1) * 2;
+				int overallBuildingStepsNeeded = (resources.getCapacity(ResourcesManager.TYPE.WOOD) + 1) * 2;
 
 				// cost for extending capacity: new capacity * 2
 				// every builder uses <skill> resources to increase buildprogress
-				final int memberBuildingProgress = Math.min(potentialBuildingProgress, resources.getActual());
-				final boolean capacityCanBeIncreased = resources.getCapacity() < resources.getMaxCapacity();
+				final int memberBuildingProgress = Math.min(potentialBuildingProgress, resources.getAmount(ResourcesManager.TYPE.WOOD));
+				final boolean capacityCanBeIncreased = resources.getCapacity(ResourcesManager.TYPE.WOOD) < resources
+						.getMaxCapacity(ResourcesManager.TYPE.WOOD);
 
 				if (capacityCanBeIncreased && memberBuildingProgress > 0) {
 					int remainingBuildingSteps = overallBuildingStepsNeeded - overallBuildingProgress;
 					int actualBuildingSteps = Math.min(remainingBuildingSteps, memberBuildingProgress);
 
-					resources.reduce(actualBuildingSteps);
+					resources.reduce(ResourcesManager.TYPE.WOOD, actualBuildingSteps);
 					actualBuildingProgress += actualBuildingSteps;
 					overallBuildingProgress += actualBuildingSteps;
 					super.increaseInhabitantXp(inhabitant, BUILDING, resultContainer);
@@ -75,7 +79,7 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 
 				// FIXME remove capacityCanBeIncreased, it's not necessary
 				if (buildingFinished && capacityCanBeIncreased) {
-					resources.increaseCapacity();
+					resources.increaseCapacity(ResourcesManager.TYPE.WOOD);
 					overallBuildingProgress = 0;
 
 					User user = castle.getUserBy(inhabitant);
