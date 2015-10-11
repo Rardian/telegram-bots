@@ -19,8 +19,7 @@ import de.rardian.telegram.bot.model.Message;
  * - We have a single task, that polls messages via longpolling<BR>
  * - For every received message bot.processMessage() is called<BR>
  * - After all messages are processed the longpolling starts again<BR>
- * - Multi-threading for processing the message seems a bad idea since the bot
- * would need to reorder the messages
+ * - Multi-threading for processing the message seems a bad idea since the bot would need to reorder the messages
  * 
  */
 public class UpdatesRetriever implements Runnable {
@@ -84,6 +83,8 @@ public class UpdatesRetriever implements Runnable {
 			} catch (UnirestException | IOException e) {
 				e.printStackTrace();
 				System.out.println("Kommunikationsfehler. Update-Retrieve wird fortgesetzt. Request: " + request.getUrl());
+				// FIXME the error handling doesn't work here, yet. Try to figure out, what's causing it.
+				System.exit(0);
 				try {
 					Unirest.shutdown();
 				} catch (IOException e1) {
