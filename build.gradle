@@ -15,6 +15,12 @@ version = '0.0.1'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'de.rardian.telegram.bot.BotManager'
+    }
+}
+
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use 'jcenter' for resolving your dependencies.
@@ -53,6 +59,13 @@ jacocoTestReport {
         xml.enabled = true
         html.enabled = true
     }
+}
+
+
+task stage {
+  dependsOn installDist
+  assemble
+  java -jar BotManager.jar
 }
 
 check.dependsOn jacocoTestReport
