@@ -36,7 +36,8 @@ public class ProductionFacilityTest {
 
 	@Before
 	public void initCastle() {
-		underTest = new ProductionFacility(bot, castle, new ResourcesManager(0, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT));
+		underTest = new ProductionFacility(bot, castle, new ResourcesManager(0, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT),
+				ResourcesManager.TYPE.WOOD);
 	}
 
 	@Test

@@ -160,7 +160,7 @@ public class Castle {
 
 	private CastleFacility getProductionFacility() {
 		if (produceFacility == null) {
-			produceFacility = new ProductionFacility(bot, this, resources);
+			produceFacility = new ProductionFacility(bot, this, resources, ResourcesManager.TYPE.WOOD);
 		}
 		return produceFacility;
 	}

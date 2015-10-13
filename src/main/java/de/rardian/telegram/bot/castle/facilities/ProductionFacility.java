@@ -21,10 +21,11 @@ public class ProductionFacility extends BasicFacility {
 	public static final String RESULT_RESOURCES_INCREASE = "RESULT_RESOURCES_INCREASE";
 
 	private ScheduledExecutorService executorService;
-	private ResourcesManager.TYPE ressourceType;
+	private ResourcesManager.TYPE resourceType;
 
-	public ProductionFacility(Bot bot, Castle castle, ResourcesManager resources) {
+	public ProductionFacility(Bot bot, Castle castle, ResourcesManager resources, ResourcesManager.TYPE resourceToProduce) {
 		super(bot, castle, resources);
+		resourceType = resourceToProduce;
 	}
 
 	@Override
@@ -55,7 +56,7 @@ public class ProductionFacility extends BasicFacility {
 				int potentialIncrease = inhabitant.getSkill(PRODUCING);
 				// System.out.println("  potential increase : " + potentialIncrease);
 
-				actualResourceIncrease += resources.increaseIfPossible(ResourcesManager.TYPE.WOOD, potentialIncrease);
+				actualResourceIncrease += resources.increaseIfPossible(resourceType, potentialIncrease);
 				// System.out.println("  actual increase : " + actualIncrease);
 
 				if (actualResourceIncrease > 0) {
@@ -70,7 +71,7 @@ public class ProductionFacility extends BasicFacility {
 		// TODO Nachricht an Interessierte senden, wenn Lager voll
 		// TODO Listener aus Oberklasse protected machen oder den Nachricht-Code dorthin verschieben
 
-		resultContainer.addResultInteger(RESULT_RESOURCES_ACTUAL, Integer.valueOf(resources.getAmount(ResourcesManager.TYPE.WOOD)));
+		resultContainer.addResultInteger(RESULT_RESOURCES_ACTUAL, Integer.valueOf(resources.getAmount(resourceType)));
 		resultContainer.addResultInteger(RESULT_RESOURCES_INCREASE, Integer.valueOf(actualResourceIncrease));
 		return resultContainer;
 	}
