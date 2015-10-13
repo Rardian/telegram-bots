@@ -41,7 +41,7 @@ public class BuildingFacilityTest {
 	public void ShouldNotUseMoreResourcesThanNeededOnFinishing() throws Exception {
 		// Init
 		ResourcesManager testResources = new ResourcesManager(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
-		underTest = new BuildingFacility(castle, testResources, bot);
+		underTest = new BuildingFacility(bot, castle, testResources);
 		Inhabitant seasonedBuilder = InhabitantTestFactory.newUniqueInhabitant(1);
 
 		// levelup
@@ -70,7 +70,7 @@ public class BuildingFacilityTest {
 	@Test
 	public void noBuildingWithoutResources() throws Exception {
 		// Init
-		underTest = new BuildingFacility(castle, new ResourcesManager(RESOURCES_EMPTY, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT), bot);
+		underTest = new BuildingFacility(bot, castle, new ResourcesManager(RESOURCES_EMPTY, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT));
 		for (int i = 0; i < 3; i++) {
 			underTest.addMember(InhabitantTestFactory.newUniqueInhabitant(i));
 		}
@@ -85,7 +85,7 @@ public class BuildingFacilityTest {
 	@Test
 	public void builderCountSmallerThanResourceCountShouldIncreaseBuildingProgressByBuilderCount() throws Exception {
 		// Init
-		underTest = new BuildingFacility(castle, new ResourcesManager(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT), bot);
+		underTest = new BuildingFacility(bot, castle, new ResourcesManager(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT));
 		final int builderCount = 3;
 		for (int i = 0; i < builderCount; i++) {
 			underTest.addMember(InhabitantTestFactory.newUniqueInhabitant(i));
@@ -102,7 +102,7 @@ public class BuildingFacilityTest {
 	public void buildingCrewReachesGoalShouldIncreaseCapacity() throws Exception {
 		// Init
 		ResourcesManager testResources = new ResourcesManager(RESOURCES_FULL, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
-		underTest = new BuildingFacility(castle, testResources, bot);
+		underTest = new BuildingFacility(bot, castle, testResources);
 		final int builderCount = RESOURCES_FULL;
 		for (int i = 0; i < builderCount; i++) {
 			underTest.addMember(InhabitantTestFactory.newUniqueInhabitant(i));

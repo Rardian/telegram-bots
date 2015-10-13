@@ -24,8 +24,8 @@ public class EnvironmentFacility extends BasicFacility implements Runnable {
 
 	private ScheduledExecutorService executorService;
 
-	public EnvironmentFacility(Castle castle, ResourcesManager resources, Bot bot) {
-		super(castle, resources, bot);
+	public EnvironmentFacility(Bot bot, Castle castle, ResourcesManager resources) {
+		super(bot, castle, resources);
 	}
 
 	@Override

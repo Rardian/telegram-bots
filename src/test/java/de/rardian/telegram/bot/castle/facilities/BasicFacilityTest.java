@@ -38,7 +38,7 @@ public class BasicFacilityTest {
 	@Before
 	public void initFacility() {
 		resources = new ResourcesManager(0, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
-		underTest = Mockito.spy(new TestFacility(castle, resources, bot));
+		underTest = Mockito.spy(new TestFacility(bot, castle, resources));
 	}
 
 	@Test
@@ -63,8 +63,8 @@ public class BasicFacilityTest {
 
 	private class TestFacility extends BasicFacility {
 
-		public TestFacility(Castle castle, ResourcesManager resources, Bot bot) {
-			super(castle, resources, bot);
+		public TestFacility(Bot bot, Castle castle, ResourcesManager resources) {
+			super(bot, castle, resources);
 		}
 
 		@Override

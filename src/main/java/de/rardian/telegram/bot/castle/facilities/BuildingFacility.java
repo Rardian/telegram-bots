@@ -26,8 +26,8 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 	private int overallBuildingProgress = 0;
 	private ScheduledExecutorService executorService;
 
-	public BuildingFacility(Castle castle, ResourcesManager resources, Bot bot) {
-		super(castle, resources, bot);
+	public BuildingFacility(Bot bot, Castle castle, ResourcesManager resources) {
+		super(bot, castle, resources);
 	}
 
 	@Override

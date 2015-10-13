@@ -146,21 +146,21 @@ public class Castle {
 
 	private CastleFacility getBuildingFacility() {
 		if (buildingFacility == null) {
-			buildingFacility = new BuildingFacility(this, resources, bot);
+			buildingFacility = new BuildingFacility(bot, this, resources);
 		}
 		return buildingFacility;
 	}
 
 	private CastleFacility getEnvironmentFacility() {
 		if (environmentFacility == null) {
-			environmentFacility = new EnvironmentFacility(this, resources, bot);
+			environmentFacility = new EnvironmentFacility(bot, this, resources);
 		}
 		return environmentFacility;
 	}
 
 	private CastleFacility getProductionFacility() {
 		if (produceFacility == null) {
-			produceFacility = new ProductionFacility(this, resources, bot);
+			produceFacility = new ProductionFacility(bot, this, resources);
 		}
 		return produceFacility;
 	}

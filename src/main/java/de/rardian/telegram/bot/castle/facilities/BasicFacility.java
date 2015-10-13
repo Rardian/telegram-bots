@@ -25,7 +25,7 @@ public abstract class BasicFacility implements CastleFacility, Runnable {
 	protected CATEGORY category;
 	private Bot bot;
 
-	public BasicFacility(Castle castle, ResourcesManager resources, Bot bot) {
+	public BasicFacility(Bot bot, Castle castle, ResourcesManager resources) {
 		this.castle = castle;
 		this.resources = resources;
 		this.bot = bot;

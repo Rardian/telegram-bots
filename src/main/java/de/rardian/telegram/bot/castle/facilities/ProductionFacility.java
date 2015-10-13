@@ -21,9 +21,10 @@ public class ProductionFacility extends BasicFacility {
 	public static final String RESULT_RESOURCES_INCREASE = "RESULT_RESOURCES_INCREASE";
 
 	private ScheduledExecutorService executorService;
+	private ResourcesManager.TYPE ressourceType;
 
-	public ProductionFacility(Castle castle, ResourcesManager resources, Bot bot) {
-		super(castle, resources, bot);
+	public ProductionFacility(Bot bot, Castle castle, ResourcesManager resources) {
+		super(bot, castle, resources);
 	}
 
 	@Override
