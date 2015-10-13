@@ -10,16 +10,12 @@
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'jacoco'
+apply plugin: 'application'
 
 version = '0.0.1'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-
-jar {
-    manifest {
-        attributes 'Main-Class': 'de.rardian.telegram.bot.BotManager'
-    }
-}
+mainClassName = "de.rardian.telegram.bot.BotManager"
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -63,9 +59,7 @@ jacocoTestReport {
 
 
 task stage {
-  dependsOn installDist
-  assemble
-  java -jar BotManager.jar
+  run
 }
 
 check.dependsOn jacocoTestReport
