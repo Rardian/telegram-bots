@@ -37,7 +37,9 @@ public class SetInhabitantToWorkAction implements Action, CastleAware, Inhabitan
 	public void execute() {
 		try {
 			castle.addWorkerFor(category, inhabitant);
-			reply.answer("Du bist jetzt Teil von " + category, null);
+
+			String urlManual = "Siehe auch: https://github.com/Rardian/telegram-bots/wiki/Anleitung";
+			reply.answer("Du bist jetzt Teil von " + category + "\n" + urlManual, null);
 		} catch (AlreadyAddedException e) {
 			reply.answer("Du bist bereits Teil von " + category, null);
 		}
