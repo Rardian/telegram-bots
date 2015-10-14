@@ -21,10 +21,10 @@ import de.rardian.telegram.bot.model.Message;
 @RunWith(MockitoJUnitRunner.class)
 public class InhabitantProduceCommandTest {
 	@Mock
-	Message message;
+	private Message message;
 
 	@InjectMocks
-	InhabitantProduceCommand underTest;
+	private InhabitantProduceCommand underTest;
 
 	@Test
 	public void shouldStripParamsFromBlanks() throws Exception {
