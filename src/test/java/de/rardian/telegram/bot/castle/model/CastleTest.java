@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import de.rardian.telegram.bot.castle.CastleBot;
+import de.rardian.telegram.bot.castle.facilities.CastleFacility;
 import de.rardian.telegram.bot.model.User;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -53,8 +54,8 @@ public class CastleTest {
 	@Test
 	public void getStatusAsStringWithTwoProducers() throws Exception {
 		// Init
-		underTest.addProducer(InhabitantTestFactory.newUniqueInhabitant(1));
-		underTest.addProducer(InhabitantTestFactory.newUniqueInhabitant(2));
+		underTest.addWorkerFor(CastleFacility.CATEGORY.WOODCUTTING, InhabitantTestFactory.newUniqueInhabitant(1));
+		underTest.addWorkerFor(CastleFacility.CATEGORY.WOODCUTTING, InhabitantTestFactory.newUniqueInhabitant(2));
 
 		// Run
 		String actual = underTest.getStatusAsString();

@@ -2,6 +2,7 @@ package de.rardian.telegram.bot.castle.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
@@ -52,15 +53,22 @@ public class Castle {
 					+ resources.getMaxCapacity(resourceType) + ")\n";
 
 		}
+
+		String producerAsString = "";
+		for (CastleFacility.CATEGORY skillType : CastleFacility.CATEGORY.values()) {
+			producerAsString += "->" + skillType + ": ";
+			producerAsString += printFacility(skillType);
+		}
 		String status = "Die Burg ist in gutem Zustand.\n"//
 				+ "Bewohner: "//
 				+ inhabitants.size()//
 				+ " ("//
-				+ listOfInhabitants//
+				+ listOfInhabitants //
 				+ ")\n"//
-				+ "-> Produzenten: " + printFacility(CastleFacility.CATEGORY.PRODUCING)//
-				+ "-> Baumeister: " + printFacility(CastleFacility.CATEGORY.BUILDING)//
-				+ "-> Scouts: " + printFacility(CastleFacility.CATEGORY.SCOUTING)//
+				+ producerAsString //
+		//				+ "-> Produzenten: " + printFacility(CastleFacility.CATEGORY.WOODCUTTING)//
+		//				+ "-> Baumeister: " + printFacility(CastleFacility.CATEGORY.BUILDING)//
+		//				+ "-> Scouts: " + printFacility(CastleFacility.CATEGORY.SCOUTING)//
 				+ "Ressourcen:\n"//
 				+ resourcesAsString//
 		// TODO max Kapazität von Fieldcount trennen. Gibt dann zwei Typen findbarer Sachen in der Umgebung
@@ -95,13 +103,14 @@ public class Castle {
 	}
 
 	public void addWorkerFor(CastleFacility.CATEGORY category, Inhabitant inhabitant) throws AlreadyAddedException {
-		getFacility(category).addMember(inhabitant);
+		CastleFacility facility = getFacility(category);
+		facility.addMember(inhabitant);
 	}
 
-	@Deprecated
-	public void addProducer(Inhabitant inhabitant) throws AlreadyAddedException {
-		getFacility(CastleFacility.CATEGORY.PRODUCING).addMember(inhabitant);
-	}
+	//	@Deprecated
+	//	public void addProducer(Inhabitant inhabitant) throws AlreadyAddedException {
+	//		getFacility(CastleFacility.CATEGORY.PRODUCING).addMember(inhabitant);
+	//	}
 
 	@Deprecated
 	public void addBuilder(Inhabitant inhabitant) throws AlreadyAddedException {
@@ -158,11 +167,8 @@ public class Castle {
 		return environmentFacility;
 	}
 
-	private CastleFacility getProductionFacility() {
-		if (produceFacility == null) {
-			produceFacility = new ProductionFacility(bot, this, resources, ResourcesManager.TYPE.WOOD);
-		}
-		return produceFacility;
+	private CastleFacility createProductionFacility(ResourcesManager.TYPE resourceType, CastleFacility.CATEGORY skillType) {
+		return new ProductionFacility(bot, this, resources, resourceType, skillType);
 	}
 
 	private NavigableMap<CastleFacility.CATEGORY, CastleFacility> getFacilities() {
@@ -170,7 +176,16 @@ public class Castle {
 			facilities = Maps.synchronizedNavigableMap(new TreeMap<>());
 			facilities.put(getBuildingFacility().getCategory(), getBuildingFacility());
 			facilities.put(getEnvironmentFacility().getCategory(), getEnvironmentFacility());
-			facilities.put(getProductionFacility().getCategory(), getProductionFacility());
+
+			Map<ResourcesManager.TYPE, CastleFacility.CATEGORY> resourceMapping = new HashMap<>();
+			resourceMapping.put(ResourcesManager.TYPE.WOOD, CastleFacility.CATEGORY.WOODCUTTING);
+			resourceMapping.put(ResourcesManager.TYPE.IRON, CastleFacility.CATEGORY.MINING);
+			resourceMapping.put(ResourcesManager.TYPE.STONE, CastleFacility.CATEGORY.QUARRYING);
+
+			for (ResourcesManager.TYPE resourceType : resourceMapping.keySet()) {
+				CastleFacility productionFacility = createProductionFacility(resourceType, resourceMapping.get(resourceType));
+				facilities.put(productionFacility.getCategory(), productionFacility);
+			}
 		}
 		return facilities;
 	}

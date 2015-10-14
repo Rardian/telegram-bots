@@ -1,7 +1,5 @@
 package de.rardian.telegram.bot.castle.facilities;
 
-import static de.rardian.telegram.bot.castle.facilities.CastleFacility.CATEGORY.PRODUCING;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -22,15 +20,18 @@ public class ProductionFacility extends BasicFacility {
 
 	private ScheduledExecutorService executorService;
 	private ResourcesManager.TYPE resourceType;
+	private CATEGORY productionSubCategory;
 
-	public ProductionFacility(Bot bot, Castle castle, ResourcesManager resources, ResourcesManager.TYPE resourceToProduce) {
+	public ProductionFacility(Bot bot, Castle castle, ResourcesManager resources, ResourcesManager.TYPE resourceToProduce,
+			CATEGORY productionSubCategory) {
 		super(bot, castle, resources);
 		resourceType = resourceToProduce;
+		this.productionSubCategory = productionSubCategory;
 	}
 
 	@Override
 	public CATEGORY getCategory() {
-		return CATEGORY.PRODUCING;
+		return productionSubCategory;
 	}
 
 	protected void start() {
@@ -53,14 +54,14 @@ public class ProductionFacility extends BasicFacility {
 			for (Inhabitant inhabitant : members) {
 				// System.out.println("increase from member: " + inhabitant.getName());
 
-				int potentialIncrease = inhabitant.getSkill(PRODUCING);
+				int potentialIncrease = inhabitant.getSkill(productionSubCategory);
 				// System.out.println("  potential increase : " + potentialIncrease);
 
 				actualResourceIncrease += resources.increaseIfPossible(resourceType, potentialIncrease);
 				// System.out.println("  actual increase : " + actualIncrease);
 
 				if (actualResourceIncrease > 0) {
-					super.increaseInhabitantXp(inhabitant, PRODUCING, resultContainer);
+					super.increaseInhabitantXp(inhabitant, productionSubCategory, resultContainer);
 					// System.out.println("  xp increased :)");
 				} else {
 					// System.out.println("  xp not increased :(");

@@ -68,11 +68,6 @@ public class Inhabitant implements Comparable<Inhabitant> {
 		return name;
 	}
 
-	@Deprecated
-	public int getProductionSkill() {
-		return getSkills().get(CastleFacility.CATEGORY.PRODUCING).level();
-	}
-
 	public int getSkill(CastleFacility.CATEGORY skill) {
 		return getSkills().get(skill).level();
 	}
@@ -84,11 +79,6 @@ public class Inhabitant implements Comparable<Inhabitant> {
 			System.out.println("*** " + getName() + " steigt in " + category + " auf ***");
 		}
 		return levelup;
-	}
-
-	@Deprecated
-	public int getBuildingSkill() {
-		return getSkills().get(CastleFacility.CATEGORY.BUILDING).level();
 	}
 
 	private Map<CastleFacility.CATEGORY, Skill> getSkills() {

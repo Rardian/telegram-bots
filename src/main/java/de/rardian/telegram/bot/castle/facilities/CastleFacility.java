@@ -5,13 +5,17 @@ import de.rardian.telegram.bot.castle.model.Inhabitant;
 
 public interface CastleFacility {
 	public enum CATEGORY {
-		/** How well you produce resources */
-		PRODUCING, //
 		/** How well you build, repair and craft */
 		BUILDING, //
 		/** How well you can survive in the wilderness and find hidden spots */
-		SCOUTING
+		SCOUTING, //
+		WOODCUTTING, //
+		QUARRYING, //
+		MINING
 	};
+
+	//	/** How well you produce resources */
+	//	PRODUCING, //
 
 	public void addMember(Inhabitant inhabitant) throws AlreadyAddedException;
 

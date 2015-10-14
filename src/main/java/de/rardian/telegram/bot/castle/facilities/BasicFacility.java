@@ -22,14 +22,14 @@ public abstract class BasicFacility implements CastleFacility, Runnable {
 	protected Castle castle;
 	protected ResourcesManager resources;
 	protected Collection<Inhabitant> members = Collections.synchronizedList(new ArrayList<>());
-	protected CATEGORY category;
+	//	protected CATEGORY category;
 	private Bot bot;
 
 	public BasicFacility(Bot bot, Castle castle, ResourcesManager resources) {
 		this.castle = castle;
 		this.resources = resources;
 		this.bot = bot;
-		category = getCategory();
+		//		category = getCategory();
 	}
 
 	@Override
