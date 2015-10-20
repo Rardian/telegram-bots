@@ -19,12 +19,12 @@ import de.rardian.telegram.bot.command.action.SendMessageToUserAction;
 import de.rardian.telegram.bot.model.Message;
 
 @RunWith(MockitoJUnitRunner.class)
-public class InhabitantProduceCommandTest {
+public class ProduceCommandTest {
 	@Mock
 	private Message message;
 
 	@InjectMocks
-	private InhabitantProduceCommand underTest;
+	private ProduceCommand underTest;
 
 	@Test
 	public void shouldStripParamsFromBlanks() throws Exception {

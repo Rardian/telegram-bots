@@ -16,12 +16,12 @@ import de.rardian.telegram.bot.command.action.Action;
 import de.rardian.telegram.bot.command.action.SendMessageToUserAction;
 import de.rardian.telegram.bot.model.Message;
 
-public class InhabitantProduceCommand implements Command, MessageAware {
+public class ProduceCommand implements Command, MessageAware {
 
 	private Message message;
 	private final Map<String, CastleFacility.CATEGORY> resourceMapping;
 
-	public InhabitantProduceCommand() {
+	public ProduceCommand() {
 		resourceMapping = new HashMap<>();
 		resourceMapping.put("holz", CastleFacility.CATEGORY.WOODCUTTING);
 		resourceMapping.put("stein", CastleFacility.CATEGORY.QUARRYING);

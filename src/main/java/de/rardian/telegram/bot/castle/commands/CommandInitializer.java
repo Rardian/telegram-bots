@@ -25,7 +25,7 @@ public class CommandInitializer {
 				new BuildCommand(), //
 				new CastleStatusCommand(), //
 				new CharacterStatusCommand(), //
-				new InhabitantProduceCommand(), //
+				new ProduceCommand(), //
 				new HelpCommand(), //
 				new ScoutCommand(), //
 				new ShoutCommand(castle), //
