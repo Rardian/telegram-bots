@@ -15,7 +15,7 @@ apply plugin: 'application'
 version = '0.0.1'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-mainClassName = "de.rardian.telegram.bot.BotManager"
+mainClassName = "de.rardian.telegram.bot.manage.BotManager"
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -58,8 +58,9 @@ jacocoTestReport {
 }
 
 
-task stage {
-  run
+task stage << {
+  println "Staged"
 }
+stage.dependsOn installDist
 
 check.dependsOn jacocoTestReport
