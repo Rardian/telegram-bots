@@ -23,6 +23,10 @@ public class MessageReply {
 		return this;
 	}
 
+	public void answer(String answer) {
+		answer(answer, null);
+	}
+
 	public void answer(String answer, ReplyKeyboardMarkup keyboard) {
 		long chatId = message.getChat().getId();
 

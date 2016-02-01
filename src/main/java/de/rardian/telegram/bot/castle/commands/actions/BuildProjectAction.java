@@ -1,23 +1,32 @@
 package de.rardian.telegram.bot.castle.commands.actions;
 
+import java.util.Collection;
+
+import org.apache.commons.lang3.StringUtils;
+
+import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
+import de.rardian.telegram.bot.castle.facilities.CastleFacility;
 import de.rardian.telegram.bot.castle.model.Castle;
+import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.command.action.Action;
-import de.rardian.telegram.bot.command.action.SendsMessage;
-import de.rardian.telegram.bot.communication.MessageSender;
+import de.rardian.telegram.bot.command.action.SendsAnswer;
+import de.rardian.telegram.bot.communication.MessageReply;
 
-public class BuildProjectAction implements Action, CastleAware, SendsMessage {
+public class BuildProjectAction implements Action, CastleAware, SendsAnswer, InhabitantAware {
 
-	private MessageSender sender;
 	private Castle castle;
-	private String projectAsString;
+	private String projectName;
+	private MessageReply reply;
+	private Inhabitant inhabitant;
 
-	public BuildProjectAction(String project) {
-		projectAsString = project;
+	public BuildProjectAction setProjectName(String project) {
+		projectName = project;
+		return this;
 	}
 
 	@Override
-	public void setMessageSender(MessageSender sender) {
-		this.sender = sender;
+	public void setMessageReply(MessageReply reply) {
+		this.reply = reply;
 	}
 
 	@Override
@@ -26,12 +35,42 @@ public class BuildProjectAction implements Action, CastleAware, SendsMessage {
 	}
 
 	@Override
+	public void setInhabitant(Inhabitant inhabitant) {
+		this.inhabitant = inhabitant;
+	}
+
+	@Override
 	public void execute() {
-		// A) project empty && kein Bauprojekt: Starte ein neues Bauprojekt mit /bau <projekt1|projekt2>
-		// B) project empty && Bauprojekt gestartet: Du wirst Teil des Bauprojekts
-		// C) project valid && kein Bauprojekt: Du startest ein Bauprojekt.
-		// D) project valid && Bauprojekt gestartet: Es läuft bereits ein Bauprojekt. Bitte mit /bau teilnehmen
-		// E) project invalid: Projekt ungültig 
+		final boolean projectNameEmpty = StringUtils.isBlank(projectName);
+		final boolean projectActive = castle.isProjectInProgress();
+
+		if (projectNameEmpty) {
+
+			if (projectActive) {
+				try {
+					castle.addWorkerFor(CastleFacility.CATEGORY.BUILDING, inhabitant);
+					reply.answer("Du wirst Teil des Bauprojekts.");
+				} catch (AlreadyAddedException e) {
+					reply.answer("Du bist bereits Teil des Bauprojekts.");
+				}
+			} else {
+				Collection<String> projectIds = castle.getProjectIds();
+
+				reply.answer("Kein Bauprojekt aktiv. Starte ein Projekt mit /bau <" + StringUtils.join(projectIds, "|") + ">");
+			}
+
+		} else if (castle.isProjectValid(projectName)) {
+
+			if (projectActive) {
+				reply.answer("Es läuft bereits ein Bauprojekt. Nimm daran teil mit: /bau");
+			} else {
+				castle.startProject(projectName);
+				reply.answer("Du startest das Bauprojekt " + castle.getProjectName(projectName));
+			}
+
+		} else {
+			reply.answer("Bitte wähle ein gültiges Bauprojekt aus.");
+		}
 
 	}
 

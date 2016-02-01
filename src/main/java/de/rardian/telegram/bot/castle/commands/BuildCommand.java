@@ -17,7 +17,7 @@ public class BuildCommand implements Command {
 		//		return Arrays.asList(new SetInhabitantToWorkAction(CastleFacility.CATEGORY.BUILDING), new CastleStatusAction());
 		String strippedParam = StringUtils.strip(params);
 
-		return Arrays.asList(new BuildProjectAction(strippedParam), new CastleStatusAction());
+		return Arrays.asList(new BuildProjectAction().setProjectName(strippedParam), new CastleStatusAction());
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class BuildCommand implements Command {
 
 	@Override
 	public String getDescription() {
-		return "Erweitere das Ressourcenlager der Burg";
+		return "Führe ein Bauprojekt durch oder beteilige dich daran";
 	}
 
 }

@@ -1,6 +1,7 @@
 package de.rardian.telegram.bot.castle.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -188,5 +189,28 @@ public class Castle {
 			}
 		}
 		return facilities;
+	}
+
+	public boolean isProjectInProgress() {
+		return false;
+	}
+
+	public boolean isProjectValid(String projectName) {
+		return true;
+	}
+
+	public Collection<String> getProjectIds() {
+		// TODO Auto-generated method stub
+		return Arrays.asList("");
+	}
+
+	public void startProject(String projectName) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public String getProjectName(String projectName) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
