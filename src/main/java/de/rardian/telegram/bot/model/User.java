@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.json.JSONObject;
@@ -12,13 +13,13 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 
 /**
- * Store User-Objeccts from Json like that:
- * {\"id\":8039535,\"first_name\":\"Bjoern\",\"username\":\"BjoernO\"}
+ * Store User-Objeccts from Json like that: {\"id\":8039535,\"first_name\":\"Bjoern\",\"username\":\"BjoernO\"}
  * 
  * @author Rardian
  *
  */
 @Entity
+@Table(name = "user")
 public class User implements Chat, Comparable<User> {
 	public static final String JSON_ID = "id";
 	public static final String JSON_FIRSTNAME = "first_name";
@@ -49,8 +50,7 @@ public class User implements Chat, Comparable<User> {
 	}
 
 	/**
-	 * Returns a new User object that differs (i.e. not equal) from previously
-	 * delivered User objects.
+	 * Returns a new User object that differs (i.e. not equal) from previously delivered User objects.
 	 */
 	@VisibleForTesting
 	public static User newUniqueTestUser(long uniqueId) {
