@@ -3,17 +3,30 @@ package de.rardian.telegram.bot.manage;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
 
 import org.json.JSONObject;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import de.rardian.telegram.bot.model.User;
+import de.rardian.telegram.bot.model.UserRepository;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UserManagerTest {
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
+
+	@Mock
+	private UserRepository userRepository;
+
+	@InjectMocks
+	private UserManager underTest;
 
 	@Test
 	public void type() throws Exception {
@@ -22,14 +35,12 @@ public class UserManagerTest {
 
 	@Test
 	public void instantiation() throws Exception {
-		UserManager target = new UserManager();
-		assertThat(target, notNullValue());
+		assertThat(underTest, notNullValue());
 	}
 
 	@Test
 	public void isUserKnown_userUnknown() throws Exception {
 		// Init
-		UserManager underTest = new UserManager();
 
 		// Run
 		boolean result = underTest.isUserKnown(User.newIdentTestUser());
@@ -41,8 +52,9 @@ public class UserManagerTest {
 	@Test
 	public void isUserKnown_userKnown() throws Exception {
 		// Init
-		UserManager underTest = new UserManager();
-		underTest.registerUser(User.newIdentTestUser());
+		User testUser = User.newIdentTestUser();
+		when(userRepository.save(testUser)).thenReturn(testUser);
+		underTest.registerUser(testUser);
 
 		// Run
 		boolean result = underTest.isUserKnown(User.newIdentTestUser());
@@ -54,33 +66,31 @@ public class UserManagerTest {
 	@Test
 	public void isUserKnown_userNull() throws Exception {
 		// Init
-		UserManager underTest = new UserManager();
+		thrown.expect(NullPointerException.class);
 
-		// Run
-		boolean result = underTest.isUserKnown(null);
-
-		// Assert
-		assertThat(result, is(false));
+		// Run / Assert
+		underTest.isUserKnown(null);
 	}
 
 	@Test
 	public void registerUser() throws Exception {
 		// Init
-		UserManager underTest = new UserManager();
+		User testUser = User.newIdentTestUser();
+		when(userRepository.save(testUser)).thenReturn(testUser);
 
 		// Run
-		underTest.registerUser(User.newIdentTestUser());
+		underTest.registerUser(testUser);
 
 		// Assert
-		assertThat(underTest.isUserKnown(User.newIdentTestUser()), is(true));
+		assertThat(underTest.isUserKnown(testUser), is(true));
 	}
 
 	@Test
 	public void registerUser_usernameNull() throws Exception {
 		// Init
-		UserManager underTest = new UserManager();
 		JSONObject json = new JSONObject("{\"id\":92097519,\"first_name\":\"Vorname\"}");
 		User testUser = new User().fillWithJson(json);
+		when(userRepository.save(testUser)).thenReturn(testUser);
 
 		// Run
 		underTest.registerUser(testUser);
@@ -94,9 +104,7 @@ public class UserManagerTest {
 		// Init
 		thrown.expect(NullPointerException.class);
 
-		UserManager underTest = new UserManager();
-
-		// Run
+		// Run / Assert
 		underTest.registerUser(null);
 	}
 }

@@ -13,7 +13,7 @@ import de.rardian.telegram.bot.model.UserRepository;
 public class UserManager {
 	private Collection<User> knownUsers = new ArrayList<>();
 	private UserRepository userRepository;
-	
+
 	public void setUserRepository(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
@@ -27,6 +27,7 @@ public class UserManager {
 	}
 
 	public boolean isUserKnown(final User user) {
+		Validate.notNull(user);
 		boolean resultRep = userRepository.exists(Long.valueOf(user.getId()));
 		boolean resultCol = collectionContainsUser(knownUsers, user);
 		return collectionContainsUser(knownUsers, user);
