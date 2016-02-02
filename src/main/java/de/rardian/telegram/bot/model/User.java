@@ -2,6 +2,9 @@ package de.rardian.telegram.bot.model;
 
 import java.util.Arrays;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.json.JSONObject;
 
@@ -15,12 +18,14 @@ import com.google.common.base.MoreObjects;
  * @author Rardian
  *
  */
+@Entity
 public class User implements Chat, Comparable<User> {
 	public static final String JSON_ID = "id";
 	public static final String JSON_FIRSTNAME = "first_name";
 	public static final String JSON_LASTNAME = "last_name";
 	public static final String JSON_USERNAME = "username";
 
+	@Id
 	private long id;
 	private String firstName;
 	private String lastName;

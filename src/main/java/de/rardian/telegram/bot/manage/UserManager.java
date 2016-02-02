@@ -8,9 +8,15 @@ import org.apache.commons.collections4.Predicate;
 import org.apache.commons.lang3.Validate;
 
 import de.rardian.telegram.bot.model.User;
+import de.rardian.telegram.bot.model.UserRepository;
 
 public class UserManager {
 	private Collection<User> knownUsers = new ArrayList<>();
+	private UserRepository userRepository;
+	
+	public void setUserRepository(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	public static boolean collectionContainsUser(Collection<User> collection, User user) {
 		return collectionContains(collection, user, new UserByIdPredicate(user));
