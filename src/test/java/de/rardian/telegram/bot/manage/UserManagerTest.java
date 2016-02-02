@@ -40,8 +40,6 @@ public class UserManagerTest {
 
 	@Test
 	public void isUserKnown_userUnknown() throws Exception {
-		// Init
-
 		// Run
 		boolean result = underTest.isUserKnown(User.newIdentTestUser());
 
@@ -54,6 +52,7 @@ public class UserManagerTest {
 		// Init
 		User testUser = User.newIdentTestUser();
 		when(userRepository.save(testUser)).thenReturn(testUser);
+		when(userRepository.exists(Long.valueOf(testUser.getId()))).thenReturn(Boolean.TRUE);
 		underTest.registerUser(testUser);
 
 		// Run
@@ -77,6 +76,7 @@ public class UserManagerTest {
 		// Init
 		User testUser = User.newIdentTestUser();
 		when(userRepository.save(testUser)).thenReturn(testUser);
+		when(userRepository.exists(Long.valueOf(testUser.getId()))).thenReturn(Boolean.TRUE);
 
 		// Run
 		underTest.registerUser(testUser);
@@ -91,6 +91,7 @@ public class UserManagerTest {
 		JSONObject json = new JSONObject("{\"id\":92097519,\"first_name\":\"Vorname\"}");
 		User testUser = new User().fillWithJson(json);
 		when(userRepository.save(testUser)).thenReturn(testUser);
+		when(userRepository.exists(Long.valueOf(testUser.getId()))).thenReturn(Boolean.TRUE);
 
 		// Run
 		underTest.registerUser(testUser);

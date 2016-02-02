@@ -30,7 +30,9 @@ public class UserManager {
 		Validate.notNull(user);
 		boolean resultRep = userRepository.exists(Long.valueOf(user.getId()));
 		boolean resultCol = collectionContainsUser(knownUsers, user);
-		return collectionContainsUser(knownUsers, user);
+		System.out.println("Repo=" + resultRep + ", Coll=" + resultCol);
+		return resultRep;
+		//		return collectionContainsUser(knownUsers, user);
 	}
 
 	public void registerUser(User user) {
