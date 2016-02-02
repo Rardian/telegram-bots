@@ -18,7 +18,7 @@ public class UserManager {
 		this.userRepository = userRepository;
 	}
 
-	public static boolean collectionContainsUser(Collection<User> collection, User user) {
+	private boolean collectionContainsUser(Collection<User> collection, User user) {
 		return collectionContains(collection, user, new UserByIdPredicate(user));
 	}
 
@@ -27,14 +27,17 @@ public class UserManager {
 	}
 
 	public boolean isUserKnown(final User user) {
+		boolean resultRep = userRepository.exists(Long.valueOf(user.getId()));
+		boolean resultCol = collectionContainsUser(knownUsers, user);
 		return collectionContainsUser(knownUsers, user);
 	}
 
 	public void registerUser(User user) {
 		Validate.notNull(user);
 		knownUsers.add(user);
+		User storedUser = userRepository.save(user);
 
-		String logName = (user.getUserName() == null ? user.getFirstName() : user.getUserName());
+		String logName = (storedUser.getUserName() == null ? storedUser.getFirstName() : storedUser.getUserName());
 		System.out.println("User '" + logName + "' registered");
 	}
 }
