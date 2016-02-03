@@ -1,15 +1,25 @@
 package de.rardian.telegram.bot.castle.commands.actions;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.command.action.Action;
 import de.rardian.telegram.bot.command.action.SendsAnswer;
 import de.rardian.telegram.bot.communication.MessageReply;
+import de.rardian.telegram.bot.manage.UserManager;
 
-public class SetInhabitantNameAction implements Action, InhabitantAware, SendsAnswer {
+public class SetInhabitantNameAction implements Action, InhabitantAware, SendsAnswer, CastleAware {
 
 	private String name;
 	private Inhabitant inhabitant;
 	private MessageReply reply;
+	private Castle castle;
+
+	//	@Autowired
+	//	private InhabitantRepository inhabitantRepository;
+	@Autowired
+	private UserManager userManager;
 
 	public SetInhabitantNameAction(String name) {
 		this.name = name;
@@ -29,8 +39,14 @@ public class SetInhabitantNameAction implements Action, InhabitantAware, SendsAn
 	@Override
 	public void execute() {
 		inhabitant.setName(name);
-		// TODO save name, therefore inject InhabitantRepository to ActionInitializer
+		userManager.updateInhabitant(inhabitant);
+		//		inhabitantRepository.save(inhabitant);
 		reply.answer("Man kennt dich nun als " + name, null);
+	}
+
+	@Override
+	public void setCastle(Castle castle) {
+		this.castle = castle;
 	}
 
 }

@@ -15,8 +15,8 @@ import de.rardian.telegram.bot.model.UserRepository;
 
 @SpringBootApplication
 //@EnableAutoConfiguration
-@EnableJpaRepositories(basePackageClasses = {UserRepository.class, InhabitantRepository.class})
-@EntityScan(basePackageClasses = {User.class, Inhabitant.class})
+@EnableJpaRepositories(basePackageClasses = { UserRepository.class, InhabitantRepository.class })
+@EntityScan(basePackageClasses = { User.class, Inhabitant.class })
 public class BotManager {
 
 	public static void main(String[] args) {
@@ -28,9 +28,9 @@ public class BotManager {
 	public UpdatesRetriever startBot(UserManager userManager) {
 		final CastleBot bot = new CastleBot();
 		final Castle castle = new Castle(bot);
-		
+
 		castle.setUserManager(userManager);
-		
+
 		bot.setCastle(castle);
 		bot.setUserManager(userManager);
 
