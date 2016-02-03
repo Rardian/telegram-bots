@@ -31,7 +31,7 @@ public class UserMovesInAction implements Action, SendsAnswer, CastleAware, User
 	@Override
 	public void execute() {
 		reply.answer("Willkommen bei CastleBot, " + user.getFirstName() + ". Tippe /help", null);
-		castle.addInhabitant(user);
+//		castle.addInhabitant(user);
 	}
 
 }

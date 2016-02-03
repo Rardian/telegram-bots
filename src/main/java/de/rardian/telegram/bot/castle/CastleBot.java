@@ -89,10 +89,12 @@ public class CastleBot implements Bot {
 		Collection<Action> actions = new ArrayList<>();
 		User user = message.getFrom();
 
-		if (!getUserManager().isUserKnown(user)) {
-			getUserManager().registerUser(user);
-			actions.add(new UserMovesInAction());
-		}
+		Action resultAction = getUserManager().registerUser(user);
+		actions.add(resultAction);
+//		if (!getUserManager().isUserKnown(user)) {
+//			getUserManager().registerUser(user);
+//			actions.add(new UserMovesInAction());
+//		}
 
 		actions.addAll(getCommandParser().parse(message));
 

@@ -13,7 +13,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 
 /**
- * Store User-Objeccts from Json like that: {\"id\":8039535,\"first_name\":\"Bjoern\",\"username\":\"BjoernO\"}
+ * Store User-Objects from Json like that: {\"id\":8039535,\"first_name\":\"Bjoern\",\"username\":\"BjoernO\"}
  * 
  * @author Rardian
  *

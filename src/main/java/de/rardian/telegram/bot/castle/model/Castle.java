@@ -20,6 +20,7 @@ import de.rardian.telegram.bot.castle.facilities.CastleFacility;
 import de.rardian.telegram.bot.castle.facilities.EnvironmentFacility;
 import de.rardian.telegram.bot.castle.facilities.ProductionFacility;
 import de.rardian.telegram.bot.castle.model.ResourcesManager.TYPE;
+import de.rardian.telegram.bot.manage.UserManager;
 import de.rardian.telegram.bot.model.User;
 
 public class Castle {
@@ -35,15 +36,18 @@ public class Castle {
 
 	private CastleBot bot;
 
+	private UserManager userManager;
+
 	public Castle(CastleBot castleBot) {
 		this.bot = castleBot;
 	}
 
 	public String getStatusAsString() {
 		String listOfInhabitants = "";
-		synchronized (inhabitants) {
-			listOfInhabitants = getInhabitantsByName(inhabitants.values());
-		}
+		
+//		synchronized (inhabitants) {
+			listOfInhabitants = getInhabitantsByName(getInhabitants());
+//		}
 
 		String resourcesAsString = "";
 		for (ResourcesManager.TYPE resourceType : ResourcesManager.TYPE.values()) {
@@ -62,6 +66,7 @@ public class Castle {
 		}
 		String status = "Die Burg ist in gutem Zustand.\n"//
 				+ "Bewohner: "//
+				+ userManager.countInhabitants()//
 				+ inhabitants.size()//
 				+ " ("//
 				+ listOfInhabitants //
@@ -79,7 +84,7 @@ public class Castle {
 	}
 
 	public Collection<Inhabitant> getInhabitants() {
-		return new ArrayList<Inhabitant>(inhabitants.values());
+		return userManager.getInhabitants();
 	}
 
 	private String printFacility(CastleFacility.CATEGORY category) {
@@ -93,8 +98,8 @@ public class Castle {
 		return result;
 	}
 
-	public String getInhabitantsByName(Collection<Inhabitant> inhabitants) {
-		ArrayList<String> inhabitantsByName = new ArrayList<>(inhabitants.size());
+	public String getInhabitantsByName(Iterable<Inhabitant> inhabitants) {
+		ArrayList<String> inhabitantsByName = new ArrayList<>();
 
 		for (Inhabitant inhabitant : inhabitants) {
 			inhabitantsByName.add(inhabitant.getName());
@@ -130,7 +135,7 @@ public class Castle {
 	}
 
 	public Inhabitant getInhabitantFor(User user) {
-		return inhabitants.get(user);
+		return userManager.getInhabitantByUser(user);
 	}
 
 	public User getUserBy(Inhabitant search) {
@@ -212,5 +217,9 @@ public class Castle {
 	public String getProjectName(String projectName) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void setUserManager(UserManager userManager) {
+		this.userManager = userManager;
 	}
 }
