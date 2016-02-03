@@ -89,6 +89,7 @@ public class CastleBot implements Bot {
 		Collection<Action> actions = new ArrayList<>();
 		User user = message.getFrom();
 
+		// TODO Move isUserKnown into registerUser and return appropriate Action
 		if (!getUserManager().isUserKnown(user)) {
 			getUserManager().registerUser(user);
 			actions.add(new UserMovesInAction());
