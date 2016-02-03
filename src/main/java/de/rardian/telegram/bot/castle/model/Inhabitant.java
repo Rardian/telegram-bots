@@ -3,43 +3,58 @@ package de.rardian.telegram.bot.castle.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import de.rardian.telegram.bot.castle.facilities.CastleFacility;
 import de.rardian.telegram.bot.model.User;
 
+@Entity
+@Table(name = "inhabitants")
 public class Inhabitant implements Comparable<Inhabitant> {
-	private User representative;
 
+	@Id
+	@GeneratedValue
+	private long id;
+	@OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER, orphanRemoval = true)
+	private User user;
+	
 	// Personality
 	private String name;
-	private String appearance;
+	private transient String appearance;
 
 	// Skills
 	/**
 	 * influences the count and increase rate of followers and relationships to other players
 	 */
-	private int leadership;
+	private transient int leadership;
 	/**
 	 * influences the chance to discover secrets (either on quests or on building or producing)
 	 */
-	private int knowledge;
+	private transient int knowledge;
 
-	private Map<CastleFacility.CATEGORY, Skill> skills;
+	private transient Map<CastleFacility.CATEGORY, Skill> skills;
 
 	// Resources
 	/**
 	 * the amount of followers helping you with a task, increases with focus of specific tasks
 	 */
-	private int followers;
+	private transient int followers;
 	/** the amount of damage a character can take before they get unconscious */
-	private int health;
+	private transient int health;
 
-	private Map<CharacterClass, SkillSet> classes;
+	private transient Map<CharacterClass, SkillSet> classes;
 
 	public void setUser(User user) {
-		representative = user;
+		this.user = user;
 	}
 
 	@Override
@@ -48,7 +63,7 @@ public class Inhabitant implements Comparable<Inhabitant> {
 	}
 
 	private User getUser() {
-		return representative;
+		return user;
 	}
 
 	public String getStatusAsString() {
@@ -63,7 +78,7 @@ public class Inhabitant implements Comparable<Inhabitant> {
 
 	public String getName() {
 		if (name == null) {
-			return representative.getFirstName();
+			return user.getFirstName();
 		}
 		return name;
 	}

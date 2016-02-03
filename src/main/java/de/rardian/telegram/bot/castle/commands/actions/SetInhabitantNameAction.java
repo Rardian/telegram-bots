@@ -29,6 +29,7 @@ public class SetInhabitantNameAction implements Action, InhabitantAware, SendsAn
 	@Override
 	public void execute() {
 		inhabitant.setName(name);
+		// TODO save name, therefore inject InhabitantRepository to ActionInitializer
 		reply.answer("Man kennt dich nun als " + name, null);
 	}
 

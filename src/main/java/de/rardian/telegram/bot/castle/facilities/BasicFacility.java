@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
 
 import com.google.common.collect.Iterables;
@@ -13,7 +14,6 @@ import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.castle.model.ResourcesManager;
 import de.rardian.telegram.bot.command.action.SendMessageToUserAction;
-import de.rardian.telegram.bot.manage.UserManager;
 import de.rardian.telegram.bot.model.Bot;
 import de.rardian.telegram.bot.model.User;
 
@@ -44,7 +44,7 @@ public abstract class BasicFacility implements CastleFacility, Runnable {
 
 	@Override
 	public void addMember(Inhabitant newMember) throws AlreadyAddedException {
-		if (UserManager.collectionContains(members, newMember, new Predicate<Inhabitant>() {
+		if (CollectionUtils.exists(members, new Predicate<Inhabitant>() {
 
 			@Override
 			public boolean evaluate(Inhabitant object) {

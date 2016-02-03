@@ -7,13 +7,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import de.rardian.telegram.bot.castle.CastleBot;
+import de.rardian.telegram.bot.castle.model.Castle;
+import de.rardian.telegram.bot.castle.model.Inhabitant;
+import de.rardian.telegram.bot.model.InhabitantRepository;
 import de.rardian.telegram.bot.model.User;
 import de.rardian.telegram.bot.model.UserRepository;
 
 @SpringBootApplication
 //@EnableAutoConfiguration
-@EnableJpaRepositories(basePackageClasses = UserRepository.class)
-@EntityScan(basePackageClasses = User.class)
+@EnableJpaRepositories(basePackageClasses = {UserRepository.class, InhabitantRepository.class})
+@EntityScan(basePackageClasses = {User.class, Inhabitant.class})
 public class BotManager {
 
 	public static void main(String[] args) {
@@ -24,6 +27,11 @@ public class BotManager {
 	@Bean
 	public UpdatesRetriever startBot(UserManager userManager) {
 		final CastleBot bot = new CastleBot();
+		final Castle castle = new Castle(bot);
+		
+		castle.setUserManager(userManager);
+		
+		bot.setCastle(castle);
 		bot.setUserManager(userManager);
 
 		final UpdatesRetriever retriever = new UpdatesRetriever().forBot(bot);
@@ -33,9 +41,10 @@ public class BotManager {
 	}
 
 	@Bean
-	public UserManager createUserManager(UserRepository userRepository) {
+	public UserManager createUserManager(UserRepository userRepository, InhabitantRepository inhabitantRepository) {
 		UserManager userManager = new UserManager();
 		userManager.setUserRepository(userRepository);
+		userManager.setInhabitantRepository(inhabitantRepository);
 		return userManager;
 	}
 }
