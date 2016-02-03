@@ -38,13 +38,14 @@ public class UserMovesInActionTest {
 		// Assert
 		verify(reply).answer("Willkommen bei CastleBot, Vorname. Tippe /help", null);
 	}
-
-	@Test
-	public void executeAddsInhabitant() throws Exception {
-		// Run
-		underTest.execute();
-
-		// Assert
-		verify(castle).addInhabitant(user);
-	}
+	/*
+		@Test
+		public void executeAddsInhabitant() throws Exception {
+			// Run
+			underTest.execute();
+	
+			// Assert
+			verify(castle).addInhabitant(user);
+		}
+		*/
 }

@@ -44,10 +44,10 @@ public class Castle {
 
 	public String getStatusAsString() {
 		String listOfInhabitants = "";
-		
-//		synchronized (inhabitants) {
-			listOfInhabitants = getInhabitantsByName(getInhabitants());
-//		}
+
+		//		synchronized (inhabitants) {
+		listOfInhabitants = getInhabitantsByName(getInhabitants());
+		//		}
 
 		String resourcesAsString = "";
 		for (ResourcesManager.TYPE resourceType : ResourcesManager.TYPE.values()) {
@@ -127,7 +127,7 @@ public class Castle {
 		return getFacilities().get(category);
 	}
 
-	public void addInhabitant(User user) {
+	private void addInhabitant(User user) {
 		// TODO user ist persistent, Inhabitant nicht, fixen!
 		Inhabitant newInhabitant = new Inhabitant();
 		newInhabitant.setUser(user);
