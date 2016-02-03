@@ -17,7 +17,7 @@ public class BuildCommand implements Command {
 		//		return Arrays.asList(new SetInhabitantToWorkAction(CastleFacility.CATEGORY.BUILDING), new CastleStatusAction());
 		String strippedParam = StringUtils.strip(params);
 
-		return Arrays.asList(new BuildProjectAction().setProjectName(strippedParam), new CastleStatusAction());
+		return Arrays.asList(new BuildProjectAction().setProjectId(strippedParam), new CastleStatusAction());
 	}
 
 	@Override

@@ -5,6 +5,8 @@ import static de.rardian.telegram.bot.castle.facilities.CastleFacility.CATEGORY.
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -25,9 +27,13 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 
 	private int overallBuildingProgress = 0;
 	private ScheduledExecutorService executorService;
+	// TODO Start with simple project: ein Lager mit gleicher Kapazität für alle Ressourcen, dann ein Lager je Ressource oder ein kombiniertes Lager für beliebige Ressourcen.
+	private Map<String, Project> projects = new HashMap<>();
+	private Project currentProject = null;
 
 	public BuildingFacility(Bot bot, Castle castle, ResourcesManager resources) {
 		super(bot, castle, resources);
+		projects.put("LAGER", new Project());
 	}
 
 	@Override
@@ -111,5 +117,25 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 
 	public int getProgress() {
 		return overallBuildingProgress;
+	}
+
+	public boolean isProjectInProgress() {
+		return currentProject == null;
+	}
+
+	public boolean isProjectValid(String projectId) {
+		return projects.containsKey(projectId);
+	}
+
+	public Collection<String> getProjectIds() {
+		return projects.keySet();
+	}
+
+	public void startProject(String projectId) {
+		currentProject = projects.get(projectId);
+	}
+
+	public String getProjectName(String projectId) {
+		return projects.get(projectId).getName();
 	}
 }

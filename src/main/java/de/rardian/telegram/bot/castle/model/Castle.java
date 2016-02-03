@@ -1,7 +1,6 @@
 package de.rardian.telegram.bot.castle.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +16,7 @@ import de.rardian.telegram.bot.castle.CastleBot;
 import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
 import de.rardian.telegram.bot.castle.facilities.BuildingFacility;
 import de.rardian.telegram.bot.castle.facilities.CastleFacility;
+import de.rardian.telegram.bot.castle.facilities.CastleFacility.CATEGORY;
 import de.rardian.telegram.bot.castle.facilities.EnvironmentFacility;
 import de.rardian.telegram.bot.castle.facilities.ProductionFacility;
 import de.rardian.telegram.bot.castle.model.ResourcesManager.TYPE;
@@ -123,6 +123,7 @@ public class Castle {
 	}
 
 	public void addInhabitant(User user) {
+		// TODO user ist persistent, Inhabitant nicht, fixen!
 		Inhabitant newInhabitant = new Inhabitant();
 		newInhabitant.setUser(user);
 		inhabitants.put(user, newInhabitant);
@@ -192,25 +193,22 @@ public class Castle {
 	}
 
 	public boolean isProjectInProgress() {
-		return false;
+		return ((BuildingFacility) getFacility(CATEGORY.BUILDING)).isProjectInProgress();
 	}
 
-	public boolean isProjectValid(String projectName) {
-		return true;
+	public boolean isProjectValid(String projectId) {
+		return ((BuildingFacility) getFacility(CATEGORY.BUILDING)).isProjectValid(projectId);
 	}
 
 	public Collection<String> getProjectIds() {
-		// TODO Auto-generated method stub
-		return Arrays.asList("");
+		return ((BuildingFacility) getFacility(CATEGORY.BUILDING)).getProjectIds();
 	}
 
-	public void startProject(String projectName) {
-		// TODO Auto-generated method stub
-
+	public void startProject(String projectId) {
+		((BuildingFacility) getFacility(CATEGORY.BUILDING)).startProject(projectId);
 	}
 
 	public String getProjectName(String projectName) {
-		// TODO Auto-generated method stub
-		return null;
+		return ((BuildingFacility) getFacility(CATEGORY.BUILDING)).getProjectName(projectName);
 	}
 }

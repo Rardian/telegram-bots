@@ -15,12 +15,12 @@ import de.rardian.telegram.bot.communication.MessageReply;
 public class BuildProjectAction implements Action, CastleAware, SendsAnswer, InhabitantAware {
 
 	private Castle castle;
-	private String projectName;
+	private String projectId;
 	private MessageReply reply;
 	private Inhabitant inhabitant;
 
-	public BuildProjectAction setProjectName(String project) {
-		projectName = project;
+	public BuildProjectAction setProjectId(String project) {
+		projectId = project;
 		return this;
 	}
 
@@ -41,7 +41,7 @@ public class BuildProjectAction implements Action, CastleAware, SendsAnswer, Inh
 
 	@Override
 	public void execute() {
-		final boolean projectNameEmpty = StringUtils.isBlank(projectName);
+		final boolean projectNameEmpty = StringUtils.isBlank(projectId);
 		final boolean projectActive = castle.isProjectInProgress();
 
 		if (projectNameEmpty) {
@@ -59,13 +59,13 @@ public class BuildProjectAction implements Action, CastleAware, SendsAnswer, Inh
 				reply.answer("Kein Bauprojekt aktiv. Starte ein Projekt mit /bau <" + StringUtils.join(projectIds, "|") + ">");
 			}
 
-		} else if (castle.isProjectValid(projectName)) {
+		} else if (castle.isProjectValid(projectId)) {
 
 			if (projectActive) {
 				reply.answer("Es läuft bereits ein Bauprojekt. Nimm daran teil mit: /bau");
 			} else {
-				castle.startProject(projectName);
-				reply.answer("Du startest das Bauprojekt " + castle.getProjectName(projectName));
+				castle.startProject(projectId);
+				reply.answer("Du startest das Bauprojekt " + castle.getProjectName(projectId));
 			}
 
 		} else {

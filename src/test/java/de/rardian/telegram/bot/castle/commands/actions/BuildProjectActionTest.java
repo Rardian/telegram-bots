@@ -35,7 +35,7 @@ public class BuildProjectActionTest {
 	public void executeWithProjectActiveAndNoParamAndNotAdded() throws Exception {
 		// Init
 		when(castle.isProjectInProgress()).thenReturn(Boolean.TRUE);
-		underTest.setProjectName(null);
+		underTest.setProjectId(null);
 
 		// Run
 		underTest.execute();
@@ -48,7 +48,7 @@ public class BuildProjectActionTest {
 	@Test
 	public void executeWithProjectActiveAndNoParamAndAlreadyAdded() throws Exception {
 		// Init
-		underTest.setProjectName(null);
+		underTest.setProjectId(null);
 		when(castle.isProjectInProgress()).thenReturn(Boolean.TRUE);
 		doThrow(AlreadyAddedException.class).when(castle).addWorkerFor(CastleFacility.CATEGORY.BUILDING, inhabitant);
 
@@ -64,7 +64,7 @@ public class BuildProjectActionTest {
 		// Init
 		final Collection<String> projectIds = Arrays.asList("Eins", "Zwei");
 
-		underTest.setProjectName(null);
+		underTest.setProjectId(null);
 		when(castle.isProjectInProgress()).thenReturn(Boolean.FALSE);
 		when(castle.getProjectIds()).thenReturn(projectIds);
 
@@ -80,7 +80,7 @@ public class BuildProjectActionTest {
 		// Init
 		final String PROJECTNAME = "VALID";
 
-		underTest.setProjectName(PROJECTNAME);
+		underTest.setProjectId(PROJECTNAME);
 		when(castle.isProjectValid(PROJECTNAME)).thenReturn(Boolean.TRUE);
 		when(castle.isProjectInProgress()).thenReturn(Boolean.TRUE);
 
@@ -96,7 +96,7 @@ public class BuildProjectActionTest {
 		// Init
 		final String PROJECTNAME = "VALID";
 
-		underTest.setProjectName(PROJECTNAME);
+		underTest.setProjectId(PROJECTNAME);
 		when(castle.isProjectValid(PROJECTNAME)).thenReturn(Boolean.TRUE);
 		when(castle.isProjectInProgress()).thenReturn(Boolean.FALSE);
 
@@ -113,7 +113,7 @@ public class BuildProjectActionTest {
 		// Init
 		final String PROJECTNAME = "VALID";
 
-		underTest.setProjectName(PROJECTNAME);
+		underTest.setProjectId(PROJECTNAME);
 		when(castle.isProjectValid(PROJECTNAME)).thenReturn(Boolean.FALSE);
 
 		// Run
