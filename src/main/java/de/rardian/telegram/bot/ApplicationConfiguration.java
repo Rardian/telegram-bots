@@ -1,31 +1,22 @@
-package de.rardian.telegram.bot.manage;
-
-import java.beans.PropertyVetoException;
+package de.rardian.telegram.bot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import de.rardian.telegram.bot.castle.CastleBot;
 import de.rardian.telegram.bot.castle.model.Castle;
-import de.rardian.telegram.bot.castle.model.Inhabitant;
+import de.rardian.telegram.bot.manage.UpdatesRetriever;
+import de.rardian.telegram.bot.manage.UserManager;
 import de.rardian.telegram.bot.model.InhabitantRepository;
-import de.rardian.telegram.bot.model.User;
 import de.rardian.telegram.bot.model.UserRepository;
 
-//@SpringBootApplication
-//@EnableAutoConfiguration
-//@EnableJpaRepositories(basePackageClasses = { UserRepository.class, InhabitantRepository.class })
-//@EntityScan(basePackageClasses = { User.class, Inhabitant.class })
-public class BotManager {
+@SpringBootApplication
 
-	/*
+public class ApplicationConfiguration {
+	
 	public static void main(String[] args) {
-		SpringApplication.run(BotManager.class);
-		//		new BotManager().start();
+		SpringApplication.run(ApplicationConfiguration.class, args);
 	}
 
 	@Bean
@@ -43,6 +34,7 @@ public class BotManager {
 
 		return retriever;
 	}
+	
 
 	@Bean
 	public UserManager createUserManager(UserRepository userRepository, InhabitantRepository inhabitantRepository) {
@@ -51,5 +43,4 @@ public class BotManager {
 		userManager.setInhabitantRepository(inhabitantRepository);
 		return userManager;
 	}
-	*/
 }
