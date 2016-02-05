@@ -1,13 +1,14 @@
 package de.rardian.telegram.bot.manage;
 
-import java.beans.PropertyVetoException;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import de.rardian.telegram.bot.castle.CastleBot;
 import de.rardian.telegram.bot.castle.model.Castle;
@@ -17,20 +18,28 @@ import de.rardian.telegram.bot.model.User;
 import de.rardian.telegram.bot.model.UserRepository;
 
 //@SpringBootApplication
-//@EnableAutoConfiguration
-//@EnableJpaRepositories(basePackageClasses = { UserRepository.class, InhabitantRepository.class })
-//@EntityScan(basePackageClasses = { User.class, Inhabitant.class })
+@Configuration 
+@EnableAutoConfiguration 
+@EntityScan(basePackageClasses = { User.class, Inhabitant.class })
+@ComponentScan(basePackages = "de.rardian.telegram.bot")
+@EnableJpaRepositories(basePackageClasses = { UserRepository.class, InhabitantRepository.class })
 public class BotManager {
 
-	/*
+	private @Autowired AutowireCapableBeanFactory beanFactory;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(BotManager.class);
-		//		new BotManager().start();
 	}
+
+	// @Bean
+	// public Object myBean(Collection<Command> commands) {
+	//
+	// }
 
 	@Bean
 	public UpdatesRetriever startBot(UserManager userManager) {
 		final CastleBot bot = new CastleBot();
+		beanFactory.autowireBean(bot);
 		final Castle castle = new Castle(bot);
 
 		castle.setUserManager(userManager);
@@ -51,5 +60,5 @@ public class BotManager {
 		userManager.setInhabitantRepository(inhabitantRepository);
 		return userManager;
 	}
-	*/
+	
 }

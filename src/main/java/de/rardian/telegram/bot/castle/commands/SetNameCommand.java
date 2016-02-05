@@ -37,7 +37,10 @@ public class SetNameCommand implements Command, MessageAware {
 		if (StringUtils.isBlank(params)) {
 			return Arrays.asList(new SendMessageToUserAction(message.getFrom(), "Bitte verwende /name <name> um deinen Bewohner zu benennen."));
 		} else {
-			return Arrays.asList(new SetInhabitantNameAction(params), new CastleStatusAction());
+			// Actions per Factory, die Dependencies kennt, erzeugen
+			return Arrays.asList(//
+					new SetInhabitantNameAction().withNewName(params),
+					new CastleStatusAction());
 		}
 	}
 
