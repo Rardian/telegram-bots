@@ -78,9 +78,4 @@ public class UserManager {
 		return inhabitantRepository.findByUser(user);
 	}
 
-	public void updateInhabitant(Inhabitant inhabitant) {
-		inhabitantRepository.save(inhabitant);
-		// TODO Auto-generated method stub
-
-	}
 }

@@ -67,7 +67,6 @@ public class Castle {
 		String status = "Die Burg ist in gutem Zustand.\n"//
 				+ "Bewohner: "//
 				+ userManager.countInhabitants()//
-				+ inhabitants.size()//
 				+ " ("//
 				+ listOfInhabitants //
 				+ ")\n"//
