@@ -7,9 +7,11 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.stereotype.Component;
 
 import de.rardian.telegram.bot.castle.commands.CommandInitializer;
-import de.rardian.telegram.bot.castle.commands.actions.UserMovesInAction;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.command.Command;
 import de.rardian.telegram.bot.command.CommandParser;
@@ -22,6 +24,7 @@ import de.rardian.telegram.bot.model.Bot;
 import de.rardian.telegram.bot.model.Message;
 import de.rardian.telegram.bot.model.User;
 
+@Component
 public class CastleBot implements Bot {
 
 	private static final String ID = "123030600:AAHn8CC4Q7PMvvdEGOiqmFYCZVcgHam_8uo";
@@ -30,6 +33,8 @@ public class CastleBot implements Bot {
 	private CommandInitializer commandInitializer;
 	private Castle castle;
 	private ActionExecuter actionExecuter;
+
+	private @Autowired AutowireCapableBeanFactory beanFactory;
 
 	public void setUserManager(UserManager manager) {
 		this.userManager = manager;
@@ -106,6 +111,7 @@ public class CastleBot implements Bot {
 	private ActionExecuter getActionExecuter() {
 		if (actionExecuter == null) {
 			ActionInitializer initializer = new ActionInitializer();
+			beanFactory.autowireBean(initializer);
 			initializer.setBot(this);
 			initializer.setCastle(getCastle());
 			actionExecuter = new ActionExecuter().withInitializer(initializer);
