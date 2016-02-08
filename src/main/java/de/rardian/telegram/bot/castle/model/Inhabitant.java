@@ -53,6 +53,10 @@ public class Inhabitant implements Comparable<Inhabitant> {
 
 	private transient Map<CharacterClass, SkillSet> classes;
 
+	public long getId() {
+		return id;
+	}
+
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -62,7 +66,7 @@ public class Inhabitant implements Comparable<Inhabitant> {
 		return ObjectUtils.compare(getUser(), o.getUser());
 	}
 
-	private User getUser() {
+	public User getUser() {
 		return user;
 	}
 
@@ -105,4 +109,5 @@ public class Inhabitant implements Comparable<Inhabitant> {
 		}
 		return skills;
 	}
+
 }

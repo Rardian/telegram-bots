@@ -78,4 +78,9 @@ public class UserManager {
 		return inhabitantRepository.findByUser(user);
 	}
 
+	public User getUserByInhabitant(Inhabitant inhabitant) {
+		return inhabitantRepository.findOne(inhabitant.getId()).getUser();
+		// return userRepository.findByInhabitant(inhabitant).get();
+	}
+
 }

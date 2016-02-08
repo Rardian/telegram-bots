@@ -37,7 +37,7 @@ public class BasicFacilityTest {
 
 	@Before
 	public void initFacility() {
-		resources = new ResourcesManager(0, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
+		resources = new ResourcesManager().initialize(0, RESOURCES_CAPACITY, RESOURCES_FIELDCOUNT);
 		underTest = Mockito.spy(new TestFacility(bot, castle, resources));
 	}
 

@@ -142,7 +142,7 @@ public class CastleBot implements Bot {
 
 	private Castle getCastle() {
 		if (castle == null) {
-			castle = new Castle(this);
+			castle = new Castle(this, null);
 			//			castle.setProductionListener();
 		}
 		return castle;
