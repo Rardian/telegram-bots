@@ -1,53 +1,46 @@
 package de.rardian.telegram.bot.castle.model;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.verify;
+
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
+import de.rardian.telegram.bot.castle.model.ResourcesManager.TYPE;
+import de.rardian.telegram.bot.domain.ResourceDepotRepository;
+
+@RunWith(MockitoJUnitRunner.class)
 public class ResourcesManagerTest {
+	@Mock
+	private ResourceDepotRepository resourceDepotRepository;
+	@Mock
+	private AutowireCapableBeanFactory beanFactory;
+	@Mock
+	private ResourceDepot resourceDepot;
 
+	@InjectMocks
 	private ResourcesManager underTest;
 
 	@Before
 	public void initResources() {
-		underTest = new ResourcesManager(0, 5, 1);
+		underTest.initialize(0, 5, 1);
+		Mockito.when(resourceDepotRepository.findOne(TYPE.WOOD)).thenReturn(Optional.of(resourceDepot));
 	}
 
 	@Test
-	public void maxCapacityShouldBeTenTimesResourceFieldCount() throws Exception {
+	public void delegateMaxCapacity() throws Exception {
 		// Run
-		int result = underTest.getMaxCapacity(ResourcesManager.TYPE.WOOD);
+		underTest.getMaxCapacity(TYPE.WOOD);
 
 		// Assert
-		assertThat(result, is(10));
-	}
-
-	@Test
-	public void maxCapacityShouldBeTenTimesResourceFieldCountAfterIncrease() throws Exception {
-		// Init
-		underTest.increaseResourceFieldCount(ResourcesManager.TYPE.WOOD);
-
-		// Run
-		int result = underTest.getMaxCapacity(ResourcesManager.TYPE.WOOD);
-
-		// Assert
-		assertThat(result, is(10));
-	}
-
-	@Test
-	public void tenResourceFieldIncreasesShouldIncreaseMaxCapacity() throws Exception {
-		// Init
-		for (int i = 0; i < 10; i++) {
-			underTest.increaseResourceFieldCount(ResourcesManager.TYPE.WOOD);
-		}
-
-		// Run
-		int result = underTest.getMaxCapacity(ResourcesManager.TYPE.WOOD);
-
-		// Assert
-		assertThat(result, is(15));
+		verify(resourceDepot).getMaxCapacity();
 	}
 
 }
