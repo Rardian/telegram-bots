@@ -14,6 +14,8 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import de.rardian.telegram.bot.castle.commands.actions.SetInhabitantsIdle;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
@@ -116,6 +118,11 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 
 		resultContainer.addResultInteger(RESULT_BUILDING_PROGRESS, actualBuildingProgress);
 		return resultContainer;
+	}
+
+	@VisibleForTesting
+	void setProgress(int newOverallBuildingProgress) {
+		overallBuildingProgress = newOverallBuildingProgress;
 	}
 
 	public int getProgress() {

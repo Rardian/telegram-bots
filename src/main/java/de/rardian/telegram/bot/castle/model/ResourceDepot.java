@@ -23,14 +23,6 @@ public class ResourceDepot {
 	/** dictates possible maximum increase, stored with times of 10 */
 	private int resourceFieldCount;
 
-	// public ResourceDepot(TYPE type, int initialResources, int
-	// resourcesCapacity, int resourceFieldCount) {
-	// this.type = type;
-	// amount = initialResources;
-	// capacity = resourcesCapacity;
-	// this.resourceFieldCount = resourceFieldCount * 10;
-	// }
-
 	public ResourceDepot setType(TYPE type) {
 		this.type = type;
 		return this;
@@ -69,8 +61,7 @@ public class ResourceDepot {
 	}
 
 	/**
-	 * Increase {@link #amount} of resources if the {@link #capacity} allows it
-	 * depending on {@link #resourceFieldCount}.
+	 * Increase {@link #amount} of resources if the {@link #capacity} allows it depending on {@link #resourceFieldCount}.
 	 */
 	public int increaseIfPossible(int potentialResourceIncrease) {
 		// act + inc <= max => inc
