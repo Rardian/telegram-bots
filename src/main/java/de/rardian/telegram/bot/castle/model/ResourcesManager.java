@@ -10,11 +10,11 @@ public class ResourcesManager {
 		WOOD, STONE, IRON
 	};
 
-	private Map<TYPE, Resource> resources = Collections.synchronizedMap(new EnumMap<TYPE, Resource>(TYPE.class));
+	private Map<TYPE, ResourceDepot> resources = Collections.synchronizedMap(new EnumMap<TYPE, ResourceDepot>(TYPE.class));
 
 	public ResourcesManager(int initialResources, int initialCapacity, int resourceFieldCount) {
 		for (TYPE type : TYPE.values()) {
-			resources.put(type, new Resource(type, initialResources, initialCapacity, resourceFieldCount));
+			resources.put(type, new ResourceDepot(type, initialResources, initialCapacity, resourceFieldCount));
 		}
 	}
 

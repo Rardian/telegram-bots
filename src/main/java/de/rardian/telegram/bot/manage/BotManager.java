@@ -23,6 +23,7 @@ import de.rardian.telegram.bot.model.UserRepository;
 @EntityScan(basePackageClasses = { User.class, Inhabitant.class })
 @ComponentScan(basePackages = "de.rardian.telegram.bot")
 @EnableJpaRepositories(basePackageClasses = { UserRepository.class, InhabitantRepository.class })
+// @RunWith(SpringJUnit4ClassRunner.class)
 public class BotManager {
 
 	private @Autowired AutowireCapableBeanFactory beanFactory;
