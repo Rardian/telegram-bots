@@ -13,6 +13,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import de.rardian.telegram.bot.castle.CastleBot;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
+import de.rardian.telegram.bot.castle.model.ResourceDepot;
+import de.rardian.telegram.bot.domain.ResourceDepotRepository;
 import de.rardian.telegram.bot.model.InhabitantRepository;
 import de.rardian.telegram.bot.model.User;
 import de.rardian.telegram.bot.model.UserRepository;
@@ -20,9 +22,11 @@ import de.rardian.telegram.bot.model.UserRepository;
 //@SpringBootApplication
 @Configuration 
 @EnableAutoConfiguration 
-@EntityScan(basePackageClasses = { User.class, Inhabitant.class })
+@EntityScan(basePackageClasses = { User.class, Inhabitant.class, ResourceDepot.class })
 @ComponentScan(basePackages = "de.rardian.telegram.bot")
-@EnableJpaRepositories(basePackageClasses = { UserRepository.class, InhabitantRepository.class })
+@EnableJpaRepositories(basePackageClasses = { UserRepository.class, InhabitantRepository.class,
+		ResourceDepotRepository.class })
+// @RunWith(SpringJUnit4ClassRunner.class)
 public class BotManager {
 
 	private @Autowired AutowireCapableBeanFactory beanFactory;
@@ -40,7 +44,7 @@ public class BotManager {
 	public UpdatesRetriever startBot(UserManager userManager) {
 		final CastleBot bot = new CastleBot();
 		beanFactory.autowireBean(bot);
-		final Castle castle = new Castle(bot);
+		final Castle castle = new Castle(bot, beanFactory);
 
 		castle.setUserManager(userManager);
 

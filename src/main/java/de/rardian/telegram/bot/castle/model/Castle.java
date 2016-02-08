@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import com.google.common.collect.Maps;
 
@@ -24,9 +25,11 @@ import de.rardian.telegram.bot.manage.UserManager;
 import de.rardian.telegram.bot.model.User;
 
 public class Castle {
-	private Map<User, Inhabitant> inhabitants = Maps.synchronizedNavigableMap(new TreeMap<>());
+	// private Map<User, Inhabitant> inhabitants =
+	// Maps.synchronizedNavigableMap(new TreeMap<>());
 
-	private ResourcesManager resources = new ResourcesManager(0, 5, 1);
+
+	private ResourcesManager resources;
 	private CastleFacility buildingFacility;
 	private CastleFacility produceFacility;
 	private CastleFacility environmentFacility;
@@ -37,9 +40,12 @@ public class Castle {
 	private CastleBot bot;
 
 	private UserManager userManager;
+	private AutowireCapableBeanFactory beanFactory;
 
-	public Castle(CastleBot castleBot) {
+	@Autowired
+	public Castle(CastleBot castleBot, AutowireCapableBeanFactory beanFactory) {
 		this.bot = castleBot;
+		this.beanFactory = beanFactory;
 	}
 
 	public String getStatusAsString() {
@@ -52,10 +58,10 @@ public class Castle {
 		String resourcesAsString = "";
 		for (ResourcesManager.TYPE resourceType : ResourcesManager.TYPE.values()) {
 			resourcesAsString += "->" + resourceType + "\n";
-			resourcesAsString += "--> Aktuell: " + resources.getAmount(resourceType) + " (Fundstätten: "
-					+ resources.getResourceFieldCount(resourceType) + ")\n";
-			resourcesAsString += "--> Kapazität: " + resources.getCapacity(resourceType) + " (max. Kapazität: "
-					+ resources.getMaxCapacity(resourceType) + ")\n";
+			resourcesAsString += "--> Aktuell: " + getResourcesManager().getAmount(resourceType) + " (Fundstätten: "
+					+ getResourcesManager().getResourceFieldCount(resourceType) + ")\n";
+			resourcesAsString += "--> Kapazität: " + getResourcesManager().getCapacity(resourceType)
+					+ " (max. Kapazität: " + getResourcesManager().getMaxCapacity(resourceType) + ")\n";
 
 		}
 
@@ -76,9 +82,11 @@ public class Castle {
 		//				+ "-> Scouts: " + printFacility(CastleFacility.CATEGORY.SCOUTING)//
 				+ "Ressourcen:\n"//
 				+ resourcesAsString//
-		// TODO max Kapazität von Fieldcount trennen. Gibt dann zwei Typen findbarer Sachen in der Umgebung
+		// TODO max Kapazität von Fieldcount trennen. Gibt dann zwei Typen
+		// findbarer Sachen in der Umgebung
 				+ "Bauvorhaben: "//
-				+ ((BuildingFacility) getBuildingFacility()).getProgress() + " (von " + (resources.getCapacity(TYPE.WOOD) + 1) * 2 + ")";
+				+ ((BuildingFacility) getBuildingFacility()).getProgress() + " (von "
+				+ (getResourcesManager().getCapacity(TYPE.WOOD) + 1) * 2 + ")";
 		return status;
 	}
 
@@ -126,27 +134,22 @@ public class Castle {
 		return getFacilities().get(category);
 	}
 
-	private void addInhabitant(User user) {
-		// TODO user ist persistent, Inhabitant nicht, fixen!
-		Inhabitant newInhabitant = new Inhabitant();
-		newInhabitant.setUser(user);
-		inhabitants.put(user, newInhabitant);
-		// TODO don't add users twice (actually ensured by UserManager)
-	}
-
 	public Inhabitant getInhabitantFor(User user) {
 		return userManager.getInhabitantByUser(user);
 	}
 
 	public User getUserBy(Inhabitant search) {
-		synchronized (inhabitants) {
-			for (Entry<User, Inhabitant> pairs : inhabitants.entrySet()) {
-				if (pairs.getValue().compareTo(search) == 0) {
-					return pairs.getKey();
-				}
-			}
-		}
-		throw new IllegalStateException("Keinen Nutzer für Einwohner '" + search.getName() + "' gefunden");
+		return userManager.getUserByInhabitant(search);
+		//
+		// synchronized (inhabitants) {
+		// for (Entry<User, Inhabitant> pairs : inhabitants.entrySet()) {
+		// if (pairs.getValue().compareTo(search) == 0) {
+		// return pairs.getKey();
+		// }
+		// }
+		// }
+		// throw new IllegalStateException("Keinen Nutzer für Einwohner '" +
+		// search.getName() + "' gefunden");
 	}
 
 	public void setInhabitantIdle(Inhabitant inhabitant) {
@@ -161,20 +164,20 @@ public class Castle {
 
 	private CastleFacility getBuildingFacility() {
 		if (buildingFacility == null) {
-			buildingFacility = new BuildingFacility(bot, this, resources);
+			buildingFacility = new BuildingFacility(bot, this, getResourcesManager());
 		}
 		return buildingFacility;
 	}
 
 	private CastleFacility getEnvironmentFacility() {
 		if (environmentFacility == null) {
-			environmentFacility = new EnvironmentFacility(bot, this, resources);
+			environmentFacility = new EnvironmentFacility(bot, this, getResourcesManager());
 		}
 		return environmentFacility;
 	}
 
 	private CastleFacility createProductionFacility(ResourcesManager.TYPE resourceType, CastleFacility.CATEGORY skillType) {
-		return new ProductionFacility(bot, this, resources, resourceType, skillType);
+		return new ProductionFacility(bot, this, getResourcesManager(), resourceType, skillType);
 	}
 
 	private NavigableMap<CastleFacility.CATEGORY, CastleFacility> getFacilities() {
@@ -194,6 +197,15 @@ public class Castle {
 			}
 		}
 		return facilities;
+	}
+
+	private ResourcesManager getResourcesManager() {
+		if (resources == null) {
+			resources = new ResourcesManager();
+			beanFactory.autowireBean(resources);
+			resources.initialize(0, 5, 1);
+		}
+		return resources;
 	}
 
 	public boolean isProjectInProgress() {

@@ -1,53 +1,120 @@
 package de.rardian.telegram.bot.castle.model;
 
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.stereotype.Component;
 
+import com.google.common.annotations.VisibleForTesting;
+
+import de.rardian.telegram.bot.domain.ResourceDepotRepository;
+
+@Component
 public class ResourcesManager {
+
+	@Autowired
+	private ResourceDepotRepository resourceDepotRepository;
+	@Autowired
+	private AutowireCapableBeanFactory beanFactory;
+
+	private int initialResources;
+	private int initialCapacity;
+	private int resourceFieldCount;
 
 	public enum TYPE {
 		WOOD, STONE, IRON
 	};
 
-	private Map<TYPE, Resource> resources = Collections.synchronizedMap(new EnumMap<TYPE, Resource>(TYPE.class));
+	// private Map<TYPE, ResourceDepot> resources =
+	// Collections.synchronizedMap(new EnumMap<TYPE,
+	// ResourceDepot>(TYPE.class));
 
-	public ResourcesManager(int initialResources, int initialCapacity, int resourceFieldCount) {
-		for (TYPE type : TYPE.values()) {
-			resources.put(type, new Resource(type, initialResources, initialCapacity, resourceFieldCount));
-		}
+	@VisibleForTesting
+	ResourcesManager(int initialResources, int initialCapacity, int resourceFieldCount) {
+		this.initialResources = initialResources;
+		this.initialCapacity = initialCapacity;
+		this.resourceFieldCount = resourceFieldCount;
+	}
+
+	/**
+	 * object needs to be initialized with {@link #initialize(int, int, int)}
+	 */
+	public ResourcesManager() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public ResourcesManager initialize(int initialResources, int initialCapacity, int resourceFieldCount) {
+		this.initialResources = initialResources;
+		this.initialCapacity = initialCapacity;
+		this.resourceFieldCount = resourceFieldCount;
+		return this;
+	}
+
+	private ResourceDepot getResourceDepot(TYPE type) {
+		ResourceDepot depot = new ResourceDepot().setType(type).setAmount(initialResources).setCapacity(initialCapacity)
+				.setResourceFieldCount(resourceFieldCount);
+		ResourceDepotSupplier resourceDepotGenerator = new ResourceDepotSupplier();
+		resourceDepotGenerator.setResourceDepot(depot);
+		beanFactory.autowireBean(resourceDepotGenerator);
+
+		return resourceDepotRepository.findOne(type).orElseGet(resourceDepotGenerator);
 	}
 
 	public int getAmount(TYPE type) {
-		return resources.get(type).getActual();
+		return getResourceDepot(type).getActual();
+		// return resources.get(type).getActual();
 	}
 
 	public void reduce(TYPE type, int reducement) {
-		resources.get(type).reduce(reducement);
+		ResourceDepot depot = getResourceDepot(type);
+
+		depot.reduce(reducement);
+		resourceDepotRepository.save(depot);
 	}
 
 	public int getCapacity(TYPE type) {
-		return resources.get(type).getCapacity();
+		return getResourceDepot(type).getCapacity();
 	}
 
 	public void increaseCapacity(TYPE type) {
-		resources.get(type).increaseCapacity();
+		// resources.get(type).increaseCapacity();
+		ResourceDepot depot = getResourceDepot(type);
+
+		depot.increaseCapacity();
+		resourceDepotRepository.save(depot);
 	}
 
 	public int increaseIfPossible(TYPE type, int potentialIncrease) {
-		return resources.get(type).increaseIfPossible(potentialIncrease);
+		// return resources.get(type).increaseIfPossible(potentialIncrease);
+		ResourceDepot depot = getResourceDepot(type);
+
+		int actualIncrease = depot.increaseIfPossible(potentialIncrease);
+		resourceDepotRepository.save(depot);
+
+		return actualIncrease;
 	}
 
 	public int getMaxCapacity(TYPE type) {
-		return resources.get(type).getMaxCapacity();
+		return getResourceDepot(type).getMaxCapacity();
 	}
 
 	public int getResourceFieldCount(TYPE type) {
-		return resources.get(type).getResourceFieldCount();
+		return getResourceDepot(type).getResourceFieldCount();
 	}
 
 	public int increaseResourceFieldCount(TYPE type) {
-		return resources.get(type).increaseResourceFieldCount();
+		ResourceDepot depot = getResourceDepot(type);
+
+		int increase = depot.increaseResourceFieldCount();
+		resourceDepotRepository.save(depot);
+
+		return increase;
+	}
+
+	public ResourceDepot createResourceDepot(TYPE type) {
+		ResourceDepot depot = new ResourceDepot().setType(type).setAmount(initialResources).setCapacity(initialCapacity)
+				.setResourceFieldCount(resourceFieldCount);
+		depot = resourceDepotRepository.save(depot);
+		return depot;
 	}
 
 }

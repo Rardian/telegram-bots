@@ -22,7 +22,7 @@ public class CastleTest {
 
 	@Before
 	public void initCastle() {
-		underTest = new Castle(bot);
+		underTest = new Castle(bot, null);
 	}
 
 	/*

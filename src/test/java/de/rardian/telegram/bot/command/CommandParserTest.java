@@ -79,6 +79,22 @@ public class CommandParserTest {
 	}
 
 	@Test
+	public void parse_caseInsensitive() throws Exception {
+		// Init
+		final String input = "/Command1";
+		final String commandTrigger = "/command1";
+
+		when(message.getText()).thenReturn(input);
+		when(commands.get(commandTrigger)).thenReturn(new Test1Command());
+
+		// Run
+		Collection<Action> result = underTest.parse(message);
+
+		// Assert
+		assertThat(result, hasItem(Test1Command.TEST_ACTION));
+	}
+
+	@Test
 	public void parse_commandWithParams() throws Exception {
 		// Init
 		final String commandTrigger = "/command1";
