@@ -34,6 +34,8 @@ public class CommandParser {
 			String params = text.substring(indexForParamStart);
 			//			System.out.println("Kommando='" + command + "', Parameter='" + params + "'");
 
+			command = command.toLowerCase();
+
 			Command commandToExecute = commands.get(command);
 			if (commandToExecute == null) {
 				actions.add(new CommandUnknownAction());
