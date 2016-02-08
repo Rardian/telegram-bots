@@ -29,6 +29,16 @@ public class ProductionFacility extends BasicFacility {
 		this.productionSubCategory = productionSubCategory;
 	}
 
+	@VisibleForTesting
+	void serResourceType(ResourcesManager.TYPE type) {
+		resourceType = type;
+	}
+
+	@VisibleForTesting
+	void setCategory(CATEGORY category) {
+		productionSubCategory = category;
+	}
+
 	@Override
 	public CATEGORY getCategory() {
 		return productionSubCategory;
