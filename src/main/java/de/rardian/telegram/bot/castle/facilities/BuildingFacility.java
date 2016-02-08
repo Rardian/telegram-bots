@@ -17,7 +17,10 @@ import org.apache.commons.lang3.Validate;
 import de.rardian.telegram.bot.castle.commands.actions.SetInhabitantsIdle;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
+import de.rardian.telegram.bot.castle.model.Project;
+import de.rardian.telegram.bot.castle.model.ResourceAmount;
 import de.rardian.telegram.bot.castle.model.ResourcesManager;
+import de.rardian.telegram.bot.castle.model.ResourcesManager.TYPE;
 import de.rardian.telegram.bot.command.action.BroadcastMessageAction;
 import de.rardian.telegram.bot.model.Bot;
 import de.rardian.telegram.bot.model.User;
@@ -33,7 +36,7 @@ public class BuildingFacility extends BasicFacility implements Runnable {
 
 	public BuildingFacility(Bot bot, Castle castle, ResourcesManager resources) {
 		super(bot, castle, resources);
-		projects.put("LAGER", new Project());
+		projects.put("LAGER", new Project("Lager", Arrays.asList(new ResourceAmount(TYPE.WOOD, 10))));
 	}
 
 	@Override
