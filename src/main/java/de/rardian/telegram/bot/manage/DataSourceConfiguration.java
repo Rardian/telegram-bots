@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 
 @Configuration
 @EnableTransactionManagement
-
 public class DataSourceConfiguration implements TransactionManagementConfigurer {
 
 	@Autowired

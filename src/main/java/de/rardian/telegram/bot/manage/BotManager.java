@@ -57,12 +57,13 @@ public class BotManager {
 		return retriever;
 	}
 
-	@Bean
-	public UserManager createUserManager(UserRepository userRepository, InhabitantRepository inhabitantRepository) {
-		UserManager userManager = new UserManager();
-		userManager.setUserRepository(userRepository);
-		userManager.setInhabitantRepository(inhabitantRepository);
-		return userManager;
-	}
+	// @Bean
+	// public UserManager createUserManager(UserRepository userRepository,
+	// InhabitantRepository inhabitantRepository) {
+	// UserManager userManager = new UserManager();
+	// userManager.setUserRepository(userRepository);
+	// userManager.setInhabitantRepository(inhabitantRepository);
+	// return userManager;
+	// }
 	
 }
