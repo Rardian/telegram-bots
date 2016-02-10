@@ -1,6 +1,8 @@
 package de.rardian.telegram.bot.manage;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -9,6 +11,7 @@ import org.json.JSONObject;
 
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mashape.unirest.http.options.Options;
 import com.mashape.unirest.request.HttpRequest;
 
 import de.rardian.telegram.bot.model.Bot;
@@ -44,9 +47,9 @@ public class UpdatesRetriever implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO improve handling of connection losses, shutdown doesn't work, simple retry, doesn't either
 
 		while (true) {
+			System.out.println("Start Request: " + new SimpleDateFormat("dd.MM. HH:mm:ss.SSS").format(new Date()));
 			HttpRequest request = Unirest.get(urlForPolling)//
 					.queryString("timeout", timeout)//
 					.queryString("offset", offset);
@@ -61,12 +64,6 @@ public class UpdatesRetriever implements Runnable {
 						System.out.println(newMessages.size() + " neue Nachrichten");
 						//						System.out.println("Neue Nachrichten: " + newMessages);
 					}
-
-					//					// remove duplicates
-					//					Set<Message> set = new LinkedHashSet<>(newMessages);
-					//					newMessages = new ArrayList<>(set);
-					//					
-					//					Collections.sort(newMessages, new UpdateIdComparator());
 
 					for (Message message : newMessages) {
 						long updateId = message.getUpdate_id();
@@ -83,8 +80,7 @@ public class UpdatesRetriever implements Runnable {
 			} catch (UnirestException | IOException e) {
 				e.printStackTrace();
 				System.out.println("Kommunikationsfehler. Update-Retrieve wird fortgesetzt. Request: " + request.getUrl());
-				// FIXME the error handling doesn't work here, yet. Try to figure out, what's causing it.
-				System.exit(0);
+				// System.exit(0);
 				try {
 					Unirest.shutdown();
 				} catch (IOException e1) {
@@ -93,7 +89,8 @@ public class UpdatesRetriever implements Runnable {
 				}
 				//				throw new RuntimeException("Kommunikationsfehler", e);
 			}
-
+			Options.refresh();
+			System.out.println("Stopped Request: " + new SimpleDateFormat("dd.MM. HH:mm:ss.SSS").format(new Date()));
 		}
 	}
 
