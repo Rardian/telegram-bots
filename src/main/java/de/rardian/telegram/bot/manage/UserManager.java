@@ -19,31 +19,11 @@ import de.rardian.telegram.bot.model.UserRepository;
 
 @Service
 public class UserManager {
-	//	private Collection<User> knownUsers = new ArrayList<>();
 
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
 	private InhabitantRepository inhabitantRepository;
-
-	// public void setUserRepository(UserRepository userRepository) {
-	// this.userRepository = userRepository;
-	// }
-	//
-	// public void setInhabitantRepository(InhabitantRepository
-	// inhabitantRepository) {
-	// this.inhabitantRepository = inhabitantRepository;
-	// }
-	/*
-		private boolean collectionContainsUser(Collection<User> collection, User user) {
-			return collectionContains(collection, user, new UserByIdPredicate(user));
-		}
-	*/
-	/*
-	public static <O> boolean collectionContains(Collection<O> collection, O user, Predicate<O> predicate) {
-		return CollectionUtils.exists(collection, predicate);
-	}
-	*/
 
 	public Collection<Inhabitant> getInhabitants() {
 		return Lists.newArrayList(inhabitantRepository.findAll());
@@ -57,18 +37,13 @@ public class UserManager {
 		Validate.notNull(user);
 		long userCount = userRepository.count();
 		boolean resultRep = userRepository.exists(Long.valueOf(user.getId()));
-		//	boolean resultCol = collectionContainsUser(knownUsers, user);
 		System.out.println("userKnown=" + resultRep + ", userCount=" + userCount);
 		return resultRep;
-		//		return collectionContainsUser(knownUsers, user);
 	}
 
 	@Transactional
 	public Action registerUser(User user) {
 		Validate.notNull(user);
-		//		knownUsers.add(user);
-		//		User storedUser = userRepository.save(user);
-
 		//		String logName = (storedUser.getUserName() == null ? storedUser.getFirstName() : storedUser.getUserName());
 		//		System.out.println("User '" + logName + "' registered");
 
@@ -77,11 +52,9 @@ public class UserManager {
 			return new DoNothingAction();
 		} else {
 			Inhabitant newInhabitant = new Inhabitant();
-			user = userRepository.save(user);
 			newInhabitant.setUser(user);
 			inhabitantRepository.save(newInhabitant);
-			System.out.println("registerUser: " + user + ", Inhabitant=" + newInhabitant.getName() + " ("
-					+ newInhabitant.getId() + ")");
+			System.out.println("registerUser: " + user + ", Inhabitant=" + newInhabitant.getName() + " (" + newInhabitant.getId() + ")");
 
 			return new UserMovesInAction();
 		}
@@ -94,7 +67,6 @@ public class UserManager {
 
 	public User getUserByInhabitant(Inhabitant inhabitant) {
 		return inhabitantRepository.findOne(inhabitant.getId()).getUser();
-		// return userRepository.findByInhabitant(inhabitant).get();
 	}
 
 }
