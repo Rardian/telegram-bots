@@ -15,6 +15,7 @@ public class ResourceDepotSupplier implements Supplier<ResourceDepot> {
 
 	private ResourceDepot depot;
 
+	/** package protected for use in ResourcesManager */
 	ResourceDepotSupplier() {
 		// Default Constructor for use as Supplier
 	}
@@ -28,5 +29,4 @@ public class ResourceDepotSupplier implements Supplier<ResourceDepot> {
 		depot = repository.save(depot);
 		return depot;
 	}
-
 }

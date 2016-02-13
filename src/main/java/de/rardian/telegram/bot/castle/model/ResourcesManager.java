@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.stereotype.Component;
 
-import com.google.common.annotations.VisibleForTesting;
-
 import de.rardian.telegram.bot.domain.ResourceDepotRepository;
 
 @Component
@@ -24,22 +22,11 @@ public class ResourcesManager {
 		WOOD, STONE, IRON
 	};
 
-	// private Map<TYPE, ResourceDepot> resources =
-	// Collections.synchronizedMap(new EnumMap<TYPE,
-	// ResourceDepot>(TYPE.class));
-
-	@VisibleForTesting
-	ResourcesManager(int initialResources, int initialCapacity, int resourceFieldCount) {
-		this.initialResources = initialResources;
-		this.initialCapacity = initialCapacity;
-		this.resourceFieldCount = resourceFieldCount;
-	}
-
 	/**
 	 * object needs to be initialized with {@link #initialize(int, int, int)}
 	 */
 	public ResourcesManager() {
-		// TODO Auto-generated constructor stub
+		// Spring Component
 	}
 
 	public ResourcesManager initialize(int initialResources, int initialCapacity, int resourceFieldCount) {
@@ -50,7 +37,10 @@ public class ResourcesManager {
 	}
 
 	private ResourceDepot getResourceDepot(TYPE type) {
-		ResourceDepot depot = new ResourceDepot().setType(type).setAmount(initialResources).setCapacity(initialCapacity)
+		ResourceDepot depot = new ResourceDepot()//
+				.setType(type)//
+				.setAmount(initialResources)//
+				.setCapacity(initialCapacity)//
 				.setResourceFieldCount(resourceFieldCount);
 		ResourceDepotSupplier resourceDepotGenerator = new ResourceDepotSupplier();
 		resourceDepotGenerator.setResourceDepot(depot);
@@ -109,12 +99,4 @@ public class ResourcesManager {
 
 		return increase;
 	}
-
-	public ResourceDepot createResourceDepot(TYPE type) {
-		ResourceDepot depot = new ResourceDepot().setType(type).setAmount(initialResources).setCapacity(initialCapacity)
-				.setResourceFieldCount(resourceFieldCount);
-		depot = resourceDepotRepository.save(depot);
-		return depot;
-	}
-
 }
