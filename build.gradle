@@ -64,6 +64,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.0.31-beta'
     testCompile 'commons-io:commons-io:2.4'
+    testCompile 'org.springframework:spring-test:4.2.4.RELEASE'
 }
 
 jacocoTestReport {

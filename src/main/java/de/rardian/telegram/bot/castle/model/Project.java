@@ -1,23 +1,53 @@
 package de.rardian.telegram.bot.castle.model;
 
-import java.util.Collection;
+import static javax.persistence.FetchType.EAGER;
 
+import java.util.Collection;
+import java.util.Collections;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "projects")
 public class Project {
 
-	private Collection<ResourceAmount> neededResources;
+	@Id
+	@GeneratedValue
+	private long id;
+	private String blueprint;
 	private String name;
 
-	public Project(String name, Collection<ResourceAmount> neededResources) {
-		this.name = name;
-		this.neededResources = neededResources;
+	@OneToMany(fetch = EAGER)
+	@JoinColumn(name = "project_id")
+	private Collection<ResourceAmount> resourcesToFinish;
+
+	public String getBlueprint() {
+		return blueprint;
+	}
+
+	public void setBlueprint(String blueprint) {
+		this.blueprint = blueprint;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public Collection<ResourceAmount> getNeededResources() {
-		return neededResources;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Collection<ResourceAmount> getResourcesToFinish() {
+		return Collections.unmodifiableCollection(resourcesToFinish);
+	}
+
+	public void setResourcesToFinish(Collection<ResourceAmount> resourcesToFinish) {
+		this.resourcesToFinish = resourcesToFinish;
 	}
 
 }
