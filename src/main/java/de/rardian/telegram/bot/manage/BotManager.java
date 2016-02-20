@@ -20,17 +20,16 @@ import de.rardian.telegram.bot.model.User;
 import de.rardian.telegram.bot.model.UserRepository;
 
 //@SpringBootApplication
-@Configuration 
-@EnableAutoConfiguration 
+@Configuration
+@EnableAutoConfiguration
 @EntityScan(basePackageClasses = { User.class, Inhabitant.class, ResourceDepot.class })
 @ComponentScan(basePackages = "de.rardian.telegram.bot")
-@EnableJpaRepositories(basePackageClasses = { UserRepository.class, InhabitantRepository.class,
-		ResourceDepotRepository.class })
+@EnableJpaRepositories(basePackageClasses = { UserRepository.class, InhabitantRepository.class, ResourceDepotRepository.class })
 // @RunWith(SpringJUnit4ClassRunner.class)
 public class BotManager {
 
 	private @Autowired AutowireCapableBeanFactory beanFactory;
-	
+
 	public static void main(String[] args) {
 		SpringApplication.run(BotManager.class);
 	}
@@ -65,5 +64,5 @@ public class BotManager {
 	// userManager.setInhabitantRepository(inhabitantRepository);
 	// return userManager;
 	// }
-	
+
 }
