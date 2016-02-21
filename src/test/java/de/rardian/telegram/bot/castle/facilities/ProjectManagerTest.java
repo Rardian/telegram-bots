@@ -59,29 +59,29 @@ public class ProjectManagerTest {
 	}
 
 	@Test
-	public void projectFinished_finished() throws Exception {
+	public void projectInProgress_notInProgress() throws Exception {
 		// Init
 		when(projectRepository.count())//
 				.thenReturn(Long.valueOf(0));
 
 		// Run
-		boolean result = projectManager.projectFinished();
+		boolean result = projectManager.projectInProgress();
 
 		// Assert
-		assertTrue(result);
+		assertFalse(result);
 	}
 
 	@Test
-	public void projectFinished_notFinished() throws Exception {
+	public void projectInProgress_inProgress() throws Exception {
 		// Init
 		when(projectRepository.count())//
 				.thenReturn(Long.valueOf(1));
 
 		// Run
-		boolean result = projectManager.projectFinished();
+		boolean result = projectManager.projectInProgress();
 
 		// Assert
-		assertFalse(result);
+		assertTrue(result);
 	}
 
 	@Test
@@ -96,8 +96,7 @@ public class ProjectManagerTest {
 	@Test
 	public void workOnCurrentProject_projectFinished() throws Exception {
 		// Init
-		Blueprint lagerProject = new LagerProject(resourcesManager);
-		beanFactory.autowireBean(lagerProject);
+		Blueprint lagerProject = new LagerProject();
 
 		final ResourcesManager.TYPE resourceType = ResourcesManager.TYPE.WOOD;
 		final int testWithAmountOfFive = 5;
@@ -126,8 +125,7 @@ public class ProjectManagerTest {
 	@Test
 	public void workOnCurrentProject_projectNotFinished() throws Exception {
 		// Init
-		Blueprint lagerProject = new LagerProject(resourcesManager);
-		beanFactory.autowireBean(lagerProject);
+		Blueprint lagerProject = new LagerProject();
 
 		final ResourcesManager.TYPE resourceType = ResourcesManager.TYPE.WOOD;
 		final int testWithAmountOfFive = 5;
@@ -157,8 +155,7 @@ public class ProjectManagerTest {
 	@Test
 	public void workOnCurrentProject_WorkerNotWorked() throws Exception {
 		// Init
-		Blueprint lagerProject = new LagerProject(resourcesManager);
-		beanFactory.autowireBean(lagerProject);
+		Blueprint lagerProject = new LagerProject();
 
 		final ResourcesManager.TYPE resourceType = ResourcesManager.TYPE.WOOD;
 		final int testWithAmountOfFive = 5;
@@ -188,8 +185,7 @@ public class ProjectManagerTest {
 	@Test
 	public void workOnCurrentProject_skipFinishedResource() throws Exception {
 		// Init
-		Blueprint lagerProject = new LagerProject(resourcesManager);
-		beanFactory.autowireBean(lagerProject);
+		Blueprint lagerProject = new LagerProject();
 
 		final int noWoodLeft = 0;
 		final int testWithAmountOfFive = 5;

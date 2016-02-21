@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import de.rardian.telegram.bot.castle.commands.actions.CastleAware;
 import de.rardian.telegram.bot.castle.commands.actions.InhabitantAware;
+import de.rardian.telegram.bot.castle.facilities.ProjectManager;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.communication.MessageReply;
 import de.rardian.telegram.bot.communication.MessageSender;
@@ -20,7 +21,9 @@ public class ActionInitializer implements CastleAware, BotAware {
 	private Castle castle;
 
 	@Autowired
-	InhabitantRepository inhabitantRepository;
+	private InhabitantRepository inhabitantRepository;
+	@Autowired
+	private ProjectManager projectManager;
 
 	@Override
 	public void setBot(Bot bot) {
@@ -56,6 +59,9 @@ public class ActionInitializer implements CastleAware, BotAware {
 		}
 		if (action instanceof InhabitantRepositoryAware) {
 			((InhabitantRepositoryAware) action).setInhabitantRepository(inhabitantRepository);
+		}
+		if (action instanceof ProjectManagerAware) {
+			((ProjectManagerAware) action).setProjectManager(projectManager);
 		}
 	}
 

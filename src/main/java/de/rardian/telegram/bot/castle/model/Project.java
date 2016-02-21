@@ -5,6 +5,7 @@ import static javax.persistence.FetchType.EAGER;
 import java.util.Collection;
 import java.util.Collections;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,7 +23,7 @@ public class Project {
 	private String blueprint;
 	private String name;
 
-	@OneToMany(fetch = EAGER)
+	@OneToMany(fetch = EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "project_id")
 	private Collection<ResourceAmount> resourcesToFinish;
 

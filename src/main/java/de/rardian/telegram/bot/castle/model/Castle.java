@@ -20,6 +20,7 @@ import de.rardian.telegram.bot.castle.facilities.CastleFacility;
 import de.rardian.telegram.bot.castle.facilities.CastleFacility.CATEGORY;
 import de.rardian.telegram.bot.castle.facilities.EnvironmentFacility;
 import de.rardian.telegram.bot.castle.facilities.ProductionFacility;
+import de.rardian.telegram.bot.castle.facilities.ProjectManager;
 import de.rardian.telegram.bot.castle.model.ResourcesManager.TYPE;
 import de.rardian.telegram.bot.manage.UserManager;
 import de.rardian.telegram.bot.model.User;
@@ -28,8 +29,8 @@ public class Castle {
 	// private Map<User, Inhabitant> inhabitants =
 	// Maps.synchronizedNavigableMap(new TreeMap<>());
 
-
 	private ResourcesManager resources;
+	private ProjectManager projectManager;
 	private CastleFacility buildingFacility;
 	private CastleFacility produceFacility;
 	private CastleFacility environmentFacility;
@@ -60,8 +61,8 @@ public class Castle {
 			resourcesAsString += "->" + resourceType + "\n";
 			resourcesAsString += "--> Aktuell: " + getResourcesManager().getAmount(resourceType) + " (Fundstätten: "
 					+ getResourcesManager().getResourceFieldCount(resourceType) + ")\n";
-			resourcesAsString += "--> Kapazität: " + getResourcesManager().getCapacity(resourceType)
-					+ " (max. Kapazität: " + getResourcesManager().getMaxCapacity(resourceType) + ")\n";
+			resourcesAsString += "--> Kapazität: " + getResourcesManager().getCapacity(resourceType) + " (max. Kapazität: "
+					+ getResourcesManager().getMaxCapacity(resourceType) + ")\n";
 
 		}
 
@@ -85,8 +86,7 @@ public class Castle {
 		// TODO max Kapazität von Fieldcount trennen. Gibt dann zwei Typen
 		// findbarer Sachen in der Umgebung
 				+ "Bauvorhaben: "//
-				+ ((BuildingFacility) getBuildingFacility()).getProgress() + " (von "
-				+ (getResourcesManager().getCapacity(TYPE.WOOD) + 1) * 2 + ")";
+				+ ((BuildingFacility) getBuildingFacility()).getProgress() + " (von " + (getResourcesManager().getCapacity(TYPE.WOOD) + 1) * 2 + ")";
 		return status;
 	}
 
@@ -164,7 +164,7 @@ public class Castle {
 
 	private CastleFacility getBuildingFacility() {
 		if (buildingFacility == null) {
-			buildingFacility = new BuildingFacility(bot, this, getResourcesManager());
+			buildingFacility = new BuildingFacility(bot, this, getResourcesManager(), getProjectManager());
 		}
 		return buildingFacility;
 	}
@@ -206,6 +206,14 @@ public class Castle {
 			resources.initialize(0, 5, 1);
 		}
 		return resources;
+	}
+
+	private ProjectManager getProjectManager() {
+		if (projectManager == null) {
+			projectManager = new ProjectManager();
+			beanFactory.autowireBean(projectManager);
+		}
+		return projectManager;
 	}
 
 	public boolean isProjectInProgress() {

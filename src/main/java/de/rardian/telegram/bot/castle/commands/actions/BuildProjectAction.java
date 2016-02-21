@@ -6,22 +6,30 @@ import org.apache.commons.lang3.StringUtils;
 
 import de.rardian.telegram.bot.castle.exception.AlreadyAddedException;
 import de.rardian.telegram.bot.castle.facilities.CastleFacility;
+import de.rardian.telegram.bot.castle.facilities.ProjectManager;
 import de.rardian.telegram.bot.castle.model.Castle;
 import de.rardian.telegram.bot.castle.model.Inhabitant;
 import de.rardian.telegram.bot.command.action.Action;
+import de.rardian.telegram.bot.command.action.ProjectManagerAware;
 import de.rardian.telegram.bot.command.action.SendsAnswer;
 import de.rardian.telegram.bot.communication.MessageReply;
 
-public class BuildProjectAction implements Action, CastleAware, SendsAnswer, InhabitantAware {
+public class BuildProjectAction implements Action, CastleAware, SendsAnswer, InhabitantAware, ProjectManagerAware {
 
 	private Castle castle;
 	private String projectId;
 	private MessageReply reply;
 	private Inhabitant inhabitant;
+	private ProjectManager projectManager;
 
 	public BuildProjectAction setProjectId(String project) {
 		projectId = project;
 		return this;
+	}
+
+	@Override
+	public void setProjectManager(ProjectManager projectManager) {
+		this.projectManager = projectManager;
 	}
 
 	@Override
@@ -42,7 +50,7 @@ public class BuildProjectAction implements Action, CastleAware, SendsAnswer, Inh
 	@Override
 	public void execute() {
 		final boolean projectNameEmpty = StringUtils.isBlank(projectId);
-		final boolean projectActive = castle.isProjectInProgress();
+		final boolean projectActive = projectManager.projectInProgress();
 
 		if (projectNameEmpty) {
 
@@ -54,6 +62,7 @@ public class BuildProjectAction implements Action, CastleAware, SendsAnswer, Inh
 					reply.answer("Du bist bereits Teil des Bauprojekts.");
 				}
 			} else {
+				// XXX Auf ProjectManager umbiegen
 				Collection<String> projectIds = castle.getProjectIds();
 
 				reply.answer("Kein Bauprojekt aktiv. Starte ein Projekt mit /bau <" + StringUtils.join(projectIds, "|") + ">");
@@ -64,8 +73,8 @@ public class BuildProjectAction implements Action, CastleAware, SendsAnswer, Inh
 			if (projectActive) {
 				reply.answer("Es läuft bereits ein Bauprojekt. Nimm daran teil mit: /bau");
 			} else {
-				castle.startProject(projectId);
-				reply.answer("Du startest das Bauprojekt " + castle.getProjectName(projectId));
+				projectManager.startProject();
+				reply.answer("Du startest das Bauprojekt " + projectManager.getProjectName());
 			}
 
 		} else {

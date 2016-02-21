@@ -3,8 +3,6 @@ package de.rardian.telegram.bot.castle.facilities.building;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
@@ -17,26 +15,17 @@ import de.rardian.telegram.bot.castle.model.ResourcesManager.TYPE;
 @Configuration
 public class LagerProject implements Blueprint {
 
-	private ResourcesManager resourcesManager;
-
-	@Autowired
-	public LagerProject(ResourcesManager resourcesManager) {
-		this.resourcesManager = resourcesManager;
-	}
-
-	@Bean
-	public LagerProject create(ResourcesManager resourcesManager) {
-		return new LagerProject(resourcesManager);
-	}
+	public static final String ID = "LAGER";
+	public static final String NAME = "Materiallager";
 
 	@Override
 	public String getId() {
-		return "LAGER";
+		return ID;
 	}
 
 	@Override
 	public String getName() {
-		return "Materiallager";
+		return NAME;
 	}
 
 	@Override
@@ -46,7 +35,7 @@ public class LagerProject implements Blueprint {
 	}
 
 	@Override
-	public void executeResult() {
+	public void executeResult(ResourcesManager resourcesManager) {
 		for (ResourcesManager.TYPE resourceType : ResourcesManager.TYPE.values()) {
 			resourcesManager.increaseCapacity(resourceType);
 		}
