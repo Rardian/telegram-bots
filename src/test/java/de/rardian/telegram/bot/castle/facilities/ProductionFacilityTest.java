@@ -49,7 +49,7 @@ public class ProductionFacilityTest {
 		when(resourcesManager.getAmount(TYPE.WOOD)).thenReturn(RESOURCES_EMPTY);
 		when(resourcesManager.getResourceFieldCount(TYPE.WOOD)).thenReturn(RESOURCES_FIELDCOUNT);
 		underTest.setCategory(BUILDING);
-		underTest.serResourceType(TYPE.WOOD);
+		underTest.setResourceType(TYPE.WOOD);
 	}
 
 	@Test

@@ -30,7 +30,7 @@ public class ProductionFacility extends BasicFacility {
 	}
 
 	@VisibleForTesting
-	void serResourceType(ResourcesManager.TYPE type) {
+	void setResourceType(ResourcesManager.TYPE type) {
 		resourceType = type;
 	}
 
