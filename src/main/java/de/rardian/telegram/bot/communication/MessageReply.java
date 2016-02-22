@@ -1,14 +1,10 @@
 package de.rardian.telegram.bot.communication;
 
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-import com.mashape.unirest.request.HttpRequest;
-
 import de.rardian.telegram.bot.model.Bot;
 import de.rardian.telegram.bot.model.Message;
 import de.rardian.telegram.bot.model.ReplyKeyboardMarkup;
 
-public class MessageReply {
+public class MessageReply extends AbstractMessageSender {
 
 	private Message message;
 	private Bot bot;
@@ -30,20 +26,22 @@ public class MessageReply {
 	public void answer(String answer, ReplyKeyboardMarkup keyboard) {
 		long chatId = message.getChat().getId();
 
-		HttpRequest request = Unirest//
-				.post("https://api.telegram.org/bot" + bot.getId() + "/sendMessage")//
-				.queryString("text", answer)//
-				.queryString("chat_id", chatId);
-		if (keyboard != null) {
-			request.queryString("reply_markup", keyboard.asJson());
-		}
-		System.out.println(request.getUrl());
-		try {
-			request.asJson();
-		} catch (UnirestException e1) {
-			e1.printStackTrace();
-			// throw new RuntimeException(e1);
-		}
+		super.sendMessage(bot.getId(), chatId, answer, keyboard);
+		// HttpRequest request = Unirest//
+		// .post("https://api.telegram.org/bot" + bot.getId() +
+		// "/sendMessage")//
+		// .queryString("text", answer)//
+		// .queryString("chat_id", chatId);
+		// if (keyboard != null) {
+		// request.queryString("reply_markup", keyboard.asJson());
+		// }
+		// System.out.println(request.getUrl());
+		// try {
+		// request.asJson();
+		// } catch (UnirestException e1) {
+		// e1.printStackTrace();
+		// // throw new RuntimeException(e1);
+		// }
 	}
 
 }
